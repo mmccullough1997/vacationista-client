@@ -1,5 +1,5 @@
 import React from 'react';
-import { signIn } from '../utils/auth';
+import { signIn } from '../../utils/auth';
 
 function Signin() {
   return (

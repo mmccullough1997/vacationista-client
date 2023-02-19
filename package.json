@@ -1,8 +1,8 @@
 {
-  "name": "next-firebase-starter",
+  "name": "vacationista",
   "private": true,
   "version": "1.0.0",
-  "author": "Trinity Christiana",
+  "author": "Mitch McCullough",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
