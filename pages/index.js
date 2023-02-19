@@ -1,8 +1,14 @@
+import { useEffect } from 'react';
 import { signOut } from '../utils/auth';
 import { useAuth } from '../utils/context/authContext';
+import getRecommendations from '../utils/data/recommendationData';
 
 function Home() {
   const { user } = useAuth();
+
+  useEffect(() => {
+    getRecommendations('Portugal', 20).then((resp) => console.warn(resp));
+  }, []);
 
   return (
     <div
