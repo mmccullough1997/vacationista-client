@@ -1,8 +1,16 @@
+import { useEffect } from 'react';
 import { signOut } from '../utils/auth';
 import { useAuth } from '../utils/context/authContext';
+// import getAutocompleteRecommendations from '../utils/data/autocompleteData';
+// import getRecommendations from '../utils/data/recommendationData';
 
 function Home() {
   const { user } = useAuth();
+
+  useEffect(() => {
+    // getRecommendations('spain').then((resp) => console.warn('yelp recommendations:', resp));
+    // getAutocompleteRecommendations('spa').then((resp) => console.warn('autocomplete recommendations:', resp));
+  }, []);
 
   return (
     <div
