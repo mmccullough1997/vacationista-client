@@ -1,36 +1,146 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import Link from 'next/link';
-import { signOut } from '../utils/auth';
+/* eslint-disable import/no-extraneous-dependencies */
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import Image from 'next/image';
+import { Paper } from '@mui/material';
+import logo from '../public/Vacationista Logo.png';
+import { useAuth } from '../utils/context/authContext';
+import { signIn, signOut } from '../utils/auth';
 
-export default function NavBar() {
+function NavBar() {
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { user } = useAuth();
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-      <div className="container-fluid">
-        <Link passHref href="/">
-          <a className="navbar-brand" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
-            CHANGE ME
-          </a>
-        </Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon" />
-        </button>
+    <AppBar position="static" style={{ background: 'white' }}>
+      <Container maxWidth="xl">
+        <Toolbar
+          sx={{
+            display: { xs: 'flex' },
+            flexDirection: 'row',
+            backgroundColor: 'white',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Paper sx={{
+            display: { xs: 'none', md: 'flex' }, mr: 1, width: 100, background: 'none', boxShadow: 'none',
+          }}
+          >
+            <Image src={logo} />
+          </Paper>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'black',
+              textDecoration: 'none',
+            }}
+          >
+            Vacationista
+          </Typography>
 
-        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <Link passHref href="/">
-                <a className="nav-link">
-                  Home
-                </a>
-              </Link>
-            </li>
-            <button type="button" className="btn btn-danger" onClick={signOut}>
-              Sign Out
-            </button>
-          </ul>
-        </div>
-      </div>
-    </nav>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} />
+
+          <Paper sx={{
+            display: { xs: 'flex', md: 'none' }, mr: 1, width: 100, background: 'none', boxShadow: 'none',
+          }}
+          >
+            <Image src={logo} />
+          </Paper>
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'black',
+              textDecoration: 'none',
+            }}
+          >
+            Vacationista
+          </Typography>
+
+          <Box sx={{ display: 'flex' }}>
+
+            { user.uid ? (
+              <>
+                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight: 3 }}>
+                  <Button sx={{ color: 'black' }} />
+                </Box>
+                <Tooltip title="User settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar src={user.image} />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  <MenuItem>
+                    <Typography textAlign="center">Profile</Typography>
+                  </MenuItem>
+                  <MenuItem>
+                    <Typography textAlign="center">My Trips</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={signOut}>
+                    <Typography sx={{ color: 'red' }} textAlign="center">Sign Out</Typography>
+                  </MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight: 3 }}>
+                <Button onClick={signIn} className="color">
+                  Sign in
+                </Button>
+              </Box>
+            )}
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
+export default NavBar;
