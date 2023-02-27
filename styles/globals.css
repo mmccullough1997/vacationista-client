@@ -61,3 +61,13 @@ body {
 .articleDetailImage{
   margin: 20px;
 }
+
+/* trip overview page */
+.overviewPageHeader{
+  display: flex;
+  justify-content: space-between;
+}
+
+.expensesAndTransportationSubheader {
+  display: flex;
+}
