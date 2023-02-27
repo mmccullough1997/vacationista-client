@@ -12,7 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Image from 'next/image';
-import { Paper } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
+import { useRouter } from 'next/router';
 import logo from '../public/Vacationista Logo.png';
 import { useAuth } from '../utils/context/authContext';
 import { signIn, signOut } from '../utils/auth';
@@ -20,6 +21,7 @@ import { signIn, signOut } from '../utils/auth';
 function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { user } = useAuth();
+  const router = useRouter();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -30,117 +32,137 @@ function NavBar() {
   };
 
   return (
-    <AppBar position="static" style={{ background: 'white' }}>
-      <Container maxWidth="xl">
-        <Toolbar
-          sx={{
-            display: { xs: 'flex' },
-            flexDirection: 'row',
-            backgroundColor: 'white',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Paper sx={{
-            display: { xs: 'none', md: 'flex' }, mr: 1, width: 100, background: 'none', boxShadow: 'none',
-          }}
-          >
-            <Image src={logo} />
-          </Paper>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
+    <>
+      <AppBar position="static" style={{ background: 'white' }}>
+        <Container maxWidth="xl">
+          <Toolbar
             sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'black',
-              textDecoration: 'none',
+              display: { xs: 'flex' },
+              flexDirection: 'row',
+              backgroundColor: 'white',
+              justifyContent: 'space-between',
             }}
           >
-            Vacationista
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} />
-
-          <Paper sx={{
-            display: { xs: 'flex', md: 'none' }, mr: 1, width: 100, background: 'none', boxShadow: 'none',
-          }}
-          >
-            <Image src={logo} />
-          </Paper>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'black',
-              textDecoration: 'none',
+            <Paper sx={{
+              display: { xs: 'none', md: 'flex' }, mr: 1, width: 100, background: 'none', boxShadow: 'none',
             }}
-          >
-            Vacationista
-          </Typography>
+            >
+              <Image src={logo} />
+            </Paper>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'black',
+                textDecoration: 'none',
+              }}
+            >
+              Vacationista
+            </Typography>
 
-          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} />
 
-            { user.uid ? (
-              <>
+            <Paper sx={{
+              display: { xs: 'flex', md: 'none' }, mr: 1, width: 100, background: 'none', boxShadow: 'none',
+            }}
+            >
+              <Image src={logo} />
+            </Paper>
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href=""
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'black',
+                textDecoration: 'none',
+              }}
+            >
+              Vacationista
+            </Typography>
+
+            <Box sx={{ display: 'flex' }}>
+
+              { user.uid ? (
+                <>
+                  <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight: 3 }}>
+                    <Button sx={{ color: 'black' }} />
+                  </Box>
+                  <Tooltip title="User settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar src={user.image} />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: '45px' }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem>
+                      <Typography textAlign="center">Profile</Typography>
+                    </MenuItem>
+                    <MenuItem>
+                      <Typography textAlign="center">My Trips</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={signOut}>
+                      <Typography sx={{ color: 'red' }} textAlign="center">Sign Out</Typography>
+                    </MenuItem>
+                  </Menu>
+                </>
+              ) : (
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight: 3 }}>
-                  <Button sx={{ color: 'black' }} />
+                  <Button onClick={signIn} className="color">
+                    Sign in
+                  </Button>
                 </Box>
-                <Tooltip title="User settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar src={user.image} />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: '45px' }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <MenuItem>
-                    <Typography textAlign="center">Profile</Typography>
-                  </MenuItem>
-                  <MenuItem>
-                    <Typography textAlign="center">My Trips</Typography>
-                  </MenuItem>
-                  <MenuItem onClick={signOut}>
-                    <Typography sx={{ color: 'red' }} textAlign="center">Sign Out</Typography>
-                  </MenuItem>
-                </Menu>
-              </>
-            ) : (
-              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight: 3 }}>
-                <Button onClick={signIn} className="color">
-                  Sign in
-                </Button>
-              </Box>
-            )}
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+              )}
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Paper
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}
+        elevation={3}
+      >
+        <BottomNavigation
+          showLabels
+          style={{ background: 'lightgray', opacity: 0.6 }}
+          sx={{ justifyContent: 'space-between' }}
+        >
+          <BottomNavigationAction style={{ color: 'black' }} label="A MM Production" />
+          <BottomNavigationAction onClick={() => router.push('/aboutUs')} style={{ color: 'black' }} label="About us" />
+        </BottomNavigation>
+      </Paper>
+    </>
   );
 }
 export default NavBar;

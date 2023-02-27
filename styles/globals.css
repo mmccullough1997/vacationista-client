@@ -36,3 +36,28 @@ body {
 .color {
   color: black !important;
 }
+
+/* destination highlight detail page */
+.destinationHighlightDetailImage{
+  margin: 20px;
+}
+
+/* home page */
+.homePageArticles{
+  display: flex;
+  justify-content: space-between;
+}
+
+.homePageTripsHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.compactTripCardsOnHomePage {
+  display: flex;
+}
+
+/* article detail page */
+.articleDetailImage{
+  margin: 20px;
+}
