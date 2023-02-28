@@ -15,6 +15,7 @@ import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
 import CompactEventCard from '../../components/recommendations/CompactEventCard';
 import CompactLegCard from '../../components/legs/CompactLegCard';
+import EditModal from '../../components/trips/EditModal';
 
 export default function TripOverview() {
   const router = useRouter();
@@ -44,7 +45,7 @@ export default function TripOverview() {
         <div className="overviewPageHeader">
           <div className="overviewPageHeader">
             <Typography variant="h4">{userTrip.travelTo}</Typography>
-            <EditIcon />
+            <EditModal travelDestination={userTrip.travelTo} />
           </div>
           <div>
             <Typography variant="p">Delete trip</Typography>
