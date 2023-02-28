@@ -71,3 +71,7 @@ body {
 .expensesAndTransportationSubheader {
   display: flex;
 }
+
+.overviewPageEdit {
+  display: flex;
+}

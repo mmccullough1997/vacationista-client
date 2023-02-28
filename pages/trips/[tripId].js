@@ -8,11 +8,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
 import { useAuth } from '../../utils/context/authContext';
 import { getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
 import CompactEventCard from '../../components/recommendations/CompactEventCard';
+import CompactLegCard from '../../components/legs/CompactLegCard';
 
 export default function TripOverview() {
   const router = useRouter();
@@ -37,18 +39,23 @@ export default function TripOverview() {
   }, [router, user]);
 
   if (userTrip.id) {
-    console.warn(userTrip);
     return (
       <div>
         <div className="overviewPageHeader">
-          <Typography variant="h4">{userTrip.travelTo}</Typography>
+          <div className="overviewPageHeader">
+            <Typography variant="h4">{userTrip.travelTo}</Typography>
+            <EditIcon />
+          </div>
           <div>
             <Typography variant="p">Delete trip</Typography>
             <DeleteIcon />
           </div>
         </div>
 
-        <Typography variant="h6">{new Date(userTrip.start).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.start.split('-')[2], 10)} - {new Date(userTrip.end).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.end.split('-')[2], 10)}, {parseInt(userTrip.end.split('-')[0], 10)}</Typography>
+        <div className="overviewPageEdit">
+          <Typography variant="h6">{new Date(userTrip.start).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.start.split('-')[2], 10)} - {new Date(userTrip.end).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.end.split('-')[2], 10)}, {parseInt(userTrip.end.split('-')[0], 10)}</Typography>
+          <EditIcon />
+        </div>
 
         <div className="expensesAndTransportationSubheader">
           <AttachMoneyIcon />
@@ -62,19 +69,41 @@ export default function TripOverview() {
         <hr />
 
         <Box>
-          <div className="overviewPageHeader">
-            <Typography variant="h4">Trip Legs</Typography>
-            <div>
-              <AddCircleOutlineIcon />
-            </div>
-          </div>
+          { userTrip.legs.length ? (
+            <>
+              <div className="homePageTripsHeader">
+                <Typography variant="h4"> Trip Legs</Typography>
+                <div className="homePageTripsHeader">
+                  <AddCircleOutlineIcon />
+                </div>
+              </div>
+              <div className="compactTripCardsOnHomePage">
+                { userTrip.legs.map((leg) => (
+                  <CompactLegCard key={leg.id} id={leg.id} location={leg.location} start={leg.start} end={leg.end} duration={leg.duration} />
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <Typography variant="h4"> Trip Legs</Typography>
+                <div>
+                  <AddCircleOutlineIcon />
+                </div>
+              </div>
+              <Typography variant="h5"> No trip legs planned!</Typography>
+            </>
+          )}
         </Box>
 
         <hr />
 
         <Box>
-          <div className="overviewPageHeader">
-            <Typography variant="h4">Trip Events</Typography>
+          <div className="homePageTripsHeader">
+            <Typography variant="h4"> Events</Typography>
+            <div>
+              <AddCircleOutlineIcon className="homePageTripsHeader" />
+            </div>
           </div>
           <div className="compactTripCardsOnHomePage">
             { userTrip.events.length ? (
@@ -93,9 +122,6 @@ export default function TripOverview() {
             ) : (
               <div />
             )}
-            <div>
-              <AddCircleOutlineIcon />
-            </div>
           </div>
         </Box>
 
