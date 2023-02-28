@@ -36,35 +36,63 @@ export default function EditModal({ travelDestination }) {
 
   return (
     <>
-      <EditIcon onClick={handleShow} />
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Trip Destination</Modal.Title>
-        </Modal.Header>
+      { travelDestination ? (
+        <>
+          <EditIcon onClick={handleShow} />
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Trip Destination</Modal.Title>
+            </Modal.Header>
 
-        <Form>
-          <Modal.Body>
-            <Form.Control
-              type="text"
-              placeholder="Add a comment..."
-              name="travelDestination"
-              value={formInput.travelDestination}
-              onChange={handleChange}
-              required
-            />
-          </Modal.Body>
+            <Form>
+              <Modal.Body>
+                <Form.Control
+                  type="text"
+                  placeholder="Add a comment..."
+                  name="travelDestination"
+                  value={formInput.travelDestination}
+                  onChange={handleChange}
+                  required
+                />
+              </Modal.Body>
 
-        </Form>
+            </Form>
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+
+      ) : (
+        <>
+          <EditIcon onClick={handleShow} />
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Trip Dates</Modal.Title>
+            </Modal.Header>
+
+            <Form>
+              <Modal.Body />
+
+            </Form>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      )}
     </>
   );
 }
