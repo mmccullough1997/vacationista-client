@@ -126,7 +126,7 @@ function NavBar() {
                       <Typography textAlign="center">Profile</Typography>
                     </MenuItem>
                     <MenuItem>
-                      <Typography textAlign="center">My Trips</Typography>
+                      <Typography onClick={() => router.push('/trips/mytrips')} textAlign="center">My Trips</Typography>
                     </MenuItem>
                     <MenuItem onClick={signOut}>
                       <Typography sx={{ color: 'red' }} textAlign="center">Sign Out</Typography>

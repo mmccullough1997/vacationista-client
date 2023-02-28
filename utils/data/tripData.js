@@ -8,6 +8,12 @@ const getUpcomingTripsByUser = (userId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getPastTripsByUser = (userId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/trips?user=${userId}&upcoming=false`)
+    .then((response) => resolve(response.json()))
+    .catch(reject);
+});
+
 const getAllTripsByUser = (userId) => new Promise((resolve, reject) => {
   fetch(`${dbUrl}/trips?user=${userId}`)
     .then((response) => resolve(response.json()))
@@ -48,5 +54,5 @@ const getSingleTrip = (tripId) => new Promise((resolve, reject) => {
 });
 
 export {
-  getUpcomingTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip,
+  getUpcomingTripsByUser, getPastTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip,
 };
