@@ -25,6 +25,8 @@ const getSingleUserTrip = (tripId, userId) => new Promise((resolve, reject) => {
         travelFrom: data.travel_from,
         travelTo: data.travel_to,
         budget: data.budget,
+        events: data.events,
+        legs: data.legs,
       });
     }).catch((error) => reject(error));
 });
@@ -39,6 +41,8 @@ const getSingleTrip = (tripId) => new Promise((resolve, reject) => {
         end: data.end,
         travelFrom: data.travel_from,
         travelTo: data.travel_to,
+        events: data.events,
+        legs: data.legs,
       });
     }).catch((error) => reject(error));
 });

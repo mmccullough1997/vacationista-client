@@ -12,6 +12,7 @@ import { useAuth } from '../../utils/context/authContext';
 import { getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
+import CompactEventCard from '../../components/recommendations/CompactEventCard';
 
 export default function TripOverview() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function TripOverview() {
   }, [router, user]);
 
   if (userTrip.id) {
+    console.warn(userTrip);
     return (
       <div>
         <div className="overviewPageHeader">
@@ -73,6 +75,24 @@ export default function TripOverview() {
         <Box>
           <div className="overviewPageHeader">
             <Typography variant="h4">Trip Events</Typography>
+          </div>
+          <div className="compactTripCardsOnHomePage">
+            { userTrip.events.length ? (
+              userTrip.events.map((event) => (
+                <CompactEventCard image={event.image} title={event.title} />
+              ))
+            ) : (
+              <div />
+            )}
+            { userTrip.legs ? (
+              userTrip.legs.map((leg) => (
+                leg.events.map((event) => (
+                  <CompactEventCard image={event.image} title={event.title} />
+                ))
+              ))
+            ) : (
+              <div />
+            )}
             <div>
               <AddCircleOutlineIcon />
             </div>
