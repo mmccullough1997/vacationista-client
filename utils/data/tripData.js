@@ -14,4 +14,39 @@ const getAllTripsByUser = (userId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export { getUpcomingTripsByUser, getAllTripsByUser };
+const getSingleUserTrip = (tripId, userId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/trips/${tripId}?user=${userId}`).then((response) => response.json())
+    .then((data) => {
+      resolve({
+        id: data.id,
+        user: userId,
+        start: data.start,
+        end: data.end,
+        travelFrom: data.travel_from,
+        travelTo: data.travel_to,
+        budget: data.budget,
+        events: data.events,
+        legs: data.legs,
+      });
+    }).catch((error) => reject(error));
+});
+
+const getSingleTrip = (tripId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/trips/${tripId}`).then((response) => response.json())
+    .then((data) => {
+      resolve({
+        id: data.id,
+        user: data.user,
+        start: data.start,
+        end: data.end,
+        travelFrom: data.travel_from,
+        travelTo: data.travel_to,
+        events: data.events,
+        legs: data.legs,
+      });
+    }).catch((error) => reject(error));
+});
+
+export {
+  getUpcomingTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip,
+};

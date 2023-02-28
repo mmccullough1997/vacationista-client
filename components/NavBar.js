@@ -47,13 +47,13 @@ function NavBar() {
               display: { xs: 'none', md: 'flex' }, mr: 1, width: 100, background: 'none', boxShadow: 'none',
             }}
             >
-              <Image src={logo} />
+              <Image src={logo} onClick={() => router.push('/')} />
             </Paper>
             <Typography
               variant="h6"
               noWrap
               component="a"
-              href="/"
+              onClick={() => router.push('/')}
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -73,13 +73,13 @@ function NavBar() {
               display: { xs: 'flex', md: 'none' }, mr: 1, width: 100, background: 'none', boxShadow: 'none',
             }}
             >
-              <Image src={logo} />
+              <Image src={logo} onClick={() => router.push('/')} />
             </Paper>
             <Typography
               variant="h5"
               noWrap
               component="a"
-              href=""
+              onClick={() => router.push('/')}
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
