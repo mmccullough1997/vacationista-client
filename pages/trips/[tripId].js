@@ -5,12 +5,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import EditIcon from '@mui/icons-material/Edit';
 import { useAuth } from '../../utils/context/authContext';
-import { getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
+import { deleteTrip, getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
 import CompactEventCard from '../../components/recommendations/CompactEventCard';
@@ -24,6 +22,8 @@ export default function TripOverview() {
   const [userTrip, setUserTrip] = useState({});
   const [nonUserTrip, setNonUserTrip] = useState({});
   const [recommendations, setRecommendations] = useState([]);
+
+  // fix months on dates
 
   const getUserTrip = () => {
     getSingleUserTrip(tripId, user.id).then((trip) => {
@@ -39,27 +39,33 @@ export default function TripOverview() {
     getUserTrip();
   }, [router, user]);
 
+  const deleteTheTrip = () => {
+    if (window.confirm('DANGER ZONE: Are you sure you want to delete this trip?')) {
+      deleteTrip(userTrip.id).then(() => router.push('/'));
+    }
+  };
+
   if (userTrip.id) {
     return (
       <div>
         <div className="overviewPageHeader">
           <div className="overviewPageHeader">
             <Typography variant="h4">{userTrip.travelTo}</Typography>
-            <EditModal travelDestination={userTrip.travelTo} />
+            <EditModal travelDestination={userTrip.travelTo} id={userTrip.id} isTrip />
           </div>
           <div>
             <Typography variant="p">Delete trip</Typography>
-            <DeleteIcon />
+            <DeleteIcon onClick={deleteTheTrip} />
           </div>
         </div>
 
         <div className="overviewPageEdit">
           <Typography variant="h6">{new Date(userTrip.start).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.start.split('-')[2], 10)} - {new Date(userTrip.end).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.end.split('-')[2], 10)}, {parseInt(userTrip.end.split('-')[0], 10)}</Typography>
-          <EditIcon />
+          <EditModal start={userTrip.start} end={userTrip.end} id={userTrip.id} isTrip />
         </div>
 
         <div className="expensesAndTransportationSubheader">
-          <AttachMoneyIcon />
+          <EditModal budget={userTrip.budget} id={userTrip.id} isTrip />
           <Typography variant="p">View Budget</Typography>
           <FlightTakeoffIcon />
           <Typography variant="p">View Expenses & transportation</Typography>
@@ -131,7 +137,7 @@ export default function TripOverview() {
         <Box>
           <Typography variant="p">Recommendations</Typography>
           <div className="compactTripCardsOnHomePage">
-            { recommendations.map((recommendation) => (
+            { recommendations?.map((recommendation) => (
               <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} />
             ))}
           </div>

@@ -10,9 +10,8 @@ import newtriplogo from '../public/newtriplogo.png';
 import CompactHighlightCard from '../components/highlights/CompactHighlightCard';
 import { useAuth } from '../utils/context/authContext';
 import { getAllArticles } from '../utils/data/articleData';
-import getAutocompleteRecommendations from '../utils/data/autocompleteData';
+// import getAutocompleteRecommendations from '../utils/data/autocompleteData';
 import { getHighlightIdArray, getSingleDestinationHighlight } from '../utils/data/destinationHighlightData';
-import { getYelpRecommendations } from '../utils/data/recommendationData';
 import { getUpcomingTripsByUser } from '../utils/data/tripData';
 import CompactTripCard from '../components/trips/CompactTripCard';
 
@@ -40,8 +39,7 @@ function Home() {
   // User is signed in
   if (user) {
     useEffect(() => {
-      getYelpRecommendations('spain').then((resp) => console.warn('yelp recommendations:', resp));
-      getAutocompleteRecommendations('spa').then((resp) => console.warn('autocomplete recommendations:', resp));
+      // getAutocompleteRecommendations('spa').then((resp) => console.warn('autocomplete recommendations:', resp));
       getRandomDestinationHighlight();
       getArticles();
       getUpcomingUserTrips();

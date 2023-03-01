@@ -8,6 +8,12 @@ const getUpcomingTripsByUser = (userId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getPastTripsByUser = (userId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/trips?user=${userId}&upcoming=false`)
+    .then((response) => resolve(response.json()))
+    .catch(reject);
+});
+
 const getAllTripsByUser = (userId) => new Promise((resolve, reject) => {
   fetch(`${dbUrl}/trips?user=${userId}`)
     .then((response) => resolve(response.json()))
@@ -47,6 +53,32 @@ const getSingleTrip = (tripId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const updateTrip = (trip, tripId) => new Promise((resolve, reject) => {
+  const tripObj = {
+    user: trip.user,
+    start: trip.start,
+    end: trip.end,
+    travel_from: trip.travelFrom,
+    travel_to: trip.travelTo,
+    budget: trip.budget,
+  };
+  fetch(`${dbUrl}/trips/${tripId}`, {
+    method: 'PUT',
+    body: JSON.stringify(tripObj),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((response) => resolve(response))
+    .catch((error) => reject(error));
+});
+
+const deleteTrip = (tripId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/trips/${tripId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getUpcomingTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip,
+  getUpcomingTripsByUser, getPastTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip, updateTrip, deleteTrip,
 };

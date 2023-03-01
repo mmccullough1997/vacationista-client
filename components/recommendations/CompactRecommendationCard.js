@@ -13,16 +13,27 @@ export default function CompactRecommendationCard({
   image, name, rating, link,
 }) {
   const router = useRouter();
+  const placeholder = 'https://a.cdn-hotels.com/gdcs/production198/d114/7675d489-a16b-4ae0-bed6-ec1082078aa4.jpg';
 
   return (
     <div>
       <Card sx={{ maxWidth: 345 }}>
-        <CardMedia
-          component="img"
-          alt={name}
-          height="140"
-          image={image}
-        />
+        { image ? (
+          <CardMedia
+            component="img"
+            alt={name}
+            height="140"
+            image={image}
+          />
+        ) : (
+          <CardMedia
+            component="img"
+            alt={name}
+            height="140"
+            image={placeholder}
+          />
+
+        )}
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {name}
