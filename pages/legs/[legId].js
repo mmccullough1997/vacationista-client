@@ -97,7 +97,7 @@ export default function LegOverview() {
           <Typography variant="p">Recommendations</Typography>
           <div className="compactTripCardsOnHomePage">
             { recommendations?.map((recommendation) => (
-              <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} />
+              <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} count={recommendation.review_count} />
             ))}
           </div>
         </Box>
