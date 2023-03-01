@@ -71,6 +71,14 @@ const updateTrip = (trip, tripId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const deleteTrip = (tripId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/trips/${tripId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getUpcomingTripsByUser, getPastTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip, updateTrip,
+  getUpcomingTripsByUser, getPastTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip, updateTrip, deleteTrip,
 };

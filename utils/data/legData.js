@@ -19,6 +19,7 @@ const getSingleUserLeg = (legId, userId) => new Promise((resolve, reject) => {
         location: data.location,
         budget: data.budget,
         events: data.events,
+        trip: data.trip,
       });
     }).catch((error) => reject(error));
 });
@@ -33,6 +34,7 @@ const getSingleLeg = (legId) => new Promise((resolve, reject) => {
         end: data.end,
         location: data.location,
         events: data.events,
+        trip: data.trip,
       });
     }).catch((error) => reject(error));
 });
@@ -54,6 +56,14 @@ const updateLeg = (leg, legId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const deleteLeg = (legId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/legs/${legId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getAllLegsByUser, getSingleUserLeg, getSingleLeg, updateLeg,
+  getAllLegsByUser, getSingleUserLeg, getSingleLeg, updateLeg, deleteLeg,
 };

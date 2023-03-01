@@ -12,7 +12,7 @@ import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
 import CompactEventCard from '../../components/recommendations/CompactEventCard';
 import EditModal from '../../components/trips/EditModal';
-import { getSingleLeg, getSingleUserLeg } from '../../utils/data/legData';
+import { deleteLeg, getSingleLeg, getSingleUserLeg } from '../../utils/data/legData';
 
 export default function LegOverview() {
   const router = useRouter();
@@ -36,6 +36,13 @@ export default function LegOverview() {
     getUserLeg();
   }, [router, user]);
 
+  const deleteTheLeg = () => {
+    if (window.confirm('DANGER ZONE: Are you sure you want to delete this leg?')) {
+      const tripId = userLeg.trip;
+      deleteLeg(userLeg.id).then(() => router.push(`/trips/${tripId}`));
+    }
+  };
+
   if (userLeg.id) {
     return (
       <div>
@@ -46,7 +53,7 @@ export default function LegOverview() {
           </div>
           <div>
             <Typography variant="p">Delete leg</Typography>
-            <DeleteIcon />
+            <DeleteIcon onClick={deleteTheLeg} />
           </div>
         </div>
 

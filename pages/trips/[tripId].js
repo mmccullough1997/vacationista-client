@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAuth } from '../../utils/context/authContext';
-import { getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
+import { deleteTrip, getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
 import CompactEventCard from '../../components/recommendations/CompactEventCard';
@@ -39,6 +39,12 @@ export default function TripOverview() {
     getUserTrip();
   }, [router, user]);
 
+  const deleteTheTrip = () => {
+    if (window.confirm('DANGER ZONE: Are you sure you want to delete this trip?')) {
+      deleteTrip(userTrip.id).then(() => router.push('/'));
+    }
+  };
+
   if (userTrip.id) {
     return (
       <div>
@@ -49,7 +55,7 @@ export default function TripOverview() {
           </div>
           <div>
             <Typography variant="p">Delete trip</Typography>
-            <DeleteIcon />
+            <DeleteIcon onClick={deleteTheTrip} />
           </div>
         </div>
 
