@@ -5,10 +5,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import EditIcon from '@mui/icons-material/Edit';
 import { useAuth } from '../../utils/context/authContext';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
@@ -44,7 +42,7 @@ export default function LegOverview() {
         <div className="overviewPageHeader">
           <div className="overviewPageHeader">
             <Typography variant="h4">{userLeg.location}</Typography>
-            <EditModal travelDestination={userLeg.location} />
+            <EditModal travelDestination={userLeg.location} id={userLeg.id} />
           </div>
           <div>
             <Typography variant="p">Delete leg</Typography>
@@ -54,11 +52,11 @@ export default function LegOverview() {
 
         <div className="overviewPageEdit">
           <Typography variant="h6">{new Date(userLeg.start).toLocaleString('default', { month: 'long' })} {parseInt(userLeg.start.split('-')[2], 10)} - {new Date(userLeg.end).toLocaleString('default', { month: 'long' })} {parseInt(userLeg.end.split('-')[2], 10)}, {parseInt(userLeg.end.split('-')[0], 10)}</Typography>
-          <EditIcon />
+          <EditModal start={userLeg.start} end={userLeg.end} id={userLeg.id} />
         </div>
 
         <div className="expensesAndTransportationSubheader">
-          <AttachMoneyIcon />
+          <EditModal budget={userLeg.budget} id={userLeg.id} />
           <Typography variant="p">View Budget</Typography>
           <FlightTakeoffIcon />
           <Typography variant="p">View Expenses & transportation</Typography>

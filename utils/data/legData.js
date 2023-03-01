@@ -37,6 +37,23 @@ const getSingleLeg = (legId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const updateLeg = (leg, legId) => new Promise((resolve, reject) => {
+  const legObj = {
+    user: leg.user,
+    start: leg.start,
+    end: leg.end,
+    location: leg.location,
+    budget: leg.budget,
+  };
+  fetch(`${dbUrl}/legs/${legId}`, {
+    method: 'PUT',
+    body: JSON.stringify(legObj),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((response) => resolve(response))
+    .catch((error) => reject(error));
+});
+
 export {
-  getAllLegsByUser, getSingleUserLeg, getSingleLeg,
+  getAllLegsByUser, getSingleUserLeg, getSingleLeg, updateLeg,
 };

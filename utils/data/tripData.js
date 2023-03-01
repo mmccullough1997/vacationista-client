@@ -53,6 +53,24 @@ const getSingleTrip = (tripId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const updateTrip = (trip, tripId) => new Promise((resolve, reject) => {
+  const tripObj = {
+    user: trip.user,
+    start: trip.start,
+    end: trip.end,
+    travel_from: trip.travelFrom,
+    travel_to: trip.travelTo,
+    budget: trip.budget,
+  };
+  fetch(`${dbUrl}/trips/${tripId}`, {
+    method: 'PUT',
+    body: JSON.stringify(tripObj),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((response) => resolve(response))
+    .catch((error) => reject(error));
+});
+
 export {
-  getUpcomingTripsByUser, getPastTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip,
+  getUpcomingTripsByUser, getPastTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip, updateTrip,
 };
