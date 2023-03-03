@@ -8,12 +8,10 @@ import PropTypes from 'prop-types';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useRouter } from 'next/router';
 
 export default function CompactRecommendationCard({
   image, name, rating, link, count,
 }) {
-  const router = useRouter();
   const placeholder = 'https://a.cdn-hotels.com/gdcs/production198/d114/7675d489-a16b-4ae0-bed6-ec1082078aa4.jpg';
 
   return (
@@ -45,7 +43,9 @@ export default function CompactRecommendationCard({
           </div>
         </CardContent>
         <CardActions>
-          <Button onClick={() => router.push(`${link}`)} size="small">Link</Button>
+          <a target="_blank" href={link} rel="noopener noreferrer">
+            <Button size="small">Link</Button>
+          </a>
         </CardActions>
       </Card>
     </div>

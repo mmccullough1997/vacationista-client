@@ -20,6 +20,11 @@ const getSingleUserLeg = (legId, userId) => new Promise((resolve, reject) => {
         budget: data.budget,
         events: data.events,
         trip: data.trip,
+        expenses: data.expenses,
+        expenseTotal: data.expense_total,
+        transportations: data.transportations,
+        transportationTotal: data.transportation_total,
+        total: data.total,
       });
     }).catch((error) => reject(error));
 });
@@ -64,6 +69,25 @@ const deleteLeg = (legId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const createLeg = (legObj, user) => new Promise((resolve, reject) => {
+  const leg = {
+    start: legObj.start,
+    end: legObj.end,
+    location: legObj.location,
+    budget: legObj.budget,
+    user: user.id,
+  };
+  fetch(`${dbUrl}/legs`, {
+    method: 'POST',
+    body: JSON.stringify(leg),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => resolve(response.json()))
+    .catch((error) => reject(error));
+});
+
 export {
-  getAllLegsByUser, getSingleUserLeg, getSingleLeg, updateLeg, deleteLeg,
+  getAllLegsByUser, getSingleUserLeg, getSingleLeg, updateLeg, deleteLeg, createLeg,
 };

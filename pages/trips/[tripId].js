@@ -13,7 +13,8 @@ import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
 import CompactEventCard from '../../components/recommendations/CompactEventCard';
 import CompactLegCard from '../../components/legs/CompactLegCard';
-import EditModal from '../../components/trips/EditModal';
+import EditModal from '../../components/Trips&Legs/EditModal';
+import NewModal from '../../components/Trips&Legs/NewModal';
 
 export default function TripOverview() {
   const router = useRouter();
@@ -67,7 +68,7 @@ export default function TripOverview() {
         <div className="expensesAndTransportationSubheader">
           <EditModal budget={userTrip.budget} id={userTrip.id} isTrip />
           <Typography variant="p">View Budget</Typography>
-          <FlightTakeoffIcon />
+          <FlightTakeoffIcon onClick={() => router.push(`/trips/expensesAndtransportations/${userTrip.id}`)} />
           <Typography variant="p">View Expenses & transportation</Typography>
         </div>
 
@@ -81,7 +82,7 @@ export default function TripOverview() {
               <div className="homePageTripsHeader">
                 <Typography variant="h4"> Trip Legs</Typography>
                 <div className="homePageTripsHeader">
-                  <AddCircleOutlineIcon />
+                  <NewModal user={user} tripId={userTrip.id} />
                 </div>
               </div>
               <div className="compactTripCardsOnHomePage">
@@ -95,7 +96,7 @@ export default function TripOverview() {
               <div>
                 <Typography variant="h4"> Trip Legs</Typography>
                 <div>
-                  <AddCircleOutlineIcon />
+                  <NewModal user={user} tripId={userTrip.id} />
                 </div>
               </div>
               <Typography variant="h5"> No trip legs planned!</Typography>

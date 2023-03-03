@@ -11,7 +11,7 @@ import { useAuth } from '../../utils/context/authContext';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
 import CompactEventCard from '../../components/recommendations/CompactEventCard';
-import EditModal from '../../components/trips/EditModal';
+import EditModal from '../../components/Trips&Legs/EditModal';
 import { deleteLeg, getSingleLeg, getSingleUserLeg } from '../../utils/data/legData';
 
 export default function LegOverview() {
@@ -65,7 +65,7 @@ export default function LegOverview() {
         <div className="expensesAndTransportationSubheader">
           <EditModal budget={userLeg.budget} id={userLeg.id} />
           <Typography variant="p">View Budget</Typography>
-          <FlightTakeoffIcon />
+          <FlightTakeoffIcon onClick={() => router.push(`/legs/expensesAndtransportations/${userLeg.id}`)} />
           <Typography variant="p">View Expenses & transportation</Typography>
         </div>
 

@@ -14,6 +14,7 @@ import { getAllArticles } from '../utils/data/articleData';
 import { getHighlightIdArray, getSingleDestinationHighlight } from '../utils/data/destinationHighlightData';
 import { getUpcomingTripsByUser } from '../utils/data/tripData';
 import CompactTripCard from '../components/trips/CompactTripCard';
+import NewModal from '../components/Trips&Legs/NewModal';
 
 function Home() {
   const { user } = useAuth();
@@ -53,10 +54,7 @@ function Home() {
           <>
             <div className="homePageTripsHeader">
               <Typography variant="h4"> Upcoming Trips</Typography>
-              <div className="homePageTripsHeader">
-                <Typography variant="p"> Plan a new trip</Typography>
-                <Image src={newtriplogo} height="20" width="40" />
-              </div>
+              <NewModal user={user} isTrip />
             </div>
             <div className="compactTripCardsOnHomePage">
               { upcomingUserTrips.map((trip) => (
