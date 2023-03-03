@@ -26,8 +26,6 @@ export default function EditModal({
   const [show, setShow] = useState(false);
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
-  // const [startDate, setStartDate] = useState('');
-  // const [destination, setDestination] = useState();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -183,7 +181,6 @@ export default function EditModal({
                   <FloatingLabel controlId="floatingInput2" label="End Date" className="mb-3">
                     <Form.Control type="date" placeholder="End Date" name="end" value={formInput.end} onChange={handleChange} required />
                   </FloatingLabel>
-
                 </div>
               </Modal.Body>
 

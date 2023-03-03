@@ -3,16 +3,15 @@ import React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import { Rating } from 'react-simple-star-rating';
 import PropTypes from 'prop-types';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useRouter } from 'next/router';
 
 export default function CompactRecommendationCard({
-  image, name, rating, link,
+  image, name, rating, link, count,
 }) {
-  const router = useRouter();
   const placeholder = 'https://a.cdn-hotels.com/gdcs/production198/d114/7675d489-a16b-4ae0-bed6-ec1082078aa4.jpg';
 
   return (
@@ -38,12 +37,15 @@ export default function CompactRecommendationCard({
           <Typography gutterBottom variant="h5" component="div">
             {name}
           </Typography>
-          <Typography variant="h7" color="text.secondary">
-            {rating}
-          </Typography>
+          <div className="compactTripCardsOnHomePage">
+            <Rating initialValue={rating} allowFraction size={15} />
+            <p>({count})</p>
+          </div>
         </CardContent>
         <CardActions>
-          <Button onClick={() => router.push(`${link}`)} size="small">Link</Button>
+          <a target="_blank" href={link} rel="noopener noreferrer">
+            <Button size="small">Link</Button>
+          </a>
         </CardActions>
       </Card>
     </div>
@@ -55,4 +57,5 @@ CompactRecommendationCard.propTypes = {
   name: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
   link: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
 };

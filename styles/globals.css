@@ -75,3 +75,14 @@ body {
 .overviewPageEdit {
   display: flex;
 }
+
+/* expenses and transportation page */
+.AccordionAndAdd{
+  display: flex;
+  justify-content: space-between;
+}
+
+.subtotal{
+  display: flex;
+  justify-content: right;
+}

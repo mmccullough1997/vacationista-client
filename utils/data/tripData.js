@@ -33,6 +33,11 @@ const getSingleUserTrip = (tripId, userId) => new Promise((resolve, reject) => {
         budget: data.budget,
         events: data.events,
         legs: data.legs,
+        expenses: data.expenses,
+        expenseTotal: data.expense_total,
+        transportations: data.transportations,
+        transportationTotal: data.transportation_total,
+        total: data.total,
       });
     }).catch((error) => reject(error));
 });
@@ -79,6 +84,26 @@ const deleteTrip = (tripId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const createTrip = (tripObj, user) => new Promise((resolve, reject) => {
+  const trip = {
+    start: tripObj.start,
+    end: tripObj.end,
+    travel_from: tripObj.travelFrom,
+    travel_to: tripObj.travelTo,
+    budget: tripObj.budget,
+    user: user.id,
+  };
+  fetch(`${dbUrl}/trips`, {
+    method: 'POST',
+    body: JSON.stringify(trip),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => resolve(response.json()))
+    .catch((error) => reject(error));
+});
+
 export {
-  getUpcomingTripsByUser, getPastTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip, updateTrip, deleteTrip,
+  getUpcomingTripsByUser, getPastTripsByUser, getAllTripsByUser, getSingleUserTrip, getSingleTrip, updateTrip, deleteTrip, createTrip,
 };
