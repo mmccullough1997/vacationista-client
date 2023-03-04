@@ -4,11 +4,12 @@ import React from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Accordion } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import ExpenseTransportationModal from '../expenses/ExpenseTransportationModal';
 
 export default function TripLegExpenses({
   id, isTrip, expenses, transportations, budget, expenseTypes, transportationTypes, expenseTotal, transportationTotal, total,
 }) {
-  console.warn(id);
+  console.warn(transportations);
   return (
     <>
       <Typography variant="h4">{ isTrip ? 'Trip Expenses' : 'Leg Expenses'}</Typography>
@@ -24,7 +25,11 @@ export default function TripLegExpenses({
                 <Accordion.Header>{expenseType.label}</Accordion.Header>
                 {expenses?.filter((expense) => expense.expense_type.id === expenseType.id).map((theExpense) => (
                   <div>
-                    <Accordion.Body>{theExpense.title} - {theExpense.amount}</Accordion.Body>
+                    { isTrip ? (
+                      <ExpenseTransportationModal isExpense title={theExpense.title} type={theExpense.expense_type} amount={theExpense.amount} comment={theExpense.comment} id={id} isTrip expenseTypes={expenseTypes} />
+                    ) : (
+                      <ExpenseTransportationModal isExpense title={theExpense.title} type={theExpense.expense_type} amount={theExpense.amount} comment={theExpense.comment} id={id} expenseTypes={expenseTypes} />
+                    )}
                   </div>
                 ))}
               </Accordion.Item>
@@ -49,7 +54,11 @@ export default function TripLegExpenses({
                 <Accordion.Header>{transportationType.label}</Accordion.Header>
                 {transportations?.filter((transportation) => transportation.transportation_type.id === transportationType.id).map((theTransportation) => (
                   <div>
-                    <Accordion.Body>{theTransportation.transportation_type.label} - {theTransportation.amount}</Accordion.Body>
+                    { isTrip ? (
+                      <ExpenseTransportationModal from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={theTransportation.transportation_type} amount={theTransportation.amount} comment={theTransportation.comment} id={id} isTrip transportationTypes={transportationTypes} isTransportation />
+                    ) : (
+                      <ExpenseTransportationModal from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={theTransportation.transportation_type} amount={theTransportation.amount} comment={theTransportation.comment} id={id} transportationTypes={transportationTypes} isTransportation />
+                    )}
                   </div>
                 ))}
               </Accordion.Item>

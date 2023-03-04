@@ -36,7 +36,6 @@ export default function EditModal({
 
   useEffect(() => {
     setFormInput(formObj);
-    // setDestination(travelDestination);
   }, [travelDestination, start, end, budget]);
 
   const handleChange = (e) => {
