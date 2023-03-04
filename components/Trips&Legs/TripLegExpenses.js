@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { Typography } from '@mui/material';
 import React from 'react';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Accordion } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ExpenseTransportationModal from '../expenses/ExpenseTransportationModal';
@@ -9,7 +8,6 @@ import ExpenseTransportationModal from '../expenses/ExpenseTransportationModal';
 export default function TripLegExpenses({
   id, isTrip, expenses, transportations, budget, expenseTypes, transportationTypes, expenseTotal, transportationTotal, total,
 }) {
-  console.warn(transportations);
   return (
     <>
       <Typography variant="h4">{ isTrip ? 'Trip Expenses' : 'Leg Expenses'}</Typography>
@@ -26,9 +24,9 @@ export default function TripLegExpenses({
                 {expenses?.filter((expense) => expense.expense_type.id === expenseType.id).map((theExpense) => (
                   <div>
                     { isTrip ? (
-                      <ExpenseTransportationModal isExpense title={theExpense.title} type={theExpense.expense_type} amount={theExpense.amount} comment={theExpense.comment} id={id} isTrip expenseTypes={expenseTypes} />
+                      <ExpenseTransportationModal isExpense tripId={id} title={theExpense.title} type={theExpense.expense_type} amount={theExpense.amount} comment={theExpense.comment} id={theExpense.id} isTrip expenseTypes={expenseTypes} />
                     ) : (
-                      <ExpenseTransportationModal isExpense title={theExpense.title} type={theExpense.expense_type} amount={theExpense.amount} comment={theExpense.comment} id={id} expenseTypes={expenseTypes} />
+                      <ExpenseTransportationModal isExpense legId={id} title={theExpense.title} type={theExpense.expense_type} amount={theExpense.amount} comment={theExpense.comment} id={theExpense.id} expenseTypes={expenseTypes} />
                     )}
                   </div>
                 ))}
@@ -37,7 +35,11 @@ export default function TripLegExpenses({
           </Accordion>
         </div>
         <div>
-          <AddCircleOutlineIcon />
+          { isTrip ? (
+            <ExpenseTransportationModal isExpense tripId={id} isTrip expenseTypes={expenseTypes} />
+          ) : (
+            <ExpenseTransportationModal isExpense legId={id} expenseTypes={expenseTypes} />
+          )}
         </div>
       </div>
       <div className="subtotal">
@@ -55,9 +57,9 @@ export default function TripLegExpenses({
                 {transportations?.filter((transportation) => transportation.transportation_type.id === transportationType.id).map((theTransportation) => (
                   <div>
                     { isTrip ? (
-                      <ExpenseTransportationModal from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={theTransportation.transportation_type} amount={theTransportation.amount} comment={theTransportation.comment} id={id} isTrip transportationTypes={transportationTypes} isTransportation />
+                      <ExpenseTransportationModal tripId={id} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={theTransportation.transportation_type} amount={theTransportation.amount} comment={theTransportation.comment} id={theTransportation.id} isTrip transportationTypes={transportationTypes} isTransportation />
                     ) : (
-                      <ExpenseTransportationModal from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={theTransportation.transportation_type} amount={theTransportation.amount} comment={theTransportation.comment} id={id} transportationTypes={transportationTypes} isTransportation />
+                      <ExpenseTransportationModal legId={id} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={theTransportation.transportation_type} amount={theTransportation.amount} comment={theTransportation.comment} id={theTransportation.id} transportationTypes={transportationTypes} isTransportation />
                     )}
                   </div>
                 ))}
@@ -66,7 +68,11 @@ export default function TripLegExpenses({
           </Accordion>
         </div>
         <div>
-          <AddCircleOutlineIcon />
+          { isTrip ? (
+            <ExpenseTransportationModal isTransportation tripId={id} isTrip transportationTypes={transportationTypes} />
+          ) : (
+            <ExpenseTransportationModal isTransportation legId={id} transportationTypes={transportationTypes} />
+          )}
         </div>
       </div>
       <div className="subtotal">
