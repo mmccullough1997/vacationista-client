@@ -18,4 +18,10 @@ const createTripLeg = (tripId, legId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export default createTripLeg;
+const getAllTripLegsByTrip = (tripId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/triplegs?trip=${tripId}`)
+    .then((response) => resolve(response.json()))
+    .catch(reject);
+});
+
+export { createTripLeg, getAllTripLegsByTrip };

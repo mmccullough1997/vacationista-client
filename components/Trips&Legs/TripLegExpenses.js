@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable import/no-extraneous-dependencies */
 import { Typography } from '@mui/material';
 import React from 'react';
@@ -6,7 +7,7 @@ import PropTypes from 'prop-types';
 import ExpenseTransportationModal from '../expenses/ExpenseTransportationModal';
 
 export default function TripLegExpenses({
-  id, isTrip, expenses, transportations, budget, expenseTypes, transportationTypes, expenseTotal, transportationTotal, total,
+  tripId, legId, isTrip, expenses, transportations, budget, expenseTypes, transportationTypes, expenseTotal, transportationTotal, total, tripTravelTo,
 }) {
   return (
     <>
@@ -24,9 +25,11 @@ export default function TripLegExpenses({
                 {expenses?.filter((expense) => expense.expense_type.id === expenseType.id).map((theExpense) => (
                   <div>
                     { isTrip ? (
-                      <ExpenseTransportationModal isExpense tripId={id} title={theExpense.title} type={theExpense.expense_type} amount={theExpense.amount} comment={theExpense.comment} id={theExpense.id} isTrip expenseTypes={expenseTypes} />
+                    // is user clicking on expense from trip directory?
+                      <ExpenseTransportationModal isExpense tripId={Number(tripId)} legId={Number(theExpense.leg?.id)} tripTravelTo={theExpense.trip.travel_to} title={theExpense.title} type={Number(theExpense.expense_type.id)} amount={theExpense.amount} comment={theExpense.comment} id={Number(theExpense.id)} isTrip expenseTypes={expenseTypes} />
                     ) : (
-                      <ExpenseTransportationModal isExpense legId={id} title={theExpense.title} type={theExpense.expense_type} amount={theExpense.amount} comment={theExpense.comment} id={theExpense.id} expenseTypes={expenseTypes} />
+                      // is user clicking on expense from leg page?
+                      <ExpenseTransportationModal isExpense tripId={Number(tripId)} tripTravelTo={theExpense.trip.travel_to} legId={Number(legId)} title={theExpense.title} type={Number(theExpense.expense_type.id)} amount={theExpense.amount} comment={theExpense.comment} id={Number(theExpense.id)} expenseTypes={expenseTypes} />
                     )}
                   </div>
                 ))}
@@ -36,9 +39,11 @@ export default function TripLegExpenses({
         </div>
         <div>
           { isTrip ? (
-            <ExpenseTransportationModal isExpense tripId={id} isTrip expenseTypes={expenseTypes} />
+            // is user adding expense from trip page?
+            <ExpenseTransportationModal isExpense tripId={Number(tripId)} tripTravelTo={tripTravelTo} isTrip expenseTypes={expenseTypes} />
           ) : (
-            <ExpenseTransportationModal isExpense legId={id} expenseTypes={expenseTypes} />
+            // is user adding expense from leg page?
+            <ExpenseTransportationModal isExpense tripTravelTo={tripTravelTo} tripId={Number(tripId)} legId={Number(legId)} expenseTypes={expenseTypes} />
           )}
         </div>
       </div>
@@ -57,9 +62,11 @@ export default function TripLegExpenses({
                 {transportations?.filter((transportation) => transportation.transportation_type.id === transportationType.id).map((theTransportation) => (
                   <div>
                     { isTrip ? (
-                      <ExpenseTransportationModal tripId={id} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={theTransportation.transportation_type} amount={theTransportation.amount} comment={theTransportation.comment} id={theTransportation.id} isTrip transportationTypes={transportationTypes} isTransportation />
+                    // is user clicking on transportation from trip page?
+                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(theTransportation.leg?.id)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} isTrip transportationTypes={transportationTypes} />
                     ) : (
-                      <ExpenseTransportationModal legId={id} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={theTransportation.transportation_type} amount={theTransportation.amount} comment={theTransportation.comment} id={theTransportation.id} transportationTypes={transportationTypes} isTransportation />
+                    // is user clicking on transportation from leg page?
+                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(legId)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} transportationTypes={transportationTypes} />
                     )}
                   </div>
                 ))}
@@ -69,9 +76,11 @@ export default function TripLegExpenses({
         </div>
         <div>
           { isTrip ? (
-            <ExpenseTransportationModal isTransportation tripId={id} isTrip transportationTypes={transportationTypes} />
+            // is user adding transportation from trip page?
+            <ExpenseTransportationModal isTransportation tripTravelTo={tripTravelTo} tripId={Number(tripId)} transportationTypes={transportationTypes} isTrip />
           ) : (
-            <ExpenseTransportationModal isTransportation legId={id} transportationTypes={transportationTypes} />
+            // is user adding transportation from leg page?
+            <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={tripTravelTo} legId={Number(legId)} transportationTypes={transportationTypes} />
           )}
         </div>
       </div>
@@ -90,7 +99,8 @@ export default function TripLegExpenses({
 }
 
 TripLegExpenses.propTypes = {
-  id: PropTypes.number.isRequired,
+  tripId: PropTypes.number.isRequired,
+  legId: PropTypes.number.isRequired,
   isTrip: PropTypes.bool.isRequired,
   expenses: PropTypes.shape({
     id: PropTypes.number,
@@ -127,4 +137,5 @@ TripLegExpenses.propTypes = {
   expenseTotal: PropTypes.number.isRequired,
   transportationTotal: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
+  tripTravelTo: PropTypes.string.isRequired,
 };

@@ -9,6 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useRouter } from 'next/router';
+import { getAllTripLegsByTrip } from '../../utils/data/tripLegData';
 
 const initialState = {
   title: '',
@@ -26,10 +27,11 @@ const initialState = {
 };
 
 export default function ExpenseTransportationModal({
-  title, type, from, to, amount, comment, roundTrip, isTrip, id, isTransportation, expenseTypes, transportationTypes, isExpense, tripId, legId,
+  title, type, from, to, amount, comment, roundTrip, isTrip, id, isTransportation, expenseTypes, transportationTypes, isExpense, tripId, legId, tripTravelTo,
 }) {
   const [show, setShow] = useState(false);
   const [formInput, setFormInput] = useState(initialState);
+  const [tripLegs, setTripLegs] = useState([]);
   const router = useRouter();
   console.warn(router);
 
@@ -40,7 +42,14 @@ export default function ExpenseTransportationModal({
     title, type, from, to, amount, comment, roundTrip, isTrip, isTransportation, id, isExpense, tripId, legId,
   };
 
+  const getAllTripLegs = () => {
+    if (tripId) {
+      getAllTripLegsByTrip(tripId).then(setTripLegs);
+    }
+  };
+
   useEffect(() => {
+    getAllTripLegs();
     if (id) {
       setFormInput(formObj);
     }
@@ -50,6 +59,7 @@ export default function ExpenseTransportationModal({
       legId,
       isExpense,
       isTransportation,
+      isTrip,
     }));
   }, [id, title, type, from, to, amount, comment, roundTrip, isTransportation, tripId, legId]);
 
@@ -106,13 +116,13 @@ export default function ExpenseTransportationModal({
                 <Form.Select
                   placeholder="Expense Type: "
                   name="type"
-                  value={formInput.type?.id}
+                  value={Number(formInput.type)}
                   onChange={handleChange}
                   required
                 >
                   <option value="">Select</option>
                   {expenseTypes?.map((expenseType) => (
-                    <option key={expenseType.id} value={expenseType.id}>{expenseType.label}</option>
+                    <option key={expenseType.id} value={Number(expenseType.id)}>{expenseType.label}</option>
                   ))}
                 </Form.Select>
               </FloatingLabel>
@@ -137,6 +147,30 @@ export default function ExpenseTransportationModal({
                   onChange={handleChange}
                   required
                 />
+              </FloatingLabel>
+
+              <FloatingLabel controlId="floatingInput2" label="Trip:" className="mb-3">
+                <Form.Select
+                  disabled
+                  required
+                >
+                  <option value="">{tripTravelTo}</option>
+                </Form.Select>
+              </FloatingLabel>
+
+              <FloatingLabel controlId="floatingInput2" label="Trip Leg:" className="mb-3">
+                <Form.Select
+                  placeholder="Trip Leg: "
+                  name="legId"
+                  value={formInput.legId ? Number(formInput.legId) : null}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value={null}>Select Leg</option>
+                  {tripLegs?.map((tripLeg) => (
+                    <option key={tripLeg.id} value={Number(tripLeg.leg.id)}>{tripLeg.leg.location}</option>
+                  ))}
+                </Form.Select>
               </FloatingLabel>
 
             </Modal.Body>
@@ -182,13 +216,13 @@ export default function ExpenseTransportationModal({
                 <Form.Select
                   placeholder="Expense Type: "
                   name="type"
-                  value={formInput.type?.id}
+                  value={Number(formInput.type)}
                   onChange={handleChange}
                   required
                 >
                   <option value="">Select</option>
                   {expenseTypes?.map((expenseType) => (
-                    <option key={expenseType.id} value={expenseType.id}>{expenseType.label}</option>
+                    <option key={expenseType.id} value={Number(expenseType.id)}>{expenseType.label}</option>
                   ))}
                 </Form.Select>
               </FloatingLabel>
@@ -213,6 +247,30 @@ export default function ExpenseTransportationModal({
                   onChange={handleChange}
                   required
                 />
+              </FloatingLabel>
+
+              <FloatingLabel controlId="floatingInput2" label="Trip:" className="mb-3">
+                <Form.Select
+                  disabled
+                  required
+                >
+                  <option value="">{tripTravelTo}</option>
+                </Form.Select>
+              </FloatingLabel>
+
+              <FloatingLabel controlId="floatingInput2" label="Trip Leg:" className="mb-3">
+                <Form.Select
+                  placeholder="Trip Leg: "
+                  name="legId"
+                  value={formInput.legId ? Number(formInput.legId) : null}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value={null}>Select Leg</option>
+                  {tripLegs?.map((tripLeg) => (
+                    <option key={tripLeg.id} value={Number(tripLeg.leg.id)}>{tripLeg.leg.location}</option>
+                  ))}
+                </Form.Select>
               </FloatingLabel>
 
             </Modal.Body>
@@ -247,13 +305,13 @@ export default function ExpenseTransportationModal({
                 <Form.Select
                   placeholder="Transportation Type: "
                   name="type"
-                  value={formInput.type?.id}
+                  value={Number(formInput.type)}
                   onChange={handleChange}
                   required
                 >
                   <option value="">Select</option>
                   {transportationTypes?.map((transportationType) => (
-                    <option key={transportationType.id} value={transportationType.id}>{transportationType.label}</option>
+                    <option key={transportationType.id} value={Number(transportationType.id)}>{transportationType.label}</option>
                   ))}
                 </Form.Select>
               </FloatingLabel>
@@ -300,6 +358,30 @@ export default function ExpenseTransportationModal({
                   onChange={handleChange}
                   required
                 />
+              </FloatingLabel>
+
+              <FloatingLabel controlId="floatingInput2" label="Trip:" className="mb-3">
+                <Form.Select
+                  disabled
+                  required
+                >
+                  <option value="">{tripTravelTo}</option>
+                </Form.Select>
+              </FloatingLabel>
+
+              <FloatingLabel controlId="floatingInput2" label="Trip Leg:" className="mb-3">
+                <Form.Select
+                  placeholder="Trip Leg: "
+                  name="legId"
+                  value={formInput.legId ? Number(formInput.legId) : null}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Leg</option>
+                  {tripLegs?.map((tripLeg) => (
+                    <option key={tripLeg.id} value={Number(tripLeg.leg.id)}>{tripLeg.leg.location}</option>
+                  ))}
+                </Form.Select>
               </FloatingLabel>
 
               <FloatingLabel controlId="floatingInput2" className="mb-3">
@@ -351,13 +433,13 @@ export default function ExpenseTransportationModal({
                 <Form.Select
                   placeholder="Transportation Type: "
                   name="type"
-                  value={formInput.type?.id}
+                  value={Number(formInput.type)}
                   onChange={handleChange}
                   required
                 >
                   <option value="">Select</option>
                   {transportationTypes?.map((transportationType) => (
-                    <option key={transportationType.id} value={transportationType.id}>{transportationType.label}</option>
+                    <option key={transportationType.id} value={Number(transportationType.id)}>{transportationType.label}</option>
                   ))}
                 </Form.Select>
               </FloatingLabel>
@@ -404,6 +486,30 @@ export default function ExpenseTransportationModal({
                   onChange={handleChange}
                   required
                 />
+              </FloatingLabel>
+
+              <FloatingLabel controlId="floatingInput2" label="Trip:" className="mb-3">
+                <Form.Select
+                  disabled
+                  required
+                >
+                  <option value="">{tripTravelTo}</option>
+                </Form.Select>
+              </FloatingLabel>
+
+              <FloatingLabel controlId="floatingInput2" label="Trip Leg:" className="mb-3">
+                <Form.Select
+                  placeholder="Trip Leg: "
+                  name="legId"
+                  value={formInput.legId ? Number(formInput.legId) : null}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Leg</option>
+                  {tripLegs?.map((tripLeg) => (
+                    <option key={tripLeg.id} value={Number(tripLeg.leg.id)}>{tripLeg.leg.location}</option>
+                  ))}
+                </Form.Select>
               </FloatingLabel>
 
               <FloatingLabel controlId="floatingInput2" className="mb-3">
@@ -467,4 +573,5 @@ ExpenseTransportationModal.propTypes = {
   }).isRequired,
   tripId: PropTypes.number.isRequired,
   legId: PropTypes.number.isRequired,
+  tripTravelTo: PropTypes.string.isRequired,
 };

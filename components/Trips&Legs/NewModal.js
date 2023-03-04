@@ -13,7 +13,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import newtriplogo from '../../public/newtriplogo.png';
 import { createTrip, getAllTripsByUser } from '../../utils/data/tripData';
 import { createLeg, getAllLegsByUser } from '../../utils/data/legData';
-import createTripLeg from '../../utils/data/tripLegData';
+import { createTripLeg } from '../../utils/data/tripLegData';
 
 const initialState = {
   start: '',

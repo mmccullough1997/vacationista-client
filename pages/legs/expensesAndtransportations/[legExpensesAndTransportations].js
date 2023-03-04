@@ -20,9 +20,11 @@ export default function LegExpensesAndTransportations() {
     getSingleUserLeg(legExpensesAndTransportations, user.id).then(setUserLeg);
   }, [legExpensesAndTransportations, user]);
 
+  console.warn(userLeg);
+
   return (
     <div>
-      <TripLegExpenses id={legExpensesAndTransportations} expenses={userLeg.expenses} transportations={userLeg.transportations} budget={userLeg.budget} expenseTypes={expenseTypes} transportationTypes={transportationTypes} expenseTotal={userLeg.expenseTotal} transportationTotal={userLeg.transportationTotal} total={userLeg.total} />
+      <TripLegExpenses legId={Number(legExpensesAndTransportations)} tripId={Number(userLeg.trip.id)} tripTravelTo={userLeg.trip?.travel_to} expenses={userLeg.expenses} transportations={userLeg.transportations} budget={userLeg.budget} expenseTypes={expenseTypes} transportationTypes={transportationTypes} expenseTotal={userLeg.expenseTotal} transportationTotal={userLeg.transportationTotal} total={userLeg.total} />
     </div>
   );
 }
