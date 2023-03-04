@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useRouter } from 'next/router';
 import { getAllTripLegsByTrip } from '../../utils/data/tripLegData';
+import { createExpense, updateExpense } from '../../utils/data/expenseData';
+import { createTransportation, updateTransportation } from '../../utils/data/transportationData';
 
 const initialState = {
   title: '',
@@ -33,7 +35,6 @@ export default function ExpenseTransportationModal({
   const [formInput, setFormInput] = useState(initialState);
   const [tripLegs, setTripLegs] = useState([]);
   const router = useRouter();
-  console.warn(router);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -73,18 +74,86 @@ export default function ExpenseTransportationModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formInput.id && formInput.isExpense) {
-      console.warn('update expense');
-      console.warn(formInput);
-    } else if (formInput.isExpense) {
-      console.warn('create expense');
-      console.warn(formInput);
-    } else if (formInput.id && formInput.isTransportation) {
-      console.warn('update transportation');
-      console.warn(formInput);
+    // update expense
+    if (formInput.isExpense) {
+      const expenseObj = {
+        expenseType: Number(formInput.type),
+        trip: Number(formInput.tripId),
+        amount: parseFloat(formInput.amount).toFixed(2),
+        comment: formInput.comment,
+        title: formInput.title,
+      };
+      if (formInput.legId) {
+        expenseObj.leg = Number(formInput.legId);
+      } else {
+        expenseObj.leg = null;
+      }
+      if (formInput.id) {
+        if (formInput.isTrip) {
+          updateExpense(expenseObj, formInput.id).then(() => {
+            router.push(`/trips/expensesAndtransportations/${tripId}`);
+            handleClose();
+          });
+        } else {
+          updateExpense(expenseObj, formInput.id).then(() => {
+            router.push(`/legs/expensesAndtransportations/${legId}`);
+            handleClose();
+          });
+        }
+      // create expense
+      } else {
+        if (formInput.isTrip) {
+          createExpense(expenseObj).then(() => {
+            router.push(`/trips/expensesAndtransportations/${tripId}`);
+            handleClose();
+          });
+        }
+        createExpense(expenseObj).then(() => {
+          router.push(`/legs/expensesAndtransportations/${legId}`);
+          handleClose();
+        });
+      }
+    // edit transportation
     } else if (formInput.isTransportation) {
-      console.warn('create transportation');
-      console.warn(formInput);
+      const transportationObj = {
+        transportationType: Number(formInput.type),
+        trip: Number(formInput.tripId),
+        travelFrom: formInput.from,
+        travelTo: formInput.to,
+        amount: parseFloat(formInput.amount).toFixed(2),
+        comment: formInput.comment,
+        roundTrip: formInput.roundTrip,
+      };
+      if (formInput.legId) {
+        transportationObj.leg = Number(formInput.legId);
+      } else {
+        transportationObj.leg = null;
+      }
+      if (formInput.id) {
+        if (formInput.isTrip) {
+          updateTransportation(transportationObj, formInput.id).then(() => {
+            router.push(`/trips/expensesAndtransportations/${tripId}`);
+            handleClose();
+          });
+        } else {
+          updateTransportation(transportationObj, formInput.id).then(() => {
+            router.push(`/legs/expensesAndtransportations/${legId}`);
+            handleClose();
+          });
+        }
+      // create transportation
+      } else {
+        if (formInput.isTrip) {
+          createTransportation(transportationObj).then(() => {
+            router.push(`/trips/expensesAndtransportations/${tripId}`);
+            handleClose();
+          });
+        }
+        createTransportation(transportationObj).then(() => {
+          router.push(`/legs/expensesAndtransportations/${legId}`);
+          handleClose();
+        });
+      }
     }
   };
 
