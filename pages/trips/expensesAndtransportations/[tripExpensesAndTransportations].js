@@ -18,7 +18,7 @@ export default function TripExpensesAndTransportations() {
     getAllExpenseTypes().then(setExpenseTypes);
     getAllTransportationTypes().then(setTransportationTypes);
     getSingleUserTrip(tripExpensesAndTransportations, user.id).then(setUserTrip);
-  }, [tripExpensesAndTransportations, user]);
+  }, [tripExpensesAndTransportations, user, router]);
 
   return (
     <div>

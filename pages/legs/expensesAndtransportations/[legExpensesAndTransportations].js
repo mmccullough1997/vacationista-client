@@ -18,7 +18,7 @@ export default function LegExpensesAndTransportations() {
     getAllExpenseTypes().then(setExpenseTypes);
     getAllTransportationTypes().then(setTransportationTypes);
     getSingleUserLeg(legExpensesAndTransportations, user.id).then(setUserLeg);
-  }, [legExpensesAndTransportations, user]);
+  }, [legExpensesAndTransportations, user, router]);
 
   return (
     <div>

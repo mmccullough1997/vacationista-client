@@ -56,8 +56,17 @@ const createTransportation = (transportation) => new Promise((resolve, reject) =
     .catch((error) => reject(error));
 });
 
+const deleteTransportation = (transportationId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/transportations/${transportationId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
   getAllTransportationsByTrip, getAllTransportationsByLeg,
   updateTransportation,
   createTransportation,
+  deleteTransportation,
 };

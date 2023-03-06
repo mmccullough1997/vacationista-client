@@ -52,6 +52,14 @@ const createExpense = (expense) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const deleteExpense = (expenseId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/expenses/${expenseId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getAllExpensesByTrip, getAllExpensesByLeg, updateExpense, createExpense,
+  getAllExpensesByTrip, getAllExpensesByLeg, updateExpense, createExpense, deleteExpense,
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -8,10 +9,11 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { getAllTripLegsByTrip } from '../../utils/data/tripLegData';
-import { createExpense, updateExpense } from '../../utils/data/expenseData';
-import { createTransportation, updateTransportation } from '../../utils/data/transportationData';
+import { createExpense, deleteExpense, updateExpense } from '../../utils/data/expenseData';
+import { createTransportation, deleteTransportation, updateTransportation } from '../../utils/data/transportationData';
 
 const initialState = {
   title: '',
@@ -113,7 +115,7 @@ export default function ExpenseTransportationModal({
           handleClose();
         });
       }
-    // edit transportation
+    // update transportation
     } else if (formInput.isTransportation) {
       const transportationObj = {
         transportationType: Number(formInput.type),
@@ -153,6 +155,42 @@ export default function ExpenseTransportationModal({
           router.push(`/legs/expensesAndtransportations/${legId}`);
           handleClose();
         });
+      }
+    }
+  };
+
+  const deleteExpenseOrTransportation = () => {
+    if (isExpense) {
+      if (isTrip) {
+        if (window.confirm('DANGER ZONE: Are you sure you want to delete this expense?')) {
+          deleteExpense(id).then(() => {
+            router.push(`/trips/expensesAndtransportations/${tripId}`);
+            handleClose();
+          });
+        }
+      } else {
+        if (window.confirm('DANGER ZONE: Are you sure you want to delete this expense?')) {
+          deleteExpense(id).then(() => {
+            router.push(`/legs/expensesAndtransportations/${legId}`);
+            handleClose();
+          });
+        }
+      }
+    } else {
+      if (isTrip) {
+        if (window.confirm('DANGER ZONE: Are you sure you want to delete this transportation?')) {
+          deleteTransportation(id).then(() => {
+            router.push(`/trips/expensesAndtransportations/${tripId}`);
+            handleClose();
+          });
+        }
+      } else {
+        if (window.confirm('DANGER ZONE: Are you sure you want to delete this transportation?')) {
+          deleteTransportation(id).then(() => {
+            router.push(`/legs/expensesAndtransportations/${legId}`);
+            handleClose();
+          });
+        }
       }
     }
   };
@@ -245,6 +283,7 @@ export default function ExpenseTransportationModal({
             </Modal.Body>
 
             <Modal.Footer>
+              <DeleteIcon onClick={deleteExpenseOrTransportation} />
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
@@ -265,7 +304,7 @@ export default function ExpenseTransportationModal({
           <AddCircleOutlineIcon onClick={handleShow} />
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Edit Expense</Modal.Title>
+              <Modal.Title>Create Expense</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -473,6 +512,7 @@ export default function ExpenseTransportationModal({
             </Modal.Body>
 
             <Modal.Footer>
+              <DeleteIcon onClick={deleteExpenseOrTransportation} />
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
@@ -493,7 +533,7 @@ export default function ExpenseTransportationModal({
           <AddCircleOutlineIcon onClick={handleShow} />
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Edit Transportation</Modal.Title>
+              <Modal.Title>Create Transportation</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
