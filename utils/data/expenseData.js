@@ -14,6 +14,52 @@ const getAllExpensesByLeg = (legId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const updateExpense = (expense, expenseId) => new Promise((resolve, reject) => {
+  const expenseObj = {
+    expense_type: expense.expenseType,
+    trip: expense.trip,
+    leg: expense.leg,
+    amount: expense.amount,
+    comment: expense.comment,
+    title: expense.title,
+  };
+  fetch(`${dbUrl}/expenses/${expenseId}`, {
+    method: 'PUT',
+    body: JSON.stringify(expenseObj),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((response) => resolve(response))
+    .catch((error) => reject(error));
+});
+
+const createExpense = (expense) => new Promise((resolve, reject) => {
+  const expenseObj = {
+    expense_type: expense.expenseType,
+    trip: expense.trip,
+    leg: expense.leg,
+    amount: expense.amount,
+    comment: expense.comment,
+    title: expense.title,
+  };
+  fetch(`${dbUrl}/expenses`, {
+    method: 'POST',
+    body: JSON.stringify(expenseObj),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => resolve(response.json()))
+    .catch((error) => reject(error));
+});
+
+const deleteExpense = (expenseId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/expenses/${expenseId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getAllExpensesByTrip, getAllExpensesByLeg,
+  getAllExpensesByTrip, getAllExpensesByLeg, updateExpense, createExpense, deleteExpense,
 };

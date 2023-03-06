@@ -18,11 +18,11 @@ export default function TripExpensesAndTransportations() {
     getAllExpenseTypes().then(setExpenseTypes);
     getAllTransportationTypes().then(setTransportationTypes);
     getSingleUserTrip(tripExpensesAndTransportations, user.id).then(setUserTrip);
-  }, [tripExpensesAndTransportations, user]);
+  }, [tripExpensesAndTransportations, user, router]);
 
   return (
     <div>
-      <TripLegExpenses id={tripExpensesAndTransportations} isTrip expenses={userTrip.expenses} transportations={userTrip.transportations} budget={userTrip.budget} expenseTypes={expenseTypes} transportationTypes={transportationTypes} expenseTotal={userTrip.expenseTotal} transportationTotal={userTrip.transportationTotal} total={userTrip.total} />
+      <TripLegExpenses tripId={Number(tripExpensesAndTransportations)} isTrip expenses={userTrip.expenses} tripTravelTo={userTrip.travelTo} transportations={userTrip.transportations} budget={userTrip.budget} expenseTypes={expenseTypes} transportationTypes={transportationTypes} expenseTotal={userTrip.expenseTotal} transportationTotal={userTrip.transportationTotal} total={userTrip.total} />
     </div>
   );
 }

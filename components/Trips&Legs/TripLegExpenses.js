@@ -1,14 +1,14 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable import/no-extraneous-dependencies */
 import { Typography } from '@mui/material';
 import React from 'react';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Accordion } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import ExpenseTransportationModal from '../expenses/ExpenseTransportationModal';
 
 export default function TripLegExpenses({
-  id, isTrip, expenses, transportations, budget, expenseTypes, transportationTypes, expenseTotal, transportationTotal, total,
+  tripId, legId, isTrip, expenses, transportations, budget, expenseTypes, transportationTypes, expenseTotal, transportationTotal, total, tripTravelTo,
 }) {
-  console.warn(id);
   return (
     <>
       <Typography variant="h4">{ isTrip ? 'Trip Expenses' : 'Leg Expenses'}</Typography>
@@ -24,7 +24,13 @@ export default function TripLegExpenses({
                 <Accordion.Header>{expenseType.label}</Accordion.Header>
                 {expenses?.filter((expense) => expense.expense_type.id === expenseType.id).map((theExpense) => (
                   <div>
-                    <Accordion.Body>{theExpense.title} - {theExpense.amount}</Accordion.Body>
+                    { isTrip ? (
+                    // is user clicking on expense from trip directory?
+                      <ExpenseTransportationModal isExpense tripId={Number(tripId)} legId={Number(theExpense.leg?.id)} tripTravelTo={theExpense.trip.travel_to} title={theExpense.title} type={Number(theExpense.expense_type.id)} amount={theExpense.amount} comment={theExpense.comment} id={Number(theExpense.id)} isTrip expenseTypes={expenseTypes} />
+                    ) : (
+                      // is user clicking on expense from leg page?
+                      <ExpenseTransportationModal isExpense tripId={Number(tripId)} tripTravelTo={theExpense.trip.travel_to} legId={Number(legId)} title={theExpense.title} type={Number(theExpense.expense_type.id)} amount={theExpense.amount} comment={theExpense.comment} id={Number(theExpense.id)} expenseTypes={expenseTypes} />
+                    )}
                   </div>
                 ))}
               </Accordion.Item>
@@ -32,7 +38,13 @@ export default function TripLegExpenses({
           </Accordion>
         </div>
         <div>
-          <AddCircleOutlineIcon />
+          { isTrip ? (
+            // is user adding expense from trip page?
+            <ExpenseTransportationModal isExpense tripId={Number(tripId)} tripTravelTo={tripTravelTo} isTrip expenseTypes={expenseTypes} />
+          ) : (
+            // is user adding expense from leg page?
+            <ExpenseTransportationModal isExpense tripTravelTo={tripTravelTo} tripId={Number(tripId)} legId={Number(legId)} expenseTypes={expenseTypes} />
+          )}
         </div>
       </div>
       <div className="subtotal">
@@ -49,7 +61,13 @@ export default function TripLegExpenses({
                 <Accordion.Header>{transportationType.label}</Accordion.Header>
                 {transportations?.filter((transportation) => transportation.transportation_type.id === transportationType.id).map((theTransportation) => (
                   <div>
-                    <Accordion.Body>{theTransportation.transportation_type.label} - {theTransportation.amount}</Accordion.Body>
+                    { isTrip ? (
+                    // is user clicking on transportation from trip page?
+                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(theTransportation.leg?.id)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} isTrip transportationTypes={transportationTypes} />
+                    ) : (
+                    // is user clicking on transportation from leg page?
+                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(legId)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} transportationTypes={transportationTypes} />
+                    )}
                   </div>
                 ))}
               </Accordion.Item>
@@ -57,7 +75,13 @@ export default function TripLegExpenses({
           </Accordion>
         </div>
         <div>
-          <AddCircleOutlineIcon />
+          { isTrip ? (
+            // is user adding transportation from trip page?
+            <ExpenseTransportationModal isTransportation tripTravelTo={tripTravelTo} tripId={Number(tripId)} transportationTypes={transportationTypes} isTrip />
+          ) : (
+            // is user adding transportation from leg page?
+            <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={tripTravelTo} legId={Number(legId)} transportationTypes={transportationTypes} />
+          )}
         </div>
       </div>
       <div className="subtotal">
@@ -75,7 +99,8 @@ export default function TripLegExpenses({
 }
 
 TripLegExpenses.propTypes = {
-  id: PropTypes.number.isRequired,
+  tripId: PropTypes.number.isRequired,
+  legId: PropTypes.number.isRequired,
   isTrip: PropTypes.bool.isRequired,
   expenses: PropTypes.shape({
     id: PropTypes.number,
@@ -112,4 +137,5 @@ TripLegExpenses.propTypes = {
   expenseTotal: PropTypes.number.isRequired,
   transportationTotal: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
+  tripTravelTo: PropTypes.string.isRequired,
 };
