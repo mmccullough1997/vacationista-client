@@ -72,7 +72,7 @@ export default function TripOverview() {
           <Typography variant="p">View Expenses & transportation</Typography>
         </div>
 
-        <Typography variant="p">Detailed view</Typography>
+        <Typography variant="p" onClick={() => router.push(`/trips/detail/${userTrip.id}`)}>Detailed view</Typography>
 
         <hr />
 

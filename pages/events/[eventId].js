@@ -56,15 +56,18 @@ export default function EventOverview() {
       <hr />
 
       <Box>
-        <Box
-          component="img"
-          sx={{
-            height: 233,
-            width: 400,
-          }}
-          alt={event.title}
-          src={event.image}
-        />
+        <div>
+          <Box
+            component="img"
+            sx={{
+              height: 233,
+              width: 400,
+            }}
+            alt={event.title}
+            src={event.image}
+          />
+          <EventEditModal id={event.id} image={event.image} />
+        </div>
         <div>
           <Typography>{event.eventType?.label}</Typography>
           <EventEditModal id={event.id} eventType={event.eventType?.id} eventTypes={eventTypes} />

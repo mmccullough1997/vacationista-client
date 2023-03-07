@@ -71,7 +71,7 @@ export default function LegOverview() {
           <Typography variant="p">View Expenses & transportation</Typography>
         </div>
 
-        <Typography variant="p">Detailed view</Typography>
+        <Typography variant="p" onClick={() => router.push(`/legs/detail/${userLeg.id}`)}>Detailed view</Typography>
 
         <hr />
 
