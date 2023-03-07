@@ -50,9 +50,6 @@ export default function TripDetail() {
     getUserTrip();
   }, [router, user]);
 
-  console.warn('events', events);
-  console.warn('trip', userTrip);
-
   return (
     <div>
       <Typography variant="h4">Trip Overview Page</Typography>
