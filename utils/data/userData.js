@@ -2,15 +2,17 @@ import { clientCredentials } from '../client';
 
 const dbUrl = clientCredentials.databaseURL;
 
-const updateUser = (userObj, userId) => new Promise((resolve, reject) => {
+const updateUser = (userObj, user) => new Promise((resolve, reject) => {
   const newUserObj = {
     first_name: userObj.firstName,
     last_name: userObj.lastName,
     username: userObj.username,
+    date_registered: userObj.dateRegistered,
+    uid: user.uid,
     bio: userObj.bio,
     image: userObj.image,
   };
-  fetch(`${dbUrl}/users/${userId}`, {
+  fetch(`${dbUrl}/users/${user.id}`, {
     method: 'PUT',
     body: JSON.stringify(newUserObj),
     headers: { 'Content-Type': 'application/json' },

@@ -6,13 +6,13 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAuth } from '../../utils/context/authContext';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
-import CompactEventCard from '../../components/recommendations/CompactEventCard';
+import CompactEventCard from '../../components/events/CompactEventCard';
 import EditModal from '../../components/Trips&Legs/EditModal';
 import { deleteLeg, getSingleLeg, getSingleUserLeg } from '../../utils/data/legData';
+import NewEventModal from '../../components/events/NewEventModal';
 
 export default function LegOverview() {
   const router = useRouter();
@@ -38,10 +38,12 @@ export default function LegOverview() {
 
   const deleteTheLeg = () => {
     if (window.confirm('DANGER ZONE: Are you sure you want to delete this leg?')) {
-      const tripId = userLeg.trip;
+      const tripId = userLeg.trip.id;
       deleteLeg(userLeg.id).then(() => router.push(`/trips/${tripId}`));
     }
   };
+
+  console.warn(userLeg);
 
   if (userLeg.id) {
     return (
@@ -69,7 +71,7 @@ export default function LegOverview() {
           <Typography variant="p">View Expenses & transportation</Typography>
         </div>
 
-        <Typography variant="p">Detailed view</Typography>
+        <Typography variant="p" onClick={() => router.push(`/legs/detail/${userLeg.id}`)}>Detailed view</Typography>
 
         <hr />
 
@@ -77,13 +79,13 @@ export default function LegOverview() {
           <div className="homePageTripsHeader">
             <Typography variant="h4"> Events</Typography>
             <div>
-              <AddCircleOutlineIcon className="homePageTripsHeader" />
+              <NewEventModal user={user} tripId={userLeg.trip.id} tripLocation={userLeg.trip.travel_to} />
             </div>
           </div>
           <div className="compactTripCardsOnHomePage">
             { userLeg.events.length ? (
               userLeg.events.map((event) => (
-                <CompactEventCard image={event.image} title={event.title} />
+                <CompactEventCard image={event.image} title={event.title} id={event.id} />
               ))
             ) : (
               <div />

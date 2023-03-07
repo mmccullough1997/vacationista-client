@@ -13,6 +13,7 @@ const initialUserState = {
   username: '',
   bio: '',
   image: '',
+  dateRegistered: '',
 };
 
 function RegisterForm({ user, onUpdate }) {
@@ -36,7 +37,7 @@ function RegisterForm({ user, onUpdate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (user.id) {
-      updateUser(formData, user.id);
+      updateUser(formData, user);
       router.push('/');
     } else {
       registerUser(user, formData).then(() => onUpdate(user.uid));

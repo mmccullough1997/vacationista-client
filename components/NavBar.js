@@ -16,6 +16,7 @@ import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 import { useRouter } from 'next/router';
 import logo from '../public/Vacationista Logo.png';
 import { useAuth } from '../utils/context/authContext';
+import Search from './Search';
 import { signIn, signOut } from '../utils/auth';
 
 function NavBar() {
@@ -75,6 +76,7 @@ function NavBar() {
             >
               <Image src={logo} onClick={() => router.push('/')} />
             </Paper>
+            <Search />
             <Typography
               variant="h5"
               noWrap
@@ -123,7 +125,7 @@ function NavBar() {
                     onClose={handleCloseUserMenu}
                   >
                     <MenuItem>
-                      <Typography textAlign="center">Profile</Typography>
+                      <Typography textAlign="center" onClick={() => router.push(`/users/${user.id}`)}>Profile</Typography>
                     </MenuItem>
                     <MenuItem>
                       <Typography onClick={() => router.push('/trips/mytrips')} textAlign="center">My Trips</Typography>

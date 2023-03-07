@@ -6,15 +6,15 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteTrip, getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
-import CompactEventCard from '../../components/recommendations/CompactEventCard';
+import CompactEventCard from '../../components/events/CompactEventCard';
 import CompactLegCard from '../../components/legs/CompactLegCard';
 import EditModal from '../../components/Trips&Legs/EditModal';
 import NewModal from '../../components/Trips&Legs/NewModal';
+import NewEventModal from '../../components/events/NewEventModal';
 
 export default function TripOverview() {
   const router = useRouter();
@@ -46,6 +46,11 @@ export default function TripOverview() {
     }
   };
 
+  // const newStart = new Date(userTrip.start);
+  // const startMonth = newStart.getMonth();
+  // const newMonth = startMonth + 1;
+  // newStart.setMonth(newMonth);
+
   if (userTrip.id) {
     return (
       <div>
@@ -72,7 +77,7 @@ export default function TripOverview() {
           <Typography variant="p">View Expenses & transportation</Typography>
         </div>
 
-        <Typography variant="p">Detailed view</Typography>
+        <Typography variant="p" onClick={() => router.push(`/trips/detail/${userTrip.id}`)}>Detailed view</Typography>
 
         <hr />
 
@@ -110,13 +115,13 @@ export default function TripOverview() {
           <div className="homePageTripsHeader">
             <Typography variant="h4"> Events</Typography>
             <div>
-              <AddCircleOutlineIcon className="homePageTripsHeader" />
+              <NewEventModal user={user} tripId={userTrip.id} tripLocation={userTrip.travelTo} />
             </div>
           </div>
           <div className="compactTripCardsOnHomePage">
             { userTrip.events.length ? (
               userTrip.events.map((event) => (
-                <CompactEventCard image={event.image} title={event.title} />
+                <CompactEventCard image={event.image} title={event.title} id={event.id} />
               ))
             ) : (
               <div />
@@ -124,7 +129,7 @@ export default function TripOverview() {
             { userTrip.legs ? (
               userTrip.legs.map((leg) => (
                 leg.events.map((event) => (
-                  <CompactEventCard image={event.image} title={event.title} />
+                  <CompactEventCard image={event.image} title={event.title} id={event.id} />
                 ))
               ))
             ) : (

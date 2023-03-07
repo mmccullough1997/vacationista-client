@@ -5,13 +5,15 @@ import CardContent from '@mui/material/CardContent';
 import PropTypes from 'prop-types';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/router';
 
 export default function CompactEventCard({
-  image, title,
+  image, title, id,
 }) {
+  const router = useRouter();
   return (
     <div>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth: 345 }} onClick={() => router.push(`/events/${id}`)}>
         <CardMedia
           component="img"
           alt={title}
@@ -31,4 +33,5 @@ export default function CompactEventCard({
 CompactEventCard.propTypes = {
   image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
