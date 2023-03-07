@@ -10,7 +10,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAuth } from '../../utils/context/authContext';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
-import CompactEventCard from '../../components/recommendations/CompactEventCard';
+import CompactEventCard from '../../components/events/CompactEventCard';
 import EditModal from '../../components/Trips&Legs/EditModal';
 import { deleteLeg, getSingleLeg, getSingleUserLeg } from '../../utils/data/legData';
 
@@ -42,6 +42,8 @@ export default function LegOverview() {
       deleteLeg(userLeg.id).then(() => router.push(`/trips/${tripId}`));
     }
   };
+
+  console.warn(userLeg);
 
   if (userLeg.id) {
     return (
@@ -83,7 +85,7 @@ export default function LegOverview() {
           <div className="compactTripCardsOnHomePage">
             { userLeg.events.length ? (
               userLeg.events.map((event) => (
-                <CompactEventCard image={event.image} title={event.title} />
+                <CompactEventCard image={event.image} title={event.title} id={event.id} />
               ))
             ) : (
               <div />

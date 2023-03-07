@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import { Accordion } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import ExpenseTransportationModal from '../expenses/ExpenseTransportationModal';
+import ExpenseTransportationModal from '../Expenses&Transportations/ExpenseTransportationModal';
 
 export default function TripLegExpenses({
   tripId, legId, isTrip, expenses, transportations, budget, expenseTypes, transportationTypes, expenseTotal, transportationTotal, total, tripTravelTo,

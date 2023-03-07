@@ -11,7 +11,7 @@ import { useAuth } from '../../utils/context/authContext';
 import { deleteTrip, getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
 import CompactRecommendationCard from '../../components/recommendations/CompactRecommendationCard';
-import CompactEventCard from '../../components/recommendations/CompactEventCard';
+import CompactEventCard from '../../components/events/CompactEventCard';
 import CompactLegCard from '../../components/legs/CompactLegCard';
 import EditModal from '../../components/Trips&Legs/EditModal';
 import NewModal from '../../components/Trips&Legs/NewModal';
@@ -116,7 +116,7 @@ export default function TripOverview() {
           <div className="compactTripCardsOnHomePage">
             { userTrip.events.length ? (
               userTrip.events.map((event) => (
-                <CompactEventCard image={event.image} title={event.title} />
+                <CompactEventCard image={event.image} title={event.title} id={event.id} />
               ))
             ) : (
               <div />
@@ -124,7 +124,7 @@ export default function TripOverview() {
             { userTrip.legs ? (
               userTrip.legs.map((leg) => (
                 leg.events.map((event) => (
-                  <CompactEventCard image={event.image} title={event.title} />
+                  <CompactEventCard image={event.image} title={event.title} id={event.id} />
                 ))
               ))
             ) : (
