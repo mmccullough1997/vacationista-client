@@ -46,6 +46,11 @@ export default function TripOverview() {
     }
   };
 
+  // const newStart = new Date(userTrip.start);
+  // const startMonth = newStart.getMonth();
+  // const newMonth = startMonth + 1;
+  // newStart.setMonth(newMonth);
+
   if (userTrip.id) {
     return (
       <div>

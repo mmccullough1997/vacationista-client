@@ -123,7 +123,7 @@ function NavBar() {
                     onClose={handleCloseUserMenu}
                   >
                     <MenuItem>
-                      <Typography textAlign="center">Profile</Typography>
+                      <Typography textAlign="center" onClick={() => router.push(`/users/${user.id}`)}>Profile</Typography>
                     </MenuItem>
                     <MenuItem>
                       <Typography onClick={() => router.push('/trips/mytrips')} textAlign="center">My Trips</Typography>
