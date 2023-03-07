@@ -21,7 +21,6 @@ const getSingleEvent = (eventId) => new Promise((resolve, reject) => {
         date: data.date,
         image: data.image,
         title: data.title,
-        user: data.user,
       });
     }).catch((error) => reject(error));
 });
