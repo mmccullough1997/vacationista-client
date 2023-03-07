@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useAuth } from '../../utils/context/authContext';
 import { deleteTrip, getSingleTrip, getSingleUserTrip } from '../../utils/data/tripData';
 import { getYelpRecommendations } from '../../utils/data/recommendationData';
@@ -15,6 +14,7 @@ import CompactEventCard from '../../components/events/CompactEventCard';
 import CompactLegCard from '../../components/legs/CompactLegCard';
 import EditModal from '../../components/Trips&Legs/EditModal';
 import NewModal from '../../components/Trips&Legs/NewModal';
+import NewEventModal from '../../components/events/NewEventModal';
 
 export default function TripOverview() {
   const router = useRouter();
@@ -110,7 +110,7 @@ export default function TripOverview() {
           <div className="homePageTripsHeader">
             <Typography variant="h4"> Events</Typography>
             <div>
-              <AddCircleOutlineIcon className="homePageTripsHeader" />
+              <NewEventModal user={user} tripId={userTrip.id} tripLocation={userTrip.travelTo} />
             </div>
           </div>
           <div className="compactTripCardsOnHomePage">
