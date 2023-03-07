@@ -2,7 +2,7 @@
 import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { Accordion } from 'react-bootstrap';
+import { Accordion, Card } from 'react-bootstrap';
 import CompactEventCard from '../../../components/events/CompactEventCard';
 import { useAuth } from '../../../utils/context/authContext';
 import { getSingleUserTrip } from '../../../utils/data/tripData';
@@ -19,9 +19,8 @@ export default function TripDetail() {
     const dates = [];
     const currentDate = new Date(startDate);
     const theEndDate = new Date(endDate);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
     while (currentDate <= theEndDate) {
-      dates.push(currentDate.toLocaleDateString('en-US', options));
+      dates.push(currentDate.toISOString().slice(0, 10));
       currentDate.setDate(currentDate.getDate() + 1);
     }
     const newDateArray = dates.map((item, index) => ({
@@ -59,14 +58,14 @@ export default function TripDetail() {
       <Typography variant="h4">Trip Overview Page</Typography>
       <hr />
 
-      <div>
+      <div className="expensesAndTransportationSubheader">
 
         <div>
           <Accordion>
             { tripDates.map((date) => (
               <Accordion.Item eventKey={date.id}>
-                <Accordion.Header>{date.value}</Accordion.Header>
-                { events?.filter((event) => event.id === date.id).map((theEvent) => (
+                <Accordion.Header>{new Date(date.value).toLocaleString('default', { month: 'long' })} {parseInt(date.value.split('-')[2], 10)}, {parseInt(date.value.split('-')[0], 10)}</Accordion.Header>
+                { events?.filter((event) => event.date === date.value).map((theEvent) => (
                   <Accordion.Body>
                     <CompactEventCard id={theEvent.id} title={theEvent.title} image={theEvent.image} />
                   </Accordion.Body>
@@ -77,8 +76,36 @@ export default function TripDetail() {
         </div>
 
         <div>
-          Expenses & Transportations
+          <div>
+            <Typography>Expenses</Typography>
+            <Card>
+              { userTrip.expenses?.map((expense) => (
+                <>
+                  <Card.Header>{expense.title} - ${expense.amount}</Card.Header>
+                </>
+              )) }
+            </Card>
+            <Typography>Subtotal: ${userTrip.expenseTotal}</Typography>
+          </div>
+
+          <hr />
+
+          <div>
+            <Typography>Transportation</Typography>
+            <Card>
+              { userTrip.transportations?.map((transportation) => (
+                <>
+                  <Card.Header>{transportation.transportation_type.label} - ${transportation.amount}</Card.Header>
+                </>
+              )) }
+            </Card>
+            <Typography>Subtotal: ${userTrip.transportationTotal}</Typography>
+          </div>
         </div>
+
+        <hr />
+
+        <Typography>Trip Total: ${userTrip.total}</Typography>
 
       </div>
     </div>
