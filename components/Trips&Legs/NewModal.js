@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -160,6 +161,6 @@ NewTripModal.propTypes = {
     uid: PropTypes.string,
     id: PropTypes.number,
   }).isRequired,
-  isTrip: PropTypes.bool.isRequired,
-  tripId: PropTypes.number.isRequired,
+  isTrip: PropTypes.bool,
+  tripId: PropTypes.number,
 };

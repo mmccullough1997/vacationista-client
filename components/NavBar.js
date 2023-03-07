@@ -76,7 +76,11 @@ function NavBar() {
             >
               <Image src={logo} onClick={() => router.push('/')} />
             </Paper>
-            <Search />
+            { user.uid ? (
+              <Search />
+            ) : (
+              <></>
+            )}
             <Typography
               variant="h5"
               noWrap
@@ -153,7 +157,7 @@ function NavBar() {
           left: 0,
           right: 0,
         }}
-        elevation={3}
+        elevation={1}
       >
         <BottomNavigation
           showLabels

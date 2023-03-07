@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -231,10 +232,10 @@ export default function EditModal({
 }
 
 EditModal.propTypes = {
-  travelDestination: PropTypes.string.isRequired,
-  start: PropTypes.string.isRequired,
-  end: PropTypes.string.isRequired,
-  budget: PropTypes.number.isRequired,
+  travelDestination: PropTypes.string,
+  start: PropTypes.string,
+  end: PropTypes.string,
+  budget: PropTypes.string,
   id: PropTypes.number.isRequired,
-  isTrip: PropTypes.bool.isRequired,
+  isTrip: PropTypes.bool,
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -656,31 +657,28 @@ export default function ExpenseTransportationModal({
 }
 
 ExpenseTransportationModal.propTypes = {
-  title: PropTypes.string.isRequired,
-  type: PropTypes.shape({
-    id: PropTypes.number,
-    label: PropTypes.string,
-  }).isRequired,
-  from: PropTypes.string.isRequired,
-  to: PropTypes.number.isRequired,
-  amount: PropTypes.string.isRequired,
-  comment: PropTypes.string.isRequired,
-  roundTrip: PropTypes.bool.isRequired,
-  id: PropTypes.number.isRequired,
-  isTrip: PropTypes.bool.isRequired,
-  isTransportation: PropTypes.bool.isRequired,
-  isExpense: PropTypes.bool.isRequired,
-  expenseTypes: PropTypes.shape({
+  title: PropTypes.string,
+  type: PropTypes.number,
+  from: PropTypes.string,
+  to: PropTypes.string,
+  amount: PropTypes.string,
+  comment: PropTypes.string,
+  roundTrip: PropTypes.bool,
+  id: PropTypes.number,
+  isTrip: PropTypes.bool,
+  isTransportation: PropTypes.bool,
+  isExpense: PropTypes.bool,
+  expenseTypes: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
     map: PropTypes.func,
-  }).isRequired,
-  transportationTypes: PropTypes.shape({
+  })),
+  transportationTypes: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
     map: PropTypes.func,
-  }).isRequired,
-  tripId: PropTypes.number.isRequired,
-  legId: PropTypes.number.isRequired,
-  tripTravelTo: PropTypes.string.isRequired,
+  })),
+  tripId: PropTypes.number,
+  legId: PropTypes.number,
+  tripTravelTo: PropTypes.string,
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from 'next/router';
@@ -288,15 +289,15 @@ export default function EventEditModal({
 }
 
 EventEditModal.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  eventType: PropTypes.number.isRequired,
-  description: PropTypes.string.isRequired,
-  eventTypes: PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  date: PropTypes.string,
+  image: PropTypes.string,
+  eventType: PropTypes.number,
+  description: PropTypes.string,
+  eventTypes: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
     map: PropTypes.func,
-  }).isRequired,
+  })),
 };

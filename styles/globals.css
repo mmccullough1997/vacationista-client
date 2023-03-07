@@ -21,6 +21,7 @@ body {
   background-color: white;
 }
 
+
 /* Nav Bar */
 .googleSignInButton {
   position: relative;
@@ -85,4 +86,10 @@ body {
 .subtotal{
   display: flex;
   justify-content: right;
+}
+
+/* trip/leg detail page */
+.detailPage {
+  display: flex;
+  justify-content: space-between;
 }

@@ -121,7 +121,7 @@ export default function TripOverview() {
           <div className="compactTripCardsOnHomePage">
             { userTrip.events.length ? (
               userTrip.events.map((event) => (
-                <CompactEventCard image={event.image} title={event.title} id={event.id} />
+                <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
               ))
             ) : (
               <div />
@@ -129,7 +129,7 @@ export default function TripOverview() {
             { userTrip.legs ? (
               userTrip.legs.map((leg) => (
                 leg.events.map((event) => (
-                  <CompactEventCard image={event.image} title={event.title} id={event.id} />
+                  <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
                 ))
               ))
             ) : (

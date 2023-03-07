@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from 'next/router';
@@ -189,8 +190,8 @@ export default function UserEditModal({
 }
 
 UserEditModal.propTypes = {
-  id: PropTypes.number.isRequired,
-  username: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  bio: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  username: PropTypes.string,
+  image: PropTypes.string,
+  bio: PropTypes.string,
 };

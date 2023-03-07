@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -47,8 +48,8 @@ export default function CompactHighlightCard({
 }
 
 CompactHighlightCard.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  thumbnail: PropTypes.string,
 };

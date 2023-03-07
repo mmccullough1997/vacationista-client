@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import Card from '@mui/material/Card';
@@ -53,9 +54,9 @@ export default function CompactRecommendationCard({
 }
 
 CompactRecommendationCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  link: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
+  image: PropTypes.string,
+  name: PropTypes.string,
+  rating: PropTypes.number,
+  link: PropTypes.string,
+  count: PropTypes.number,
 };

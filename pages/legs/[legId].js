@@ -43,8 +43,6 @@ export default function LegOverview() {
     }
   };
 
-  console.warn(userLeg);
-
   if (userLeg.id) {
     return (
       <div>

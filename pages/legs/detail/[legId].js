@@ -47,16 +47,16 @@ export default function LegDetail() {
       <Typography variant="h4">Leg Overview Page</Typography>
       <hr />
 
-      <div className="expensesAndTransportationSubheader">
+      <div className="detailPage">
 
         <div>
           <Accordion>
             { legDates.map((date) => (
-              <Accordion.Item eventKey={date.id}>
+              <Accordion.Item eventKey={date.id} key={date.id}>
                 <Accordion.Header>{new Date(date.value).toLocaleString('default', { month: 'long' })} {parseInt(date.value.split('-')[2], 10)}, {parseInt(date.value.split('-')[0], 10)}</Accordion.Header>
                 { events?.filter((event) => event.date === date.value).map((theEvent) => (
                   <Accordion.Body>
-                    <CompactEventCard id={theEvent.id} title={theEvent.title} image={theEvent.image} />
+                    <CompactEventCard key={theEvent.id} id={theEvent.id} title={theEvent.title} image={theEvent.image} />
                   </Accordion.Body>
                 ))}
               </Accordion.Item>
@@ -69,9 +69,10 @@ export default function LegDetail() {
             <Typography>Expenses</Typography>
             <Card>
               { userLeg.expenses?.map((expense) => (
-                <>
+                <div key={expense.id}>
                   <Card.Header>{expense.title} - ${expense.amount}</Card.Header>
-                </>
+                  <Card.Body>{expense.comment}</Card.Body>
+                </div>
               )) }
             </Card>
             <Typography>Subtotal: ${userLeg.expenseTotal}</Typography>
@@ -83,9 +84,10 @@ export default function LegDetail() {
             <Typography>Transportation</Typography>
             <Card>
               { userLeg.transportations?.map((transportation) => (
-                <>
-                  <Card.Header>{transportation.transportation_type.label} - ${transportation.amount}</Card.Header>
-                </>
+                <div key={transportation.id}>
+                  <Card.Header>{transportation.transportation_type?.label} - ${transportation.amount}</Card.Header>
+                  <Card.Body>{transportation.comment}</Card.Body>
+                </div>
               )) }
             </Card>
             <Typography>Subtotal: ${userLeg.transportationTotal}</Typography>
