@@ -60,6 +60,12 @@ const deleteExpense = (expenseId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getAllExpensesByTripAndLeg = (tripId, legId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/expenses?trip=${tripId}&leg=${legId}`)
+    .then((response) => resolve(response.json()))
+    .catch(reject);
+});
+
 export {
-  getAllExpensesByTrip, getAllExpensesByLeg, updateExpense, createExpense, deleteExpense,
+  getAllExpensesByTrip, getAllExpensesByLeg, updateExpense, createExpense, deleteExpense, getAllExpensesByTripAndLeg,
 };
