@@ -110,11 +110,12 @@ export default function ExpenseTransportationModal({
             router.push(`/trips/expensesAndtransportations/${tripId}`);
             handleClose();
           });
+        } else {
+          createExpense(expenseObj).then(() => {
+            router.push(`/legs/expensesAndtransportations/${legId}`);
+            handleClose();
+          });
         }
-        createExpense(expenseObj).then(() => {
-          router.push(`/legs/expensesAndtransportations/${legId}`);
-          handleClose();
-        });
       }
     // update transportation
     } else if (formInput.isTransportation) {
@@ -151,11 +152,12 @@ export default function ExpenseTransportationModal({
             router.push(`/trips/expensesAndtransportations/${tripId}`);
             handleClose();
           });
+        } else {
+          createTransportation(transportationObj).then(() => {
+            router.push(`/legs/expensesAndtransportations/${legId}`);
+            handleClose();
+          });
         }
-        createTransportation(transportationObj).then(() => {
-          router.push(`/legs/expensesAndtransportations/${legId}`);
-          handleClose();
-        });
       }
     }
   };

@@ -69,7 +69,7 @@ export default function NewTripModal({ user, isTrip, tripId }) {
           <div className="homePageTripsHeader">
             <Typography variant="p"> { isTrip ? 'Plan a new trip' : 'Plan a new leg'}</Typography>
             { isTrip ? (
-              <Image src={newtriplogo} onClick={handleShow} height="20" width="40" />
+              <Image src={newtriplogo} onClick={handleShow} height="20" width="30" />
             ) : (
               <AddCircleOutlineIcon onClick={handleShow} />
             )}

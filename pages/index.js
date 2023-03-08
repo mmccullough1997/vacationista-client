@@ -47,7 +47,7 @@ function Home() {
     }, [user, router]);
 
     return (
-      <>
+      <div className="index">
         <CompactHighlightCard id={destinationHighlight?.id} title={destinationHighlight?.title} content={destinationHighlight?.content} thumbnail={destinationHighlight?.thumbnail} />
         <hr />
         { upcomingUserTrips.length ? (
@@ -80,7 +80,7 @@ function Home() {
             <CompactArticleCard key={theArticle.id} id={theArticle.id} title={theArticle.title} thumbnail={theArticle.thumbnail} />
           ))}
         </div>
-      </>
+      </div>
     );
   }
 
@@ -91,7 +91,7 @@ function Home() {
   }, [user, router]);
 
   return (
-    <>
+    <div className="index">
       <CompactHighlightCard id={destinationHighlight?.id} title={destinationHighlight?.title} content={destinationHighlight?.content} thumbnail={destinationHighlight?.thumbnail} />
       <hr />
       <div className="homePageArticles">
@@ -99,7 +99,7 @@ function Home() {
           <CompactArticleCard id={theArticle.id} title={theArticle.title} thumbnail={theArticle.thumbnail} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
