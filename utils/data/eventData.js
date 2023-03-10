@@ -75,6 +75,12 @@ const deleteEvent = (eventId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getAllEventsByTripAndLeg = (tripId, legId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/events?trip=${tripId}&leg=${legId}`)
+    .then((response) => resolve(response.json()))
+    .catch(reject);
+});
+
 export {
-  getAllEvents, getSingleEvent, updateEvent, createEvent, deleteEvent,
+  getAllEvents, getSingleEvent, updateEvent, createEvent, deleteEvent, getAllEventsByTripAndLeg,
 };

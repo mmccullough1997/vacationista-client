@@ -64,9 +64,16 @@ const deleteTransportation = (transportationId) => new Promise((resolve, reject)
     .catch(reject);
 });
 
+const getAllTransportationsByTripAndLeg = (tripId, legId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/transportations?trip=${tripId}&leg=${legId}`)
+    .then((response) => resolve(response.json()))
+    .catch(reject);
+});
+
 export {
   getAllTransportationsByTrip, getAllTransportationsByLeg,
   updateTransportation,
   createTransportation,
   deleteTransportation,
+  getAllTransportationsByTripAndLeg,
 };

@@ -8,10 +8,13 @@ import {
   Button, FloatingLabel, Form, Modal,
 } from 'react-bootstrap';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-import { updateTrip } from '../../utils/data/tripData';
+import { getAllTripsByUser, updateTrip } from '../../utils/data/tripData';
 import { updateLeg } from '../../utils/data/legData';
+import { useAuth } from '../../utils/context/authContext';
+import { createTripLeg, deleteTripLeg, getAllTripLegsByTripAndLeg } from '../../utils/data/tripLegData';
 
 const initialState = {
   travelDestination: '',
@@ -19,24 +22,29 @@ const initialState = {
   end: '',
   budget: 0,
   isTrip: false,
+  legId: null,
+  tripId: null,
 };
 
 export default function EditModal({
-  travelDestination, start, end, budget, id, isTrip,
+  travelDestination, start, end, budget, id, isTrip, legId, tripId,
 }) {
   const [show, setShow] = useState(false);
   const [formInput, setFormInput] = useState(initialState);
+  const [userTrips, setUserTrips] = useState([]);
   const router = useRouter();
+  const { user } = useAuth();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const formObj = {
-    travelDestination, start, end, budget, isTrip,
+    travelDestination, start, end, budget, isTrip, legId, tripId,
   };
 
   useEffect(() => {
     setFormInput(formObj);
+    getAllTripsByUser(user.id).then(setUserTrips);
   }, [travelDestination, start, end, budget]);
 
   const handleChange = (e) => {
@@ -126,6 +134,15 @@ export default function EditModal({
         router.push(`/legs/${id}`);
         handleClose();
       });
+    } else if (formInput.legId || formInput.tripId) {
+      getAllTripLegsByTripAndLeg(tripId, legId).then((resp) => {
+        deleteTripLeg(resp[0].id).then(() => {
+          createTripLeg(Number(formInput.tripId), Number(formInput.legId)).then(() => {
+            // you have new leg and trip, need to update expenses, transportations, events
+            router.push(`/trips/${formInput.tripId}`);
+          });
+        });
+      });
     }
   };
 
@@ -195,7 +212,7 @@ export default function EditModal({
             </Modal>
           </Form>
         </>
-      ) : (
+      ) : budget ? (
         <>
           <Form onSubmit={handleSubmit}>
             <AttachMoneyIcon onClick={handleShow} />
@@ -226,6 +243,43 @@ export default function EditModal({
             </Modal>
           </Form>
         </>
+      ) : (
+        <>
+          <Form onSubmit={handleSubmit}>
+            <AssignmentIcon onClick={handleShow} />
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Trip Leg</Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+                <FloatingLabel controlId="floatingInput2" label="Trips:" className="mb-3">
+                  <Form.Select
+                    placeholder="trips: "
+                    name="tripId"
+                    value={Number(formInput.tripId)}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select trip</option>
+                    {userTrips?.map((userTrip) => (
+                      <option key={userTrip.id} value={Number(userTrip.id)}>{userTrip.travel_to}</option>
+                    ))}
+                  </Form.Select>
+                </FloatingLabel>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleSubmit}>
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </Form>
+        </>
       )}
     </>
   );
@@ -238,4 +292,6 @@ EditModal.propTypes = {
   budget: PropTypes.string,
   id: PropTypes.number.isRequired,
   isTrip: PropTypes.bool,
+  legId: PropTypes.number,
+  tripId: PropTypes.number,
 };

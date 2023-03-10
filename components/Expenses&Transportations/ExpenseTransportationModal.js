@@ -96,11 +96,13 @@ export default function ExpenseTransportationModal({
           updateExpense(expenseObj, formInput.id).then(() => {
             router.push(`/trips/expensesAndtransportations/${tripId}`);
             handleClose();
+            setFormInput(initialState);
           });
         } else {
           updateExpense(expenseObj, formInput.id).then(() => {
             router.push(`/legs/expensesAndtransportations/${legId}`);
             handleClose();
+            setFormInput(initialState);
           });
         }
       // create expense
@@ -109,11 +111,13 @@ export default function ExpenseTransportationModal({
           createExpense(expenseObj).then(() => {
             router.push(`/trips/expensesAndtransportations/${tripId}`);
             handleClose();
+            setFormInput(initialState);
           });
         } else {
           createExpense(expenseObj).then(() => {
             router.push(`/legs/expensesAndtransportations/${legId}`);
             handleClose();
+            setFormInput(initialState);
           });
         }
       }
@@ -138,11 +142,13 @@ export default function ExpenseTransportationModal({
           updateTransportation(transportationObj, formInput.id).then(() => {
             router.push(`/trips/expensesAndtransportations/${tripId}`);
             handleClose();
+            setFormInput(initialState);
           });
         } else {
           updateTransportation(transportationObj, formInput.id).then(() => {
             router.push(`/legs/expensesAndtransportations/${legId}`);
             handleClose();
+            setFormInput(initialState);
           });
         }
       // create transportation
@@ -151,11 +157,13 @@ export default function ExpenseTransportationModal({
           createTransportation(transportationObj).then(() => {
             router.push(`/trips/expensesAndtransportations/${tripId}`);
             handleClose();
+            setFormInput(initialState);
           });
         } else {
           createTransportation(transportationObj).then(() => {
             router.push(`/legs/expensesAndtransportations/${legId}`);
             handleClose();
+            setFormInput(initialState);
           });
         }
       }

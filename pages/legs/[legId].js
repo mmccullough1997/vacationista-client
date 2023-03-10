@@ -57,9 +57,15 @@ export default function LegOverview() {
           </div>
         </div>
 
-        <div className="overviewPageEdit">
-          <Typography variant="h6">{new Date(userLeg.start).toLocaleString('default', { month: 'long' })} {parseInt(userLeg.start.split('-')[2], 10)} - {new Date(userLeg.end).toLocaleString('default', { month: 'long' })} {parseInt(userLeg.end.split('-')[2], 10)}, {parseInt(userLeg.end.split('-')[0], 10)}</Typography>
-          <EditModal start={userLeg.start} end={userLeg.end} id={userLeg.id} />
+        <div className="overviewPageHeader">
+          <div className="overviewPageHeader">
+            <Typography variant="h6">{new Date(userLeg.start).toLocaleString('default', { month: 'long' })} {parseInt(userLeg.start.split('-')[2], 10)} - {new Date(userLeg.end).toLocaleString('default', { month: 'long' })} {parseInt(userLeg.end.split('-')[2], 10)}, {parseInt(userLeg.end.split('-')[0], 10)}</Typography>
+            <EditModal start={userLeg.start} end={userLeg.end} id={userLeg.id} />
+          </div>
+          <div className="overviewPageHeader">
+            <Typography variant="p">Reassign leg to new trip</Typography>
+            <EditModal legId={userLeg.id} tripId={userLeg.trip.id} />
+          </div>
         </div>
 
         <div className="expensesAndTransportationSubheader">
