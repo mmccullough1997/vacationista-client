@@ -15,6 +15,7 @@ import { getAllTripsByUser, updateTrip } from '../../utils/data/tripData';
 import { updateLeg } from '../../utils/data/legData';
 import { useAuth } from '../../utils/context/authContext';
 import { createTripLeg, deleteTripLeg, getAllTripLegsByTripAndLeg } from '../../utils/data/tripLegData';
+import { getAllExpensesByTripAndLeg, updateExpense } from '../../utils/data/expenseData';
 
 const initialState = {
   travelDestination: '',
@@ -138,6 +139,14 @@ export default function EditModal({
       getAllTripLegsByTripAndLeg(tripId, legId).then((resp) => {
         deleteTripLeg(resp[0].id).then(() => {
           createTripLeg(Number(formInput.tripId), Number(formInput.legId)).then(() => {
+            getAllExpensesByTripAndLeg(tripId, legId).then((response) => {
+              response.forEach((expense) => {
+                const newExpenseObj = expense;
+                newExpenseObj.leg = Number(formInput.legId);
+                newExpenseObj.trip = Number(formInput.tripId);
+                updateExpense(newExpenseObj, newExpenseObj.id);
+              });
+            });
             // you have new leg and trip, need to update expenses, transportations, events
             router.push(`/trips/${formInput.tripId}`);
           });
