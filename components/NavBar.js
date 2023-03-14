@@ -169,7 +169,9 @@ function NavBar() {
           style={{ background: 'lightgray', opacity: 0.6 }}
           sx={{ justifyContent: 'space-between' }}
         >
-          <BottomNavigationAction style={{ color: 'black' }} label="A MM Production" />
+          <a target="_blank" href="https://github.com/mmccullough1997" rel="noopener noreferrer" label="hi">
+            <BottomNavigationAction style={{ color: 'black' }} label="A MM Production" />
+          </a>
           <BottomNavigationAction onClick={() => router.push('/aboutUs')} style={{ color: 'black' }} label="About us" />
         </BottomNavigation>
       </Paper>
