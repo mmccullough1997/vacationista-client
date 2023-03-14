@@ -25,7 +25,13 @@ export default function EventEditModal({
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setFormInput((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleShow = () => setShow(true);
 
   const formObj = {
@@ -195,7 +201,7 @@ export default function EventEditModal({
 
               <Modal.Body>
                 <Form.Control
-                  type="text"
+                  as="textarea"
                   placeholder="Add an image..."
                   name="image"
                   value={formInput.image}
@@ -263,7 +269,7 @@ export default function EventEditModal({
 
               <Modal.Body>
                 <Form.Control
-                  type="text"
+                  as="textarea"
                   placeholder="Edit description..."
                   name="description"
                   value={formInput.description}

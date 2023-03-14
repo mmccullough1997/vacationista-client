@@ -51,113 +51,118 @@ export default function TripOverview() {
   // const newMonth = startMonth + 1;
   // newStart.setMonth(newMonth);
 
-  if (userTrip.id) {
-    return (
-      <div>
-        <div className="overviewPageHeader">
+  if (user) {
+    if (userTrip.id) {
+      return (
+        <div>
           <div className="overviewPageHeader">
-            <Typography variant="h4">{userTrip.travelTo}</Typography>
-            <EditModal travelDestination={userTrip.travelTo} id={userTrip.id} isTrip />
-          </div>
-          <div>
-            <Typography variant="p">Delete trip</Typography>
-            <DeleteIcon onClick={deleteTheTrip} />
-          </div>
-        </div>
-
-        <div className="overviewPageEdit">
-          <Typography variant="h6">{new Date(userTrip.start).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.start.split('-')[2], 10)} - {new Date(userTrip.end).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.end.split('-')[2], 10)}, {parseInt(userTrip.end.split('-')[0], 10)}</Typography>
-          <EditModal start={userTrip.start} end={userTrip.end} id={userTrip.id} isTrip />
-        </div>
-
-        <div className="expensesAndTransportationSubheader">
-          <EditModal budget={userTrip.budget} id={userTrip.id} isTrip />
-          <Typography variant="p">View Budget</Typography>
-          <FlightTakeoffIcon onClick={() => router.push(`/trips/expensesAndtransportations/${userTrip.id}`)} />
-          <Typography variant="p">View Expenses & transportation</Typography>
-        </div>
-
-        <Typography variant="p" onClick={() => router.push(`/trips/detail/${userTrip.id}`)}>Detailed view</Typography>
-
-        <hr />
-
-        <Box>
-          { userTrip.legs.length ? (
-            <>
-              <div className="homePageTripsHeader">
-                <Typography variant="h4"> Trip Legs</Typography>
-                <div className="homePageTripsHeader">
-                  <NewModal user={user} tripId={userTrip.id} />
-                </div>
-              </div>
-              <div className="compactTripCardsOnHomePage">
-                { userTrip.legs.map((leg) => (
-                  <CompactLegCard key={leg.id} id={leg.id} location={leg.location} start={leg.start} end={leg.end} duration={leg.duration} />
-                ))}
-              </div>
-            </>
-          ) : (
-            <>
-              <div>
-                <Typography variant="h4"> Trip Legs</Typography>
-                <div>
-                  <NewModal user={user} tripId={userTrip.id} />
-                </div>
-              </div>
-              <Typography variant="h5"> No trip legs planned!</Typography>
-            </>
-          )}
-        </Box>
-
-        <hr />
-
-        <Box>
-          <div className="homePageTripsHeader">
-            <Typography variant="h4"> Events</Typography>
+            <div className="overviewPageHeader">
+              <Typography variant="h4">{userTrip.travelTo}</Typography>
+              <EditModal travelDestination={userTrip.travelTo} id={userTrip.id} isTrip />
+            </div>
             <div>
-              <NewEventModal user={user} tripId={userTrip.id} tripLocation={userTrip.travelTo} />
+              <Typography variant="p">Delete trip</Typography>
+              <DeleteIcon onClick={deleteTheTrip} />
             </div>
           </div>
-          <div className="compactTripCardsOnHomePage">
-            { userTrip.events.length ? (
-              userTrip.events.map((event) => (
-                <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
-              ))
+
+          <div className="overviewPageEdit">
+            <Typography variant="h6">{new Date(userTrip.start).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.start.split('-')[2], 10)} - {new Date(userTrip.end).toLocaleString('default', { month: 'long' })} {parseInt(userTrip.end.split('-')[2], 10)}, {parseInt(userTrip.end.split('-')[0], 10)}</Typography>
+            <EditModal start={userTrip.start} end={userTrip.end} id={userTrip.id} isTrip />
+          </div>
+
+          <div className="expensesAndTransportationSubheader">
+            <EditModal budget={userTrip.budget} id={userTrip.id} isTrip />
+            <Typography variant="p">View Budget</Typography>
+            <FlightTakeoffIcon onClick={() => router.push(`/trips/expensesAndtransportations/${userTrip.id}`)} />
+            <Typography variant="p">View Expenses & transportation</Typography>
+          </div>
+
+          <Typography variant="p" onClick={() => router.push(`/trips/detail/${userTrip.id}`)}>Detailed view</Typography>
+
+          <hr />
+
+          <Box>
+            { userTrip.legs.length ? (
+              <>
+                <div className="homePageTripsHeader">
+                  <Typography variant="h4"> Trip Legs</Typography>
+                  <div className="homePageTripsHeader">
+                    <NewModal user={user} tripId={userTrip.id} />
+                  </div>
+                </div>
+                <div className="compactTripCardsOnHomePage">
+                  { userTrip.legs.map((leg) => (
+                    <CompactLegCard key={leg.id} id={leg.id} location={leg.location} start={leg.start} end={leg.end} duration={leg.duration} />
+                  ))}
+                </div>
+              </>
             ) : (
-              <div />
+              <>
+                <div>
+                  <Typography variant="h4"> Trip Legs</Typography>
+                  <div>
+                    <NewModal user={user} tripId={userTrip.id} />
+                  </div>
+                </div>
+                <Typography variant="h5"> No trip legs planned!</Typography>
+              </>
             )}
-            { userTrip.legs ? (
-              userTrip.legs.map((leg) => (
-                leg.events.map((event) => (
+          </Box>
+
+          <hr />
+
+          <Box>
+            <div className="homePageTripsHeader">
+              <Typography variant="h4"> Events</Typography>
+              <div>
+                <NewEventModal user={user} tripId={userTrip.id} tripLocation={userTrip.travelTo} />
+              </div>
+            </div>
+            <div className="compactTripCardsOnHomePage">
+              { userTrip.events.length ? (
+                userTrip.events.map((event) => (
                   <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
                 ))
-              ))
-            ) : (
-              <div />
-            )}
-          </div>
-        </Box>
+              ) : (
+                <div />
+              )}
+              { userTrip.legs ? (
+                userTrip.legs.map((leg) => (
+                  leg.events.map((event) => (
+                    <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
+                  ))
+                ))
+              ) : (
+                <div />
+              )}
+            </div>
+          </Box>
 
-        <hr />
+          <hr />
 
-        <Box>
-          <Typography variant="p">Recommendations</Typography>
-          <div className="compactTripCardsOnHomePage">
-            { recommendations?.map((recommendation) => (
-              <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} count={recommendation.review_count} />
-            ))}
-          </div>
-        </Box>
+          <Box>
+            <Typography variant="p">Recommendations</Typography>
+            <div className="compactTripCardsOnHomePage">
+              { recommendations?.map((recommendation) => (
+                <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} count={recommendation.review_count} />
+              ))}
+            </div>
+          </Box>
 
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <div>
+          <Typography variant="h4">{nonUserTrip.travelTo}</Typography>
+        </div>
       </div>
     );
   }
-
   return (
-    <div>
-      <div>
-        <Typography variant="h4">{nonUserTrip.travelTo}</Typography>
-      </div>
-    </div>
+    <div>Must be signed in to view page.</div>
   );
 }

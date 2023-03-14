@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../utils/context/authContext';
@@ -21,18 +22,22 @@ export default function SearchPage() {
   useEffect(() => {
     getTrips();
     setFilteredData([]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.keyword]);
 
+  if (user) {
+    return (
+      <>
+        <h1><u>Search Results</u></h1>
+        <h2 className="searchPageSubheader">You searched for...{router.query.keyword.toLocaleUpperCase()}</h2>
+        <div>
+          {filteredData.length ? filteredData.map((trip) => (
+            <CompactTripCard key={trip.id} id={trip.id} travelTo={trip.travel_to} start={trip.start} end={trip.end} duration={trip.duration} />
+          )) : <h2>No Results Found.</h2>}
+        </div>
+      </>
+    );
+  }
   return (
-    <>
-      <h1><u>Search Results</u></h1>
-      <h2 className="searchPageSubheader">You searched for...{router.query.keyword.toLocaleUpperCase()}</h2>
-      <div>
-        {filteredData.length ? filteredData.map((trip) => (
-          <CompactTripCard key={trip.id} id={trip.id} travelTo={trip.travel_to} start={trip.start} end={trip.end} duration={trip.duration} />
-        )) : <h2>No Results Found.</h2>}
-      </div>
-    </>
+    <div>Must be signed in to view page</div>
   );
 }

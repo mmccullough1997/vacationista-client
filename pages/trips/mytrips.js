@@ -20,41 +20,47 @@ export default function MyTrips() {
   useEffect(() => {
     getTrips();
   }, [user, router]);
+
+  if (user) {
+    return (
+      <>
+        { upcomingUserTrips.length ? (
+          <>
+            <div className="homePageTripsHeader">
+              <Typography variant="h4"> Upcoming Trips</Typography>
+            </div>
+            <div className="compactTripCardsOnHomePage">
+              { upcomingUserTrips.map((trip) => (
+                <CompactTripCard key={trip.id} id={trip.id} travelTo={trip.travel_to} start={trip.start} end={trip.end} duration={trip.duration} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <Typography variant="h5"> No upcoming trips planned!</Typography>
+          </>
+        )}
+        <hr />
+        { pastUserTrips.length ? (
+          <>
+            <div className="homePageTripsHeader">
+              <Typography variant="h4"> Previous Trips</Typography>
+            </div>
+            <div className="compactTripCardsOnHomePage">
+              { pastUserTrips.map((trip) => (
+                <CompactTripCard key={trip.id} id={trip.id} travelTo={trip.travel_to} start={trip.start} end={trip.end} duration={trip.duration} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <Typography variant="h5"> No previous trips!</Typography>
+          </>
+        )}
+      </>
+    );
+  }
   return (
-    <>
-      { upcomingUserTrips.length ? (
-        <>
-          <div className="homePageTripsHeader">
-            <Typography variant="h4"> Upcoming Trips</Typography>
-          </div>
-          <div className="compactTripCardsOnHomePage">
-            { upcomingUserTrips.map((trip) => (
-              <CompactTripCard key={trip.id} id={trip.id} travelTo={trip.travel_to} start={trip.start} end={trip.end} duration={trip.duration} />
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <Typography variant="h5"> No upcoming trips planned!</Typography>
-        </>
-      )}
-      <hr />
-      { pastUserTrips.length ? (
-        <>
-          <div className="homePageTripsHeader">
-            <Typography variant="h4"> Previous Trips</Typography>
-          </div>
-          <div className="compactTripCardsOnHomePage">
-            { pastUserTrips.map((trip) => (
-              <CompactTripCard key={trip.id} id={trip.id} travelTo={trip.travel_to} start={trip.start} end={trip.end} duration={trip.duration} />
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <Typography variant="h5"> No previous trips!</Typography>
-        </>
-      )}
-    </>
+    <div>Must be signed in to view page.</div>
   );
 }

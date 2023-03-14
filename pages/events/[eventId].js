@@ -35,53 +35,58 @@ export default function EventOverview() {
     }
   };
 
-  return (
-    <div>
-      <div className="overviewPageHeader">
-        <div className="overviewPageHeader">
-          <Typography variant="h4">{event.title}</Typography>
-          <EventEditModal id={event.id} title={event.title} />
-        </div>
-        <div>
-          <Typography variant="p">Delete event</Typography>
-          <DeleteIcon onClick={deleteTheEvent} />
-        </div>
-      </div>
-
-      <div className="overviewPageEdit">
-        <Typography variant="h6">{new Date(event.date).toLocaleString('default', { month: 'long' })} {parseInt(event.date?.split('-')[2], 10)}, {parseInt(event.date?.split('-')[0], 10)}</Typography>
-        <EventEditModal id={event.id} date={event.date} />
-      </div>
-
-      <hr />
-
-      <Box>
-        <div>
-          <Box
-            component="img"
-            sx={{
-              height: 233,
-              width: 400,
-            }}
-            alt={event.title}
-            src={event.image}
-          />
-          <EventEditModal id={event.id} image={event.image} />
-        </div>
-        <div>
-          <Typography>{event.eventType?.label}</Typography>
-          <EventEditModal id={event.id} eventType={event.eventType?.id} eventTypes={eventTypes} />
-        </div>
-      </Box>
-
-      <hr />
-
+  if (user) {
+    return (
       <div>
-        <Typography>
-          {event.description}
-        </Typography>
-        <EventEditModal id={event.id} description={event.description} />
+        <div className="overviewPageHeader">
+          <div className="overviewPageHeader">
+            <Typography variant="h4">{event.title}</Typography>
+            <EventEditModal id={event.id} title={event.title} />
+          </div>
+          <div>
+            <Typography variant="p">Delete event</Typography>
+            <DeleteIcon onClick={deleteTheEvent} />
+          </div>
+        </div>
+
+        <div className="overviewPageEdit">
+          <Typography variant="h6">{new Date(event.date).toLocaleString('default', { month: 'long' })} {parseInt(event.date?.split('-')[2], 10)}, {parseInt(event.date?.split('-')[0], 10)}</Typography>
+          <EventEditModal id={event.id} date={event.date} />
+        </div>
+
+        <hr />
+
+        <Box>
+          <div>
+            <Box
+              component="img"
+              sx={{
+                height: 233,
+                width: 400,
+              }}
+              alt={event.title}
+              src={event.image}
+            />
+            <EventEditModal id={event.id} image={event.image} />
+          </div>
+          <div>
+            <Typography>{event.eventType?.label}</Typography>
+            <EventEditModal id={event.id} eventType={event.eventType?.id} eventTypes={eventTypes} />
+          </div>
+        </Box>
+
+        <hr />
+
+        <div>
+          <Typography>
+            {event.description}
+          </Typography>
+          <EventEditModal id={event.id} description={event.description} />
+        </div>
       </div>
-    </div>
+    );
+  }
+  return (
+    <div>Must be signed in to view page.</div>
   );
 }

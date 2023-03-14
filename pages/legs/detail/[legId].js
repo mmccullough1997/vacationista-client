@@ -42,63 +42,68 @@ export default function LegDetail() {
     getUserLeg();
   }, [router, user]);
 
-  return (
-    <div>
-      <Typography variant="h4">Leg Overview Page</Typography>
-      <hr />
+  if (user) {
+    return (
+      <div>
+        <Typography variant="h4">Leg Overview Page</Typography>
+        <hr />
 
-      <div className="detailPage">
+        <div className="detailPage">
 
-        <div>
-          <Accordion>
-            { legDates.map((date) => (
-              <Accordion.Item eventKey={date.id} key={date.id}>
-                <Accordion.Header>{new Date(date.value).toLocaleString('default', { month: 'long' })} {parseInt(date.value.split('-')[2], 10)}, {parseInt(date.value.split('-')[0], 10)}</Accordion.Header>
-                { events?.filter((event) => event.date === date.value).map((theEvent) => (
-                  <Accordion.Body>
-                    <CompactEventCard key={theEvent.id} id={theEvent.id} title={theEvent.title} image={theEvent.image} />
-                  </Accordion.Body>
-                ))}
-              </Accordion.Item>
-            ))}
-          </Accordion>
-        </div>
-
-        <div>
           <div>
-            <Typography>Expenses</Typography>
-            <Card>
-              { userLeg.expenses?.map((expense) => (
-                <div key={expense.id}>
-                  <Card.Header>{expense.title} - ${expense.amount}</Card.Header>
-                  <Card.Body>{expense.comment}</Card.Body>
-                </div>
-              )) }
-            </Card>
-            <Typography>Subtotal: ${userLeg.expenseTotal}</Typography>
+            <Accordion>
+              { legDates.map((date) => (
+                <Accordion.Item eventKey={date.id} key={date.id}>
+                  <Accordion.Header>{new Date(date.value).toLocaleString('default', { month: 'long' })} {parseInt(date.value.split('-')[2], 10)}, {parseInt(date.value.split('-')[0], 10)}</Accordion.Header>
+                  { events?.filter((event) => event.date === date.value).map((theEvent) => (
+                    <Accordion.Body>
+                      <CompactEventCard key={theEvent.id} id={theEvent.id} title={theEvent.title} image={theEvent.image} />
+                    </Accordion.Body>
+                  ))}
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          </div>
+
+          <div>
+            <div>
+              <Typography>Expenses</Typography>
+              <Card>
+                { userLeg.expenses?.map((expense) => (
+                  <div key={expense.id}>
+                    <Card.Header>{expense.title} - ${expense.amount}</Card.Header>
+                    <Card.Body>{expense.comment}</Card.Body>
+                  </div>
+                )) }
+              </Card>
+              <Typography>Subtotal: ${userLeg.expenseTotal}</Typography>
+            </div>
+
+            <hr />
+
+            <div>
+              <Typography>Transportation</Typography>
+              <Card>
+                { userLeg.transportations?.map((transportation) => (
+                  <div key={transportation.id}>
+                    <Card.Header>{transportation.transportation_type?.label} - ${transportation.amount}</Card.Header>
+                    <Card.Body>{transportation.comment}</Card.Body>
+                  </div>
+                )) }
+              </Card>
+              <Typography>Subtotal: ${userLeg.transportationTotal}</Typography>
+            </div>
           </div>
 
           <hr />
 
-          <div>
-            <Typography>Transportation</Typography>
-            <Card>
-              { userLeg.transportations?.map((transportation) => (
-                <div key={transportation.id}>
-                  <Card.Header>{transportation.transportation_type?.label} - ${transportation.amount}</Card.Header>
-                  <Card.Body>{transportation.comment}</Card.Body>
-                </div>
-              )) }
-            </Card>
-            <Typography>Subtotal: ${userLeg.transportationTotal}</Typography>
-          </div>
+          <Typography>Trip Total: ${userLeg.total}</Typography>
+
         </div>
-
-        <hr />
-
-        <Typography>Trip Total: ${userLeg.total}</Typography>
-
       </div>
-    </div>
+    );
+  }
+  return (
+    <div>Must be signed in to view page.</div>
   );
 }

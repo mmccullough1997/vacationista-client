@@ -20,9 +20,14 @@ export default function TripExpensesAndTransportations() {
     getSingleUserTrip(tripExpensesAndTransportations, user.id).then(setUserTrip);
   }, [tripExpensesAndTransportations, user, router]);
 
+  if (user) {
+    return (
+      <div>
+        <TripLegExpenses tripId={Number(tripExpensesAndTransportations)} isTrip expenses={userTrip.expenses} tripTravelTo={userTrip.travelTo} transportations={userTrip.transportations} budget={userTrip.budget} expenseTypes={expenseTypes} transportationTypes={transportationTypes} expenseTotal={userTrip.expenseTotal} transportationTotal={userTrip.transportationTotal} total={userTrip.total} />
+      </div>
+    );
+  }
   return (
-    <div>
-      <TripLegExpenses tripId={Number(tripExpensesAndTransportations)} isTrip expenses={userTrip.expenses} tripTravelTo={userTrip.travelTo} transportations={userTrip.transportations} budget={userTrip.budget} expenseTypes={expenseTypes} transportationTypes={transportationTypes} expenseTotal={userTrip.expenseTotal} transportationTotal={userTrip.transportationTotal} total={userTrip.total} />
-    </div>
+    <div>Must be signed in to view page.</div>
   );
 }

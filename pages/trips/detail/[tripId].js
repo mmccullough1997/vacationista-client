@@ -50,62 +50,94 @@ export default function TripDetail() {
     getUserTrip();
   }, [router, user]);
 
-  return (
-    <div>
-      <Typography variant="h4">Trip Overview Page</Typography>
-      <hr />
-
-      <div className="detailPage">
-
+  if (user) {
+    if (user.id === userTrip.user.id) {
+      return (
         <div>
-          <Accordion>
-            { tripDates.map((date) => (
-              <Accordion.Item eventKey={date.id} key={date.id}>
-                <Accordion.Header>{new Date(date.value).toLocaleString('default', { month: 'long' })} {parseInt(date.value.split('-')[2], 10)}, {parseInt(date.value.split('-')[0], 10)}</Accordion.Header>
-                { events?.filter((event) => event.date === date.value).map((theEvent) => (
-                  <Accordion.Body>
-                    <CompactEventCard key={theEvent.id} id={theEvent.id} title={theEvent.title} image={theEvent.image} />
-                  </Accordion.Body>
+          <Typography variant="h4">Trip Overview Page</Typography>
+          <hr />
+
+          <div className="detailPage">
+
+            <div>
+              <Accordion>
+                { tripDates.map((date) => (
+                  <Accordion.Item eventKey={date.id} key={date.id}>
+                    <Accordion.Header>{new Date(date.value).toLocaleString('default', { month: 'long' })} {parseInt(date.value.split('-')[2], 10)}, {parseInt(date.value.split('-')[0], 10)}</Accordion.Header>
+                    { events?.filter((event) => event.date === date.value).map((theEvent) => (
+                      <Accordion.Body>
+                        <CompactEventCard key={theEvent.id} id={theEvent.id} title={theEvent.title} image={theEvent.image} />
+                      </Accordion.Body>
+                    ))}
+                  </Accordion.Item>
                 ))}
-              </Accordion.Item>
-            ))}
-          </Accordion>
-        </div>
+              </Accordion>
+            </div>
 
-        <div>
+            <div>
+              <div>
+                <Typography>Expenses</Typography>
+                <Card>
+                  { userTrip.expenses?.map((expense) => (
+                    <div key={expense.id}>
+                      <Card.Header>{expense.title} - ${expense.amount}</Card.Header>
+                      <Card.Body>{expense.comment}</Card.Body>
+                    </div>
+                  )) }
+                </Card>
+                <Typography>Subtotal: ${userTrip.expenseTotal}</Typography>
+              </div>
+
+              <hr />
+
+              <div>
+                <Typography>Transportation</Typography>
+                <Card>
+                  { userTrip.transportations?.map((transportation) => (
+                    <div key={transportation.id}>
+                      <Card.Header>{transportation.transportation_type.label} - ${transportation.amount}</Card.Header>
+                      <Card.Body>{transportation.comment}</Card.Body>
+                    </div>
+                  )) }
+                </Card>
+                <Typography>Subtotal: ${userTrip.transportationTotal}</Typography>
+              </div>
+
+              <hr />
+              <Typography>Trip Total: ${userTrip.total}</Typography>
+            </div>
+
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Typography variant="h4">Trip Overview Page</Typography>
+        <hr />
+
+        <div className="detailPage">
+
           <div>
-            <Typography>Expenses</Typography>
-            <Card>
-              { userTrip.expenses?.map((expense) => (
-                <div key={expense.id}>
-                  <Card.Header>{expense.title} - ${expense.amount}</Card.Header>
-                  <Card.Body>{expense.comment}</Card.Body>
-                </div>
-              )) }
-            </Card>
-            <Typography>Subtotal: ${userTrip.expenseTotal}</Typography>
+            <Accordion>
+              { tripDates.map((date) => (
+                <Accordion.Item eventKey={date.id} key={date.id}>
+                  <Accordion.Header>{new Date(date.value).toLocaleString('default', { month: 'long' })} {parseInt(date.value.split('-')[2], 10)}, {parseInt(date.value.split('-')[0], 10)}</Accordion.Header>
+                  { events?.filter((event) => event.date === date.value).map((theEvent) => (
+                    <Accordion.Body>
+                      <CompactEventCard key={theEvent.id} id={theEvent.id} title={theEvent.title} image={theEvent.image} />
+                    </Accordion.Body>
+                  ))}
+                </Accordion.Item>
+              ))}
+            </Accordion>
           </div>
 
-          <hr />
-
-          <div>
-            <Typography>Transportation</Typography>
-            <Card>
-              { userTrip.transportations?.map((transportation) => (
-                <div key={transportation.id}>
-                  <Card.Header>{transportation.transportation_type.label} - ${transportation.amount}</Card.Header>
-                  <Card.Body>{transportation.comment}</Card.Body>
-                </div>
-              )) }
-            </Card>
-            <Typography>Subtotal: ${userTrip.transportationTotal}</Typography>
-          </div>
-
-          <hr />
-          <Typography>Trip Total: ${userTrip.total}</Typography>
         </div>
-
       </div>
-    </div>
+    );
+  }
+  return (
+    <div>Must be signed in to view page.</div>
   );
 }
