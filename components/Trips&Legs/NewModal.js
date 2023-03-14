@@ -30,7 +30,11 @@ export default function NewTripModal({ user, isTrip, tripId }) {
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setFormInput(initialState);
+  };
+
   const handleShow = () => setShow(true);
 
   const handleChange = (e) => {

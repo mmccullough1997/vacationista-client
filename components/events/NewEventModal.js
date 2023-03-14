@@ -30,7 +30,11 @@ export default function NewEventModal({ user, tripId, tripLocation }) {
   const [eventTypes, setEventTypes] = useState([]);
   const router = useRouter();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setFormInput(initialState);
+  };
+
   const handleShow = () => setShow(true);
 
   const handleChange = (e) => {

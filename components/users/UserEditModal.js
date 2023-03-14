@@ -25,7 +25,13 @@ export default function UserEditModal({
   const router = useRouter();
   const { user } = useAuth();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setFormInput((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleShow = () => setShow(true);
 
   const formObj = {
@@ -133,7 +139,7 @@ export default function UserEditModal({
 
               <Modal.Body>
                 <Form.Control
-                  type="text"
+                  as="textarea"
                   placeholder="Add an image..."
                   name="image"
                   value={formInput.image}
@@ -159,12 +165,12 @@ export default function UserEditModal({
             <EditIcon onClick={handleShow} />
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Image</Modal.Title>
+                <Modal.Title>Bio</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
                 <Form.Control
-                  type="text"
+                  as="textarea"
                   placeholder="Add a bio..."
                   name="bio"
                   value={formInput.bio}

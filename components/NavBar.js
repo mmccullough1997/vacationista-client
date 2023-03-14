@@ -32,6 +32,11 @@ function NavBar() {
     setAnchorElUser(null);
   };
 
+  const signInAndCloseMenu = () => {
+    signIn();
+    setAnchorElUser(null);
+  };
+
   return (
     <>
       <AppBar position="static" style={{ background: 'white' }}>
@@ -141,7 +146,7 @@ function NavBar() {
                 </>
               ) : (
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginRight: 3 }}>
-                  <Button onClick={signIn} className="color">
+                  <Button onClick={signInAndCloseMenu} className="color">
                     Sign in
                   </Button>
                 </Box>

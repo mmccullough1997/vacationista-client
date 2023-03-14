@@ -38,7 +38,13 @@ export default function EditModal({
   const router = useRouter();
   const { user } = useAuth();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setFormInput((prevState) => ({
+      ...prevState,
+    }));
+  };
+
   const handleShow = () => setShow(true);
 
   const formObj = {
