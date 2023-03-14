@@ -21,16 +21,16 @@ export default function TripLegExpenses({
         <div>
           <Accordion>
             { expenseTypes.map((expenseType) => (
-              <Accordion.Item eventKey={expenseType.id} key={expenseType.id}>
+              <Accordion.Item eventKey={expenseType.id}>
                 <Accordion.Header>{expenseType.label}</Accordion.Header>
                 {expenses?.filter((expense) => expense.expense_type.id === expenseType.id).map((theExpense) => (
-                  <div key={theExpense.id}>
+                  <div>
                     { isTrip ? (
                     // is user clicking on expense from trip directory?
-                      <ExpenseTransportationModal key={theExpense.id} isExpense tripId={Number(tripId)} legId={Number(theExpense.leg?.id)} tripTravelTo={theExpense.trip.travel_to} title={theExpense.title} type={Number(theExpense.expense_type.id)} amount={theExpense.amount} comment={theExpense.comment} id={Number(theExpense.id)} isTrip expenseTypes={expenseTypes} />
+                      <ExpenseTransportationModal isExpense tripId={Number(tripId)} legId={Number(theExpense.leg?.id)} tripTravelTo={theExpense.trip.travel_to} title={theExpense.title} type={Number(theExpense.expense_type.id)} amount={theExpense.amount} comment={theExpense.comment} id={Number(theExpense.id)} isTrip expenseTypes={expenseTypes} />
                     ) : (
                       // is user clicking on expense from leg page?
-                      <ExpenseTransportationModal key={theExpense.id} isExpense tripId={Number(tripId)} tripTravelTo={theExpense.trip.travel_to} legId={Number(legId)} title={theExpense.title} type={Number(theExpense.expense_type.id)} amount={theExpense.amount} comment={theExpense.comment} id={Number(theExpense.id)} expenseTypes={expenseTypes} />
+                      <ExpenseTransportationModal isExpense tripId={Number(tripId)} tripTravelTo={theExpense.trip.travel_to} legId={Number(legId)} title={theExpense.title} type={Number(theExpense.expense_type.id)} amount={theExpense.amount} comment={theExpense.comment} id={Number(theExpense.id)} expenseTypes={expenseTypes} />
                     )}
                   </div>
                 ))}
@@ -58,16 +58,16 @@ export default function TripLegExpenses({
         <div>
           <Accordion>
             { transportationTypes.map((transportationType) => (
-              <Accordion.Item eventKey={transportationType.id} key={transportationType.id}>
+              <Accordion.Item eventKey={transportationType.id}>
                 <Accordion.Header>{transportationType.label}</Accordion.Header>
                 {transportations?.filter((transportation) => transportation.transportation_type.id === transportationType.id).map((theTransportation) => (
-                  <div key={theTransportation.id}>
+                  <div>
                     { isTrip ? (
                     // is user clicking on transportation from trip page?
-                      <ExpenseTransportationModal key={theTransportation.id} isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(theTransportation.leg?.id)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} isTrip transportationTypes={transportationTypes} />
+                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(theTransportation.leg?.id)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} isTrip transportationTypes={transportationTypes} />
                     ) : (
                     // is user clicking on transportation from leg page?
-                      <ExpenseTransportationModal key={theTransportation.id} isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(legId)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} transportationTypes={transportationTypes} />
+                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(legId)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} transportationTypes={transportationTypes} />
                     )}
                   </div>
                 ))}
@@ -100,7 +100,7 @@ export default function TripLegExpenses({
 }
 
 TripLegExpenses.propTypes = {
-  tripId: PropTypes.number.isRequired,
+  tripId: PropTypes.number,
   legId: PropTypes.number,
   isTrip: PropTypes.bool,
   expenses: PropTypes.arrayOf(PropTypes.shape({

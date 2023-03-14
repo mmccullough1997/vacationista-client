@@ -16,6 +16,8 @@ import { updateLeg } from '../../utils/data/legData';
 import { useAuth } from '../../utils/context/authContext';
 import { createTripLeg, deleteTripLeg, getAllTripLegsByTripAndLeg } from '../../utils/data/tripLegData';
 import { getAllExpensesByTripAndLeg, updateExpense } from '../../utils/data/expenseData';
+import { getAllTransportationsByTripAndLeg, updateTransportation } from '../../utils/data/transportationData';
+import { getAllEventsByTripAndLeg, updateEvent } from '../../utils/data/eventData';
 
 const initialState = {
   travelDestination: '',
@@ -137,18 +139,45 @@ export default function EditModal({
       });
     } else if (formInput.legId || formInput.tripId) {
       getAllTripLegsByTripAndLeg(tripId, legId).then((resp) => {
-        deleteTripLeg(resp[0].id).then(() => {
+        deleteTripLeg(Number(resp[0].id)).then(() => {
           createTripLeg(Number(formInput.tripId), Number(formInput.legId)).then(() => {
             getAllExpensesByTripAndLeg(tripId, legId).then((response) => {
               response.forEach((expense) => {
                 const newExpenseObj = expense;
                 newExpenseObj.leg = Number(formInput.legId);
                 newExpenseObj.trip = Number(formInput.tripId);
+                newExpenseObj.expenseType = newExpenseObj.expense_type.id;
+                delete newExpenseObj.expense_type;
                 updateExpense(newExpenseObj, newExpenseObj.id);
               });
+              getAllTransportationsByTripAndLeg(tripId, legId).then((transportationResponse) => {
+                transportationResponse.forEach((transportation) => {
+                  const newTransportationObj = transportation;
+                  newTransportationObj.leg = Number(formInput.legId);
+                  newTransportationObj.trip = Number(formInput.tripId);
+                  newTransportationObj.transportationType = newTransportationObj.transportation_type.id;
+                  delete newTransportationObj.transportation_type;
+                  newTransportationObj.travelFrom = newTransportationObj.travel_from;
+                  delete newTransportationObj.travel_from;
+                  newTransportationObj.travelTo = newTransportationObj.travel_to;
+                  delete newTransportationObj.travel_to;
+                  newTransportationObj.roundTrip = newTransportationObj.round_trip;
+                  delete newTransportationObj.round_trip;
+                  updateTransportation(newTransportationObj, newTransportationObj.id);
+                });
+              });
+              getAllEventsByTripAndLeg(tripId, legId).then((eventResponse) => {
+                eventResponse.forEach((event) => {
+                  const newEventObj = event;
+                  newEventObj.leg = Number(formInput.legId);
+                  newEventObj.trip = Number(formInput.tripId);
+                  newEventObj.eventType = newEventObj.event_type.id;
+                  delete newEventObj.event_type;
+                  updateEvent(newEventObj, newEventObj.id);
+                });
+              });
+              router.push(`/trips/${formInput.tripId}`);
             });
-            // you have new leg and trip, need to update expenses, transportations, events
-            router.push(`/trips/${formInput.tripId}`);
           });
         });
       });
