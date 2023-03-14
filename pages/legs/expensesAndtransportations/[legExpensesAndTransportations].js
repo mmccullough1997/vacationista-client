@@ -20,9 +20,14 @@ export default function LegExpensesAndTransportations() {
     getSingleUserLeg(legExpensesAndTransportations, user.id).then(setUserLeg);
   }, [legExpensesAndTransportations, user, router]);
 
+  if (user) {
+    return (
+      <div>
+        <TripLegExpenses legId={Number(legExpensesAndTransportations)} tripId={Number(userLeg.trip?.id)} tripTravelTo={userLeg.trip?.travel_to} expenses={userLeg.expenses} transportations={userLeg.transportations} budget={userLeg.budget} expenseTypes={expenseTypes} transportationTypes={transportationTypes} expenseTotal={userLeg.expenseTotal} transportationTotal={userLeg.transportationTotal} total={userLeg.total} />
+      </div>
+    );
+  }
   return (
-    <div>
-      <TripLegExpenses legId={Number(legExpensesAndTransportations)} tripId={Number(userLeg.trip?.id)} tripTravelTo={userLeg.trip?.travel_to} expenses={userLeg.expenses} transportations={userLeg.transportations} budget={userLeg.budget} expenseTypes={expenseTypes} transportationTypes={transportationTypes} expenseTotal={userLeg.expenseTotal} transportationTotal={userLeg.transportationTotal} total={userLeg.total} />
-    </div>
+    <div>Must be signed in to view this page.</div>
   );
 }
