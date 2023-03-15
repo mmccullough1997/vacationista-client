@@ -8,7 +8,7 @@ const getAutocompleteFromRecommendations = (theLocation) => new Promise((resolve
     const locationArray = Object.values(response.data.features);
     const returnArray = locationArray.map((location) => ({
       value: `${location.properties.city}, ${location.properties.country}`,
-      label: `${location.properties.city}, ${location.properties.state}, ${location.properties.country}`,
+      label: `${location.properties.city}, ${location.properties.county}, ${location.properties.state}, ${location.properties.country}`,
       name: 'autoFromLocation',
       city: location.properties.city,
     }));
@@ -21,7 +21,7 @@ const getAutocompleteToRecommendations = (theLocation) => new Promise((resolve, 
     const locationArray = Object.values(response.data.features);
     const returnArray = locationArray.map((location) => ({
       value: `${location.properties.city}, ${location.properties.country}`,
-      label: `${location.properties.city}, ${location.properties.state}, ${location.properties.country}`,
+      label: `${location.properties.city}, ${location.properties.county}, ${location.properties.state}, ${location.properties.country}`,
       name: 'autoToLocation',
       city: location.properties.city,
     }));
