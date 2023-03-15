@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -10,11 +11,13 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
+import AsyncSelect from 'react-select/async';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import newtriplogo from '../../public/newtriplogo.png';
 import { createTrip, getAllTripsByUser } from '../../utils/data/tripData';
 import { createLeg, getAllLegsByUser } from '../../utils/data/legData';
 import { createTripLeg } from '../../utils/data/tripLegData';
+import { getAutocompleteFromRecommendations, getAutocompleteToRecommendations } from '../../utils/data/autocompleteData';
 
 const initialState = {
   start: '',
@@ -45,24 +48,92 @@ export default function NewTripModal({ user, isTrip, tripId }) {
     }));
   };
 
+  const handleFromSelect = (selected) => {
+    if (selected) {
+      const {
+        name, value,
+      } = selected;
+      setFormInput((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    } else {
+      setFormInput((prevState) => ({
+        ...prevState,
+        autoFromLocation: '',
+      }));
+    }
+  };
+
+  const handleToSelect = (selected) => {
+    if (selected) {
+      const {
+        name, value,
+      } = selected;
+      setFormInput((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    } else {
+      setFormInput((prevState) => ({
+        ...prevState,
+        autoToLocation: '',
+      }));
+    }
+  };
+
+  const handleAutocompleteFromInput = (target) => new Promise((resolve, reject) => {
+    getAutocompleteFromRecommendations(target).then((locationArray) => {
+      locationArray.forEach((location) => {
+        if (location.value.toLowerCase().includes('undefined,')) {
+          const cleanedStr = location.value.replace(/undefined, /g, '');
+          location.label = cleanedStr;
+          location.value = cleanedStr;
+        }
+      });
+      resolve(locationArray.filter((location) => location.value.toLowerCase().includes(target.toLowerCase())));
+    }).catch(reject);
+  });
+
+  const handleAutocompleteToInput = (target) => new Promise((resolve, reject) => {
+    getAutocompleteToRecommendations(target).then((locationArray) => {
+      locationArray.forEach((location) => {
+        if (location.value.toLowerCase().includes('undefined,')) {
+          const cleanedStr = location.value.replace(/undefined, /g, '');
+          location.label = cleanedStr;
+          location.value = cleanedStr;
+        }
+      });
+      resolve(locationArray.filter((location) => location.value.toLowerCase().includes(target.toLowerCase())));
+    }).catch(reject);
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isTrip) {
-      delete formInput.location;
-      createTrip(formInput, user).then(() => {
-        getAllTripsByUser(user.id).then((resp) => {
-          router.push(`/trips/${resp.slice(-1)[0].id}`);
+    if ((!formInput.travelFrom || !formInput.travelTo || !formInput.location) && (formInput.autoFromLocation || formInput.autoToLocation)) {
+      if (isTrip) {
+        formInput.travelFrom = formInput.autoFromLocation;
+        formInput.travelTo = formInput.autoToLocation;
+        delete formInput.location;
+        delete formInput.autoFromLocation;
+        delete formInput.autoToLocation;
+        createTrip(formInput, user).then(() => {
+          getAllTripsByUser(user.id).then((resp) => {
+            router.push(`/trips/${resp.slice(-1)[0].id}`);
+          });
         });
-      });
-    } else if (!isTrip) {
-      delete formInput.travelFrom;
-      delete formInput.travelTo;
-      createLeg(formInput, user).then(() => {
-        getAllLegsByUser(user.id).then((resp) => {
-          createTripLeg(tripId, resp.slice(-1)[0].id);
-          router.push(`/legs/${resp.slice(-1)[0].id}`);
+      } else if (!isTrip) {
+        delete formInput.travelFrom;
+        delete formInput.travelTo;
+        formInput.location = formInput.autoToLocation;
+        delete formInput.autoToLocation;
+        createLeg(formInput, user).then(() => {
+          getAllLegsByUser(user.id).then((resp) => {
+            createTripLeg(tripId, resp.slice(-1)[0].id);
+            router.push(`/legs/${resp.slice(-1)[0].id}`);
+          });
         });
-      });
+      }
     }
   };
 
@@ -87,38 +158,38 @@ export default function NewTripModal({ user, isTrip, tripId }) {
 
               { isTrip ? (
                 <>
-                  <FloatingLabel controlId="floatingInput2" label="Travel from:" className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="From: "
-                      name="travelFrom"
-                      value={formInput.travelFrom}
-                      onChange={handleChange}
-                      required
+                  <FloatingLabel controlId="floatingInput2" className="mb-3">
+                    <AsyncSelect
+                      classNamePrefix="select"
+                      backspaceRemovesValue
+                      isClearable
+                      onChange={handleFromSelect}
+                      value={{ label: formInput.autoFromLocation, value: formInput.autoFromLocation }}
+                      loadOptions={handleAutocompleteFromInput}
                     />
                   </FloatingLabel>
 
-                  <FloatingLabel controlId="floatingInput2" label="Travel to:" className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="To: "
-                      name="travelTo"
-                      value={formInput.travelTo}
-                      onChange={handleChange}
-                      required
+                  <FloatingLabel controlId="floatingInput2" className="mb-3">
+                    <AsyncSelect
+                      classNamePrefix="select"
+                      backspaceRemovesValue
+                      isClearable
+                      onChange={handleToSelect}
+                      value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                      loadOptions={handleAutocompleteToInput}
                     />
                   </FloatingLabel>
                 </>
 
               ) : (
-                <FloatingLabel controlId="floatingInput2" label="Travel to:" className="mb-3">
-                  <Form.Control
-                    type="text"
-                    placeholder="To: "
-                    name="location"
-                    value={formInput.location}
-                    onChange={handleChange}
-                    required
+                <FloatingLabel controlId="floatingInput2" className="mb-3">
+                  <AsyncSelect
+                    classNamePrefix="select"
+                    backspaceRemovesValue
+                    isClearable
+                    onChange={handleToSelect}
+                    value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                    loadOptions={handleAutocompleteToInput}
                   />
                 </FloatingLabel>
               )}
