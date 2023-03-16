@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-nested-ternary */
@@ -9,18 +10,20 @@ import {
   Button, FloatingLabel, Form, Modal,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import AsyncSelect from 'react-select/async';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { getAllTripLegsByTrip } from '../../utils/data/tripLegData';
 import { createExpense, deleteExpense, updateExpense } from '../../utils/data/expenseData';
 import { createTransportation, deleteTransportation, updateTransportation } from '../../utils/data/transportationData';
+import { getAutocompleteFromRecommendations, getAutocompleteToRecommendations } from '../../utils/data/autocompleteData';
 
 const initialState = {
   title: '',
   type: null,
-  from: '',
-  to: '',
+  autoFromLocation: '',
+  autoToLocation: '',
   amount: 0,
   comment: '',
   roundTrip: false,
@@ -32,30 +35,27 @@ const initialState = {
 };
 
 export default function ExpenseTransportationModal({
-  title, type, from, to, amount, comment, roundTrip, isTrip, id, isTransportation, expenseTypes, transportationTypes, isExpense, tripId, legId, tripTravelTo,
+  title, type, autoFromLocation, autoToLocation, amount, comment, roundTrip, isTrip, id, isTransportation, expenseTypes, transportationTypes, isExpense, tripId, legId, tripTravelTo,
 }) {
   const [show, setShow] = useState(false);
   const [formInput, setFormInput] = useState(initialState);
   const [tripLegs, setTripLegs] = useState([]);
   const router = useRouter();
 
+  const formObj = {
+    title, type, autoFromLocation, autoToLocation, amount, comment, roundTrip, isTrip, isTransportation, id, isExpense, tripId, legId,
+  };
+
   const handleClose = () => {
     setShow(false);
-    setFormInput((prevState) => ({
-      ...prevState,
-      tripId,
-      legId,
-      isExpense,
-      isTransportation,
-      isTrip,
-    }));
+    if (id) {
+      setFormInput(formObj);
+    } else {
+      setFormInput(initialState);
+    }
   };
 
   const handleShow = () => setShow(true);
-
-  const formObj = {
-    title, type, from, to, amount, comment, roundTrip, isTrip, isTransportation, id, isExpense, tripId, legId,
-  };
 
   const getAllTripLegs = () => {
     if (tripId) {
@@ -76,7 +76,7 @@ export default function ExpenseTransportationModal({
       isTransportation,
       isTrip,
     }));
-  }, [id, title, type, from, to, amount, comment, roundTrip, isTransportation, tripId, legId]);
+  }, [id, title, type, autoFromLocation, autoToLocation, amount, comment, roundTrip, isTransportation, tripId, legId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,6 +85,64 @@ export default function ExpenseTransportationModal({
       [name]: value,
     }));
   };
+
+  const handleFromSelect = (selected) => {
+    if (selected) {
+      const {
+        name, value,
+      } = selected;
+      setFormInput((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    } else {
+      setFormInput((prevState) => ({
+        ...prevState,
+        autoFromLocation: '',
+      }));
+    }
+  };
+
+  const handleToSelect = (selected) => {
+    if (selected) {
+      const {
+        name, value,
+      } = selected;
+      setFormInput((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    } else {
+      setFormInput((prevState) => ({
+        ...prevState,
+        autoToLocation: '',
+      }));
+    }
+  };
+
+  const handleAutocompleteFromInput = (target) => new Promise((resolve, reject) => {
+    getAutocompleteFromRecommendations(target).then((locationArray) => {
+      locationArray.forEach((location) => {
+        const cleanedLabel = location.label.replace(/undefined,/g, '');
+        location.label = cleanedLabel;
+        const cleanedValue = location.value.replace(/undefined,/g, '');
+        location.value = cleanedValue;
+      });
+      resolve(locationArray.filter((location) => location.value.toLowerCase().includes(target.toLowerCase())));
+    }).catch(reject);
+  });
+
+  const handleAutocompleteToInput = (target) => new Promise((resolve, reject) => {
+    getAutocompleteToRecommendations(target).then((locationArray) => {
+      locationArray.forEach((location) => {
+        const cleanedLabel = location.label.replace(/undefined,/g, '');
+        location.label = cleanedLabel;
+        const cleanedValue = location.value.replace(/undefined,/g, '');
+        location.value = cleanedValue;
+      });
+      resolve(locationArray.filter((location) => location.value.toLowerCase().includes(target.toLowerCase())));
+    }).catch(reject);
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -133,8 +191,8 @@ export default function ExpenseTransportationModal({
       const transportationObj = {
         transportationType: Number(formInput.type),
         trip: Number(formInput.tripId),
-        travelFrom: formInput.from,
-        travelTo: formInput.to,
+        travelFrom: formInput.autoFromLocation,
+        travelTo: formInput.autoToLocation,
         amount: parseFloat(formInput.amount).toFixed(2),
         comment: formInput.comment,
         roundTrip: formInput.roundTrip,
@@ -438,25 +496,25 @@ export default function ExpenseTransportationModal({
                 </Form.Select>
               </FloatingLabel>
 
-              <FloatingLabel controlId="floatingInput2" label="From:" className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="From: "
-                  name="from"
-                  value={formInput.from}
-                  onChange={handleChange}
-                  required
+              <FloatingLabel controlId="floatingInput2" className="mb-3">
+                <AsyncSelect
+                  classNamePrefix="select"
+                  backspaceRemovesValue
+                  isClearable
+                  onChange={handleFromSelect}
+                  value={{ label: formInput.autoFromLocation, value: formInput.autoFromLocation }}
+                  loadOptions={handleAutocompleteFromInput}
                 />
               </FloatingLabel>
 
-              <FloatingLabel controlId="floatingInput2" label="To:" className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="To: "
-                  name="to"
-                  value={formInput.to}
-                  onChange={handleChange}
-                  required
+              <FloatingLabel controlId="floatingInput2" className="mb-3">
+                <AsyncSelect
+                  classNamePrefix="select"
+                  backspaceRemovesValue
+                  isClearable
+                  onChange={handleToSelect}
+                  value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                  loadOptions={handleAutocompleteToInput}
                 />
               </FloatingLabel>
 
@@ -567,25 +625,25 @@ export default function ExpenseTransportationModal({
                 </Form.Select>
               </FloatingLabel>
 
-              <FloatingLabel controlId="floatingInput2" label="From:" className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="From: "
-                  name="from"
-                  value={formInput.from}
-                  onChange={handleChange}
-                  required
+              <FloatingLabel controlId="floatingInput2" className="mb-3">
+                <AsyncSelect
+                  classNamePrefix="select"
+                  backspaceRemovesValue
+                  isClearable
+                  onChange={handleFromSelect}
+                  value={{ label: formInput.autoFromLocation, value: formInput.autoFromLocation }}
+                  loadOptions={handleAutocompleteFromInput}
                 />
               </FloatingLabel>
 
-              <FloatingLabel controlId="floatingInput2" label="To:" className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="To: "
-                  name="to"
-                  value={formInput.to}
-                  onChange={handleChange}
-                  required
+              <FloatingLabel controlId="floatingInput2" className="mb-3">
+                <AsyncSelect
+                  classNamePrefix="select"
+                  backspaceRemovesValue
+                  isClearable
+                  onChange={handleToSelect}
+                  value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                  loadOptions={handleAutocompleteToInput}
                 />
               </FloatingLabel>
 
@@ -672,8 +730,8 @@ export default function ExpenseTransportationModal({
 ExpenseTransportationModal.propTypes = {
   title: PropTypes.string,
   type: PropTypes.number,
-  from: PropTypes.string,
-  to: PropTypes.string,
+  autoFromLocation: PropTypes.string,
+  autoToLocation: PropTypes.string,
   amount: PropTypes.string,
   comment: PropTypes.string,
   roundTrip: PropTypes.bool,

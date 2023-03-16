@@ -64,10 +64,10 @@ export default function TripLegExpenses({
                   <div>
                     { isTrip ? (
                     // is user clicking on transportation from trip page?
-                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(theTransportation.leg?.id)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} isTrip transportationTypes={transportationTypes} />
+                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(theTransportation.leg?.id)} autoFromLocation={theTransportation.travel_from} autoToLocation={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} isTrip transportationTypes={transportationTypes} />
                     ) : (
                     // is user clicking on transportation from leg page?
-                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(legId)} from={theTransportation.travel_from} to={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} transportationTypes={transportationTypes} />
+                      <ExpenseTransportationModal isTransportation tripId={Number(tripId)} tripTravelTo={theTransportation.trip.travel_to} legId={Number(legId)} autoFromLocation={theTransportation.travel_from} autoToLocation={theTransportation.travel_to} roundTrip={theTransportation.round_trip} type={Number(theTransportation.transportation_type.id)} amount={theTransportation.amount} comment={theTransportation.comment} id={Number(theTransportation.id)} transportationTypes={transportationTypes} />
                     )}
                   </div>
                 ))}

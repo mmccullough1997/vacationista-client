@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/require-default-props */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -10,6 +11,7 @@ import {
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PropTypes from 'prop-types';
+import AsyncSelect from 'react-select/async';
 import { useRouter } from 'next/router';
 import { getAllTripsByUser, updateTrip } from '../../utils/data/tripData';
 import { updateLeg } from '../../utils/data/legData';
@@ -18,9 +20,10 @@ import { createTripLeg, deleteTripLeg, getAllTripLegsByTripAndLeg } from '../../
 import { getAllExpensesByTripAndLeg, updateExpense } from '../../utils/data/expenseData';
 import { getAllTransportationsByTripAndLeg, updateTransportation } from '../../utils/data/transportationData';
 import { getAllEventsByTripAndLeg, updateEvent } from '../../utils/data/eventData';
+import { getAutocompleteToRecommendations } from '../../utils/data/autocompleteData';
 
 const initialState = {
-  travelDestination: '',
+  autoToLocation: '',
   start: '',
   end: '',
   budget: 0,
@@ -30,7 +33,7 @@ const initialState = {
 };
 
 export default function EditModal({
-  travelDestination, start, end, budget, id, isTrip, legId, tripId,
+  autoToLocation, start, end, budget, id, isTrip, legId, tripId,
 }) {
   const [show, setShow] = useState(false);
   const [formInput, setFormInput] = useState(initialState);
@@ -48,13 +51,42 @@ export default function EditModal({
   const handleShow = () => setShow(true);
 
   const formObj = {
-    travelDestination, start, end, budget, isTrip, legId, tripId,
+    autoToLocation, start, end, budget, isTrip, legId, tripId,
   };
+
+  const handleToSelect = (selected) => {
+    if (selected) {
+      const {
+        name, value,
+      } = selected;
+      setFormInput((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    } else {
+      setFormInput((prevState) => ({
+        ...prevState,
+        autoToLocation: '',
+      }));
+    }
+  };
+
+  const handleAutocompleteToInput = (target) => new Promise((resolve, reject) => {
+    getAutocompleteToRecommendations(target).then((locationArray) => {
+      locationArray.forEach((location) => {
+        const cleanedLabel = location.label.replace(/undefined,/g, '');
+        location.label = cleanedLabel;
+        const cleanedValue = location.value.replace(/undefined,/g, '');
+        location.value = cleanedValue;
+      });
+      resolve(locationArray.filter((location) => location.value.toLowerCase().includes(target.toLowerCase())));
+    }).catch(reject);
+  });
 
   useEffect(() => {
     setFormInput(formObj);
     getAllTripsByUser(user.id).then(setUserTrips);
-  }, [travelDestination, start, end, budget]);
+  }, [autoToLocation, start, end, budget]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,13 +98,13 @@ export default function EditModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formInput.travelDestination && formInput.isTrip) {
+    if (formInput.autoToLocation && formInput.isTrip) {
       const trip = {
         user: 'true',
         start: 'true',
         end: 'true',
         travelFrom: 'true',
-        travelTo: formInput.travelDestination,
+        travelTo: formInput.autoToLocation,
         budget: 'true',
       };
       updateTrip(trip, id).then(() => {
@@ -107,12 +139,12 @@ export default function EditModal({
       });
 
       // for legs
-    } else if (formInput.travelDestination) {
+    } else if (formInput.autoToLocation) {
       const leg = {
         user: 'true',
         start: 'true',
         end: 'true',
-        location: formInput.travelDestination,
+        location: formInput.autoToLocation,
         budget: 'true',
       };
       updateLeg(leg, id).then(() => {
@@ -192,7 +224,7 @@ export default function EditModal({
 
   return (
     <>
-      { travelDestination ? (
+      { autoToLocation ? (
         <>
           <Form onSubmit={handleSubmit}>
             <EditIcon onClick={handleShow} />
@@ -202,13 +234,13 @@ export default function EditModal({
               </Modal.Header>
 
               <Modal.Body>
-                <Form.Control
-                  type="text"
-                  placeholder="Add a comment..."
-                  name="travelDestination"
-                  value={formInput.travelDestination}
-                  onChange={handleChange}
-                  required
+                <AsyncSelect
+                  classNamePrefix="select"
+                  backspaceRemovesValue
+                  isClearable
+                  onChange={handleToSelect}
+                  value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                  loadOptions={handleAutocompleteToInput}
                 />
               </Modal.Body>
 
@@ -330,7 +362,7 @@ export default function EditModal({
 }
 
 EditModal.propTypes = {
-  travelDestination: PropTypes.string,
+  autoToLocation: PropTypes.string,
   start: PropTypes.string,
   end: PropTypes.string,
   budget: PropTypes.string,

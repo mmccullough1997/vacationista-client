@@ -85,11 +85,10 @@ export default function NewTripModal({ user, isTrip, tripId }) {
   const handleAutocompleteFromInput = (target) => new Promise((resolve, reject) => {
     getAutocompleteFromRecommendations(target).then((locationArray) => {
       locationArray.forEach((location) => {
-        if (location.value.toLowerCase().includes('undefined,')) {
-          const cleanedStr = location.value.replace(/undefined, /g, '');
-          location.label = cleanedStr;
-          location.value = cleanedStr;
-        }
+        const cleanedLabel = location.label.replace(/undefined,/g, '');
+        location.label = cleanedLabel;
+        const cleanedValue = location.value.replace(/undefined,/g, '');
+        location.value = cleanedValue;
       });
       resolve(locationArray.filter((location) => location.value.toLowerCase().includes(target.toLowerCase())));
     }).catch(reject);
@@ -98,11 +97,10 @@ export default function NewTripModal({ user, isTrip, tripId }) {
   const handleAutocompleteToInput = (target) => new Promise((resolve, reject) => {
     getAutocompleteToRecommendations(target).then((locationArray) => {
       locationArray.forEach((location) => {
-        if (location.value.toLowerCase().includes('undefined,')) {
-          const cleanedStr = location.value.replace(/undefined, /g, '');
-          location.label = cleanedStr;
-          location.value = cleanedStr;
-        }
+        const cleanedLabel = location.label.replace(/undefined,/g, '');
+        location.label = cleanedLabel;
+        const cleanedValue = location.value.replace(/undefined,/g, '');
+        location.value = cleanedValue;
       });
       resolve(locationArray.filter((location) => location.value.toLowerCase().includes(target.toLowerCase())));
     }).catch(reject);
