@@ -50,7 +50,7 @@ export default function LegOverview() {
           <div className="overviewPageHeader">
             <div className="overviewPageHeader">
               <Typography variant="h4">{userLeg.location}</Typography>
-              <EditModal travelDestination={userLeg.location} id={userLeg.id} />
+              <EditModal autoToLocation={userLeg.location} id={userLeg.id} />
             </div>
             <div>
               <Typography variant="p">Delete leg</Typography>

@@ -58,7 +58,7 @@ export default function TripOverview() {
           <div className="overviewPageHeader">
             <div className="overviewPageHeader">
               <Typography variant="h4">{userTrip.travelTo}</Typography>
-              <EditModal travelDestination={userTrip.travelTo} id={userTrip.id} isTrip />
+              <EditModal autoToLocation={userTrip.travelTo} id={userTrip.id} isTrip />
             </div>
             <div>
               <Typography variant="p">Delete trip</Typography>
