@@ -55,7 +55,7 @@ export default function TripOverview() {
     if (userTrip.id) {
       return (
         <div>
-          <div className="overviewPageHeader">
+          <div className="overviewPageHeader" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
             <div className="overviewPageHeader">
               <Typography variant="h4">{userTrip.travelTo}</Typography>
               <EditModal autoToLocation={userTrip.travelTo} id={userTrip.id} isTrip />
@@ -78,7 +78,7 @@ export default function TripOverview() {
             <Typography variant="p">View Expenses & transportation</Typography>
           </div>
 
-          <Typography variant="p" onClick={() => router.push(`/trips/detail/${userTrip.id}`)}>Detailed view</Typography>
+          <Typography variant="p" onClick={() => router.push(`/trips/detail/${userTrip.id}`)} style={{ display: 'flex', justifyContent: 'flex-end', color: 'blue' }}>Detailed view</Typography>
 
           <hr />
 
@@ -86,7 +86,7 @@ export default function TripOverview() {
             { userTrip.legs.length ? (
               <>
                 <div className="homePageTripsHeader">
-                  <Typography variant="h4"> Trip Legs</Typography>
+                  <Typography variant="h5"> Trip Legs</Typography>
                   <div className="homePageTripsHeader">
                     <NewModal user={user} tripId={userTrip.id} />
                   </div>
@@ -100,7 +100,7 @@ export default function TripOverview() {
             ) : (
               <>
                 <div>
-                  <Typography variant="h4"> Trip Legs</Typography>
+                  <Typography variant="h5"> Trip Legs</Typography>
                   <div>
                     <NewModal user={user} tripId={userTrip.id} />
                   </div>
@@ -114,15 +114,17 @@ export default function TripOverview() {
 
           <Box>
             <div className="homePageTripsHeader">
-              <Typography variant="h4"> Events</Typography>
+              <Typography variant="h5"> Events</Typography>
               <div>
                 <NewEventModal user={user} tripId={userTrip.id} tripLocation={userTrip.travelTo} />
               </div>
             </div>
-            <div className="compactTripCardsOnHomePage">
+            <div className="compactTripCardsOnHomePage" style={{ display: 'flex', flexWrap: 'wrap' }}>
               { userTrip.events.length ? (
                 userTrip.events.map((event) => (
-                  <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
+                  <div className="compactTripCardsOnHomePage" style={{ display: 'flex', flexWrap: 'wrap', margin: 5 }}>
+                    <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
+                  </div>
                 ))
               ) : (
                 <div />
@@ -130,7 +132,9 @@ export default function TripOverview() {
               { userTrip.legs ? (
                 userTrip.legs.map((leg) => (
                   leg.events.map((event) => (
-                    <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
+                    <div className="compactTripCardsOnHomePage" style={{ display: 'flex', flexWrap: 'wrap', margin: 5 }}>
+                      <CompactEventCard key={event.id} image={event.image} title={event.title} id={event.id} />
+                    </div>
                   ))
                 ))
               ) : (
@@ -142,10 +146,17 @@ export default function TripOverview() {
           <hr />
 
           <Box>
-            <Typography variant="p">Recommendations</Typography>
-            <div className="compactTripCardsOnHomePage">
+            <Typography variant="h5">Recommendations</Typography>
+            <div className="compactTripCardsOnHomePage" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
               { recommendations?.map((recommendation) => (
-                <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} count={recommendation.review_count} />
+                <div
+                  className="recommendationCards"
+                  style={{
+                    margin: 5,
+                  }}
+                >
+                  <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} count={recommendation.review_count} />
+                </div>
               ))}
             </div>
           </Box>

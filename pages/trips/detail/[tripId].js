@@ -51,7 +51,7 @@ export default function TripDetail() {
   }, [router, user]);
 
   if (user) {
-    if (user.id === userTrip.user.id) {
+    if (user.id === userTrip.user) {
       return (
         <div>
           <Typography variant="h4">Trip Overview Page</Typography>

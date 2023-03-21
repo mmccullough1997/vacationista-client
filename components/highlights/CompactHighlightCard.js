@@ -33,7 +33,7 @@ export default function CompactHighlightCard({
             {content?.split('.').slice(0, 2).join('.')}
           </Typography>
         </Box>
-        <Typography onClick={() => router.push(`/highlights/${id}`)} color="text.secondary" component="p">
+        <Typography onClick={() => router.push(`/highlights/${id}`)} color="text.secondary" component="p" className="seeMoreButton">
           See more...
         </Typography>
       </Box>

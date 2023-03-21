@@ -2,12 +2,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { Rating } from 'react-simple-star-rating';
 import PropTypes from 'prop-types';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 export default function CompactRecommendationCard({
@@ -17,19 +15,19 @@ export default function CompactRecommendationCard({
 
   return (
     <div>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ width: 'auto', height: 'auto' }} onClick={() => window.open(`${link}`)}>
         { image ? (
           <CardMedia
             component="img"
             alt={name}
-            height="140"
+            height="120"
             image={image}
           />
         ) : (
           <CardMedia
             component="img"
             alt={name}
-            height="140"
+            height="120"
             image={placeholder}
           />
 
@@ -43,11 +41,6 @@ export default function CompactRecommendationCard({
             <p>({count})</p>
           </div>
         </CardContent>
-        <CardActions>
-          <a target="_blank" href={link} rel="noopener noreferrer">
-            <Button size="small">Link</Button>
-          </a>
-        </CardActions>
       </Card>
     </div>
   );

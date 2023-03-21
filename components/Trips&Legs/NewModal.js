@@ -140,7 +140,7 @@ export default function NewTripModal({ user, isTrip, tripId }) {
       <>
         <Form>
           <div className="homePageTripsHeader">
-            <Typography variant="p"> { isTrip ? 'Plan a new trip' : 'Plan a new leg'}</Typography>
+            <Typography variant="p"> { isTrip ? 'Plan a new trip' : ''}</Typography>
             { isTrip ? (
               <Image src={newtriplogo} onClick={handleShow} height="20" width="30" />
             ) : (
