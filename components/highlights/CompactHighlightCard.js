@@ -39,7 +39,7 @@ export default function CompactHighlightCard({
       </Box>
       <CardMedia
         component="img"
-        sx={{ width: 500, height: 'auto' }}
+        sx={{ maxWidth: 405, height: 'auto', maxHeight: 250 }}
         image={thumbnail}
         alt={title}
       />

@@ -73,7 +73,7 @@ export default function TripOverview() {
 
           <div className="expensesAndTransportationSubheader">
             <EditModal budget={userTrip.budget} id={userTrip.id} isTrip />
-            <Typography variant="p">View Budget</Typography>
+            <Typography variant="p" style={{ marginRight: '20px' }}>View Budget</Typography>
             <FlightTakeoffIcon onClick={() => router.push(`/trips/expensesAndtransportations/${userTrip.id}`)} />
             <Typography variant="p">View Expenses & transportation</Typography>
           </div>

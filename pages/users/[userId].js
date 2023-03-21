@@ -37,12 +37,19 @@ export default function ProfilePage() {
 
         </div>
 
-        <div className="compactTripCardsOnHomePage">
+        <div
+          className="compactTripCardsOnHomePage"
+          style={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '30px',
+          }}
+        >
           <Box
             component="img"
             sx={{
-              height: 233,
+              height: 400,
               width: 400,
+              borderRadius: '50%',
+              objectFit: 'cover',
             }}
             alt={currentUser.lastName}
             src={currentUser.image}

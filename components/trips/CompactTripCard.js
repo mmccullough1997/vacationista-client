@@ -18,7 +18,10 @@ export default function CompactTripCard({
   const endDay = parseInt(end.split('-')[2], 10);
 
   return (
-    <Card sx={{ height: 'auto', width: 200, margin: 1 }}>
+    <Card sx={{
+      height: 'auto', width: 'auto', maxWidth: '400px', margin: 1, padding: 2,
+    }}
+    >
       <CardHeader
         title={travelTo}
       />

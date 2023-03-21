@@ -19,21 +19,35 @@ export default function HighlightDetailView() {
   }, [router]);
 
   return (
-    <>
+    <div>
       <Card sx={{ display: 'inline' }}>
-        <Typography variant="h5">{destinationHighlight?.title}</Typography>
-        <Typography component="h6" variant="subtitle">Location: {destinationHighlight?.location}</Typography>
-        <CardMedia
-          className="destinationHighlightDetailImage"
-          component="img"
-          sx={{ width: 'auto', height: 400 }}
-          image={destinationHighlight?.image}
-          alt={destinationHighlight?.title}
-        />
+        <div style={{ marginTop: '10px' }}>
+          <Typography variant="h4">{destinationHighlight?.title}</Typography>
+          <Typography component="h6" variant="subtitle">Location: {destinationHighlight?.location}</Typography>
+
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <CardMedia
+            className="destinationHighlightDetailImage"
+            component="img"
+            sx={{
+              width: 800,
+              height: 400,
+              alignItems: 'center',
+              borderColor: 'text.primary',
+              m: 1,
+              border: 1,
+              borderRadius: '16px',
+              marginBottom: '20px',
+            }}
+            image={destinationHighlight?.image}
+            alt={destinationHighlight?.title}
+          />
+        </div>
         <Typography className="highlighttext" color="text.secondary" component="p">
           {destinationHighlight?.content}
         </Typography>
       </Card>
-    </>
+    </div>
   );
 }

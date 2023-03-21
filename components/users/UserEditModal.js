@@ -102,7 +102,7 @@ export default function UserEditModal({
             <EditIcon onClick={handleShow} />
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Title</Modal.Title>
+                <Modal.Title>Username</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
@@ -134,7 +134,7 @@ export default function UserEditModal({
             <EditIcon onClick={handleShow} />
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Date</Modal.Title>
+                <Modal.Title>Profile Image</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>

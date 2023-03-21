@@ -71,7 +71,7 @@ export default function LegOverview() {
 
           <div className="expensesAndTransportationSubheader">
             <EditModal budget={userLeg.budget} id={userLeg.id} />
-            <Typography variant="p">View Budget</Typography>
+            <Typography variant="p" style={{ marginRight: '20px' }}>View Budget</Typography>
             <FlightTakeoffIcon onClick={() => router.push(`/legs/expensesAndtransportations/${userLeg.id}`)} />
             <Typography variant="p">View Expenses & transportation</Typography>
           </div>
