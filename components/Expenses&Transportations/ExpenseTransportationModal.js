@@ -502,8 +502,9 @@ export default function ExpenseTransportationModal({
                   backspaceRemovesValue
                   isClearable
                   onChange={handleFromSelect}
-                  value={{ label: formInput.autoFromLocation, value: formInput.autoFromLocation }}
+                  value={formInput.autoFromLocation ? { label: formInput.autoFromLocation, value: formInput.autoFromLocation } : null}
                   loadOptions={handleAutocompleteFromInput}
+                  placeholder="From"
                 />
               </FloatingLabel>
 
@@ -513,8 +514,9 @@ export default function ExpenseTransportationModal({
                   backspaceRemovesValue
                   isClearable
                   onChange={handleToSelect}
-                  value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                  value={formInput.autoToLocation ? { label: formInput.autoToLocation, value: formInput.autoToLocation } : null}
                   loadOptions={handleAutocompleteToInput}
+                  placeholder="To"
                 />
               </FloatingLabel>
 
@@ -631,8 +633,9 @@ export default function ExpenseTransportationModal({
                   backspaceRemovesValue
                   isClearable
                   onChange={handleFromSelect}
-                  value={{ label: formInput.autoFromLocation, value: formInput.autoFromLocation }}
+                  value={formInput.autoFromLocation ? { label: formInput.autoFromLocation, value: formInput.autoFromLocation } : null}
                   loadOptions={handleAutocompleteFromInput}
+                  placeholder="From"
                 />
               </FloatingLabel>
 
@@ -642,8 +645,9 @@ export default function ExpenseTransportationModal({
                   backspaceRemovesValue
                   isClearable
                   onChange={handleToSelect}
-                  value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                  value={formInput.autoToLocation ? { label: formInput.autoToLocation, value: formInput.autoToLocation } : null}
                   loadOptions={handleAutocompleteToInput}
+                  placeholder="To"
                 />
               </FloatingLabel>
 

@@ -26,11 +26,11 @@ export default function HighlightDetailView() {
         <CardMedia
           className="destinationHighlightDetailImage"
           component="img"
-          sx={{ width: 'auto', height: 200 }}
+          sx={{ width: 'auto', height: 400 }}
           image={destinationHighlight?.image}
           alt={destinationHighlight?.title}
         />
-        <Typography color="text.secondary" component="p">
+        <Typography className="highlighttext" color="text.secondary" component="p">
           {destinationHighlight?.content}
         </Typography>
       </Card>

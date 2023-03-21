@@ -239,8 +239,9 @@ export default function EditModal({
                   backspaceRemovesValue
                   isClearable
                   onChange={handleToSelect}
-                  value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                  value={formInput.autoToLocation ? { label: formInput.autoToLocation, value: formInput.autoToLocation } : null}
                   loadOptions={handleAutocompleteToInput}
+                  placeholder="Location"
                 />
               </Modal.Body>
 

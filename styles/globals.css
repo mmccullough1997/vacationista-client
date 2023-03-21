@@ -97,3 +97,8 @@ body {
 .index{
   margin-top: 10px;
 }
+
+.highlighttext {
+  display: flex;
+  height: 500em;
+}

@@ -156,14 +156,15 @@ export default function NewTripModal({ user, isTrip, tripId }) {
 
               { isTrip ? (
                 <>
-                  <FloatingLabel controlId="floatingInput2" className="mb-3">
+                  <FloatingLabel controlId="floatingInput2" className=" sel mb-3">
                     <AsyncSelect
                       classNamePrefix="select"
                       backspaceRemovesValue
                       isClearable
                       onChange={handleFromSelect}
-                      value={{ label: formInput.autoFromLocation, value: formInput.autoFromLocation }}
+                      value={formInput.autoFromLocation ? { label: formInput.autoFromLocation, value: formInput.autoFromLocation } : null}
                       loadOptions={handleAutocompleteFromInput}
+                      placeholder="From"
                     />
                   </FloatingLabel>
 
@@ -173,8 +174,9 @@ export default function NewTripModal({ user, isTrip, tripId }) {
                       backspaceRemovesValue
                       isClearable
                       onChange={handleToSelect}
-                      value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                      value={formInput.autoToLocation ? { label: formInput.autoToLocation, value: formInput.autoToLocation } : null}
                       loadOptions={handleAutocompleteToInput}
+                      placeholder="To"
                     />
                   </FloatingLabel>
                 </>
@@ -186,8 +188,9 @@ export default function NewTripModal({ user, isTrip, tripId }) {
                     backspaceRemovesValue
                     isClearable
                     onChange={handleToSelect}
-                    value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                    value={formInput.autoToLocation ? { label: formInput.autoToLocation, value: formInput.autoToLocation } : null}
                     loadOptions={handleAutocompleteToInput}
+                    placeholder="To"
                   />
                 </FloatingLabel>
               )}
