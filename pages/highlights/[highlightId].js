@@ -44,7 +44,7 @@ export default function HighlightDetailView() {
             alt={destinationHighlight?.title}
           />
         </div>
-        <Typography className="highlighttext" color="text.secondary" component="p">
+        <Typography className="highlighttext" color="text.secondary" component="p" sx={{ lineHeight: 2 }}>
           {destinationHighlight?.content}
         </Typography>
       </Card>

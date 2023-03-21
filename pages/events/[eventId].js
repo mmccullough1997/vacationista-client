@@ -38,7 +38,7 @@ export default function EventOverview() {
   if (user) {
     return (
       <div>
-        <div className="overviewPageHeader">
+        <div className="overviewPageHeader" style={{ marginTop: '10px' }}>
           <div className="overviewPageHeader">
             <Typography variant="h4">{event.title}</Typography>
             <EventEditModal id={event.id} title={event.title} />
@@ -57,19 +57,25 @@ export default function EventOverview() {
         <hr />
 
         <Box>
-          <div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Box
               component="img"
               sx={{
                 height: 233,
                 width: 400,
+                alignItems: 'center',
+                borderColor: 'text.primary',
+                m: 1,
+                border: 1,
+                borderRadius: '16px',
+                marginBottom: '20px',
               }}
               alt={event.title}
               src={event.image}
             />
             <EventEditModal id={event.id} image={event.image} />
           </div>
-          <div>
+          <div style={{ display: 'flex' }}>
             <Typography>{event.eventType?.label}</Typography>
             <EventEditModal id={event.id} eventType={event.eventType?.id} eventTypes={eventTypes} />
           </div>
@@ -77,8 +83,8 @@ export default function EventOverview() {
 
         <hr />
 
-        <div>
-          <Typography>
+        <div style={{ display: 'flex' }}>
+          <Typography sx={{ lineHeight: 2 }}>
             {event.description}
           </Typography>
           <EventEditModal id={event.id} description={event.description} />

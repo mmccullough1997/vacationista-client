@@ -12,14 +12,14 @@ export default function TripLegExpenses({
 }) {
   return (
     <>
-      <Typography variant="h4">{ isTrip ? 'Trip Expenses' : 'Leg Expenses'}</Typography>
-      <Typography variant="h4">{ isTrip ? 'Trip budget: ' : 'Leg budget: '}{budget} </Typography>
+      <Typography variant="h4" style={{ marginTop: '20px' }}>{ isTrip ? 'Trip Expenses' : 'Leg Expenses'}</Typography>
+      <Typography variant="h6" style={{ marginTop: '10px' }}>{ isTrip ? 'Trip budget: ' : 'Leg budget: '}${budget} </Typography>
 
       <hr />
 
       <div className="AccordionAndAdd">
         <div>
-          <Accordion>
+          <Accordion style={{ width: '1100px', marginRight: '20px' }}>
             { expenseTypes.map((expenseType) => (
               <Accordion.Item eventKey={expenseType.id}>
                 <Accordion.Header>{expenseType.label}</Accordion.Header>
@@ -56,7 +56,7 @@ export default function TripLegExpenses({
 
       <div className="AccordionAndAdd">
         <div>
-          <Accordion>
+          <Accordion style={{ width: '1100px', marginRight: '20px' }}>
             { transportationTypes.map((transportationType) => (
               <Accordion.Item eventKey={transportationType.id}>
                 <Accordion.Header>{transportationType.label}</Accordion.Header>
@@ -92,8 +92,8 @@ export default function TripLegExpenses({
       <hr />
 
       <div className="AccordionAndAdd">
-        <Typography variant="h6">{ isTrip ? 'Trip total: $' : 'Leg total: $'}{total}</Typography>
-        <Typography variant="h6">Budget remaining: ${budget - total}</Typography>
+        <Typography variant="h6" style={{ color: 'red' }}>{ isTrip ? 'Trip total: $' : 'Leg total: $'}{total}</Typography>
+        <Typography variant="h6" style={{ color: 'green' }}>Budget remaining: ${budget - total}</Typography>
       </div>
     </>
   );
