@@ -227,7 +227,7 @@ export default function EditModal({
       { autoToLocation ? (
         <>
           <Form onSubmit={handleSubmit}>
-            <EditIcon onClick={handleShow} />
+            <EditIcon onClick={handleShow} sx={{ marginLeft: 1, height: 20 }} />
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Trip Destination</Modal.Title>
@@ -239,8 +239,9 @@ export default function EditModal({
                   backspaceRemovesValue
                   isClearable
                   onChange={handleToSelect}
-                  value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                  value={formInput.autoToLocation ? { label: formInput.autoToLocation, value: formInput.autoToLocation } : null}
                   loadOptions={handleAutocompleteToInput}
+                  placeholder="Location"
                 />
               </Modal.Body>
 
@@ -259,7 +260,7 @@ export default function EditModal({
       ) : start || end ? (
         <>
           <Form onSubmit={handleSubmit}>
-            <EditIcon onClick={handleShow} />
+            <EditIcon onClick={handleShow} sx={{ marginLeft: 1, height: 20 }} />
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Trip Dates</Modal.Title>

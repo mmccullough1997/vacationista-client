@@ -58,6 +58,11 @@ body {
   display: flex;
 }
 
+.seeMoreButton {
+  color: rgb(0, 110, 255) !important;
+  margin-left: 800px !important;
+}
+
 /* article detail page */
 .articleDetailImage{
   margin: 20px;
@@ -96,4 +101,15 @@ body {
 
 .index{
   margin-top: 10px;
+}
+
+.highlighttext {
+  display: flex;
+  height: 500em;
+}
+
+.container {
+  margin-bottom: 64px;
+  position: 'relative';
+  z-index: 0;
 }

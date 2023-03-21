@@ -47,7 +47,7 @@ export default function LegOverview() {
     if (userLeg.id) {
       return (
         <div>
-          <div className="overviewPageHeader">
+          <div className="overviewPageHeader" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
             <div className="overviewPageHeader">
               <Typography variant="h4">{userLeg.location}</Typography>
               <EditModal autoToLocation={userLeg.location} id={userLeg.id} />
@@ -71,26 +71,28 @@ export default function LegOverview() {
 
           <div className="expensesAndTransportationSubheader">
             <EditModal budget={userLeg.budget} id={userLeg.id} />
-            <Typography variant="p">View Budget</Typography>
+            <Typography variant="p" style={{ marginRight: '20px' }}>View Budget</Typography>
             <FlightTakeoffIcon onClick={() => router.push(`/legs/expensesAndtransportations/${userLeg.id}`)} />
             <Typography variant="p">View Expenses & transportation</Typography>
           </div>
 
-          <Typography variant="p" onClick={() => router.push(`/legs/detail/${userLeg.id}`)}>Detailed view</Typography>
+          <Typography variant="p" onClick={() => router.push(`/legs/detail/${userLeg.id}`)} style={{ display: 'flex', justifyContent: 'flex-end', color: 'blue' }}>Detailed view</Typography>
 
           <hr />
 
           <Box>
             <div className="homePageTripsHeader">
-              <Typography variant="h4"> Events</Typography>
+              <Typography variant="h5"> Events</Typography>
               <div>
                 <NewEventModal user={user} tripId={userLeg.trip.id} tripLocation={userLeg.trip.travel_to} />
               </div>
             </div>
-            <div className="compactTripCardsOnHomePage">
+            <div className="compactTripCardsOnHomePage" style={{ display: 'flex', flexWrap: 'wrap' }}>
               { userLeg.events.length ? (
                 userLeg.events.map((event) => (
-                  <CompactEventCard image={event.image} title={event.title} id={event.id} />
+                  <div className="compactTripCardsOnHomePage" style={{ display: 'flex', flexWrap: 'wrap', margin: 5 }}>
+                    <CompactEventCard image={event.image} title={event.title} id={event.id} />
+                  </div>
                 ))
               ) : (
                 <div />
@@ -101,10 +103,17 @@ export default function LegOverview() {
           <hr />
 
           <Box>
-            <Typography variant="p">Recommendations</Typography>
-            <div className="compactTripCardsOnHomePage">
+            <Typography variant="h5">Recommendations</Typography>
+            <div className="compactTripCardsOnHomePage" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
               { recommendations?.map((recommendation) => (
-                <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} count={recommendation.review_count} />
+                <div
+                  className="recommendationCards"
+                  style={{
+                    margin: 5,
+                  }}
+                >
+                  <CompactRecommendationCard key={recommendation.id} image={recommendation.image_url} name={recommendation.name} rating={recommendation.rating} link={recommendation.url} count={recommendation.review_count} />
+                </div>
               ))}
             </div>
           </Box>

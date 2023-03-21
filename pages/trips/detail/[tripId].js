@@ -30,7 +30,6 @@ export default function TripDetail() {
     return newDateArray;
   };
 
-  // still need to add trip events as well
   const getUserTrip = () => {
     getSingleUserTrip(tripId, user.id).then((trip) => {
       setTripDates(getDates(trip.start, trip.end));
@@ -41,8 +40,12 @@ export default function TripDetail() {
           theEvent.push(event);
           return theEvent;
         });
-        setEvents(theEvent);
       });
+      trip.events.forEach((event) => {
+        theEvent.push(event);
+        return theEvent;
+      });
+      setEvents(theEvent);
     });
   };
 
@@ -51,16 +54,16 @@ export default function TripDetail() {
   }, [router, user]);
 
   if (user) {
-    if (user.id === userTrip.user.id) {
+    if (user.id === userTrip.user) {
       return (
         <div>
-          <Typography variant="h4">Trip Overview Page</Typography>
+          <Typography variant="h4" style={{ marginTop: '20px' }}>Trip Overview Page</Typography>
           <hr />
 
           <div className="detailPage">
 
             <div>
-              <Accordion>
+              <Accordion style={{ width: '750px', marginRight: '20px' }}>
                 { tripDates.map((date) => (
                   <Accordion.Item eventKey={date.id} key={date.id}>
                     <Accordion.Header>{new Date(date.value).toLocaleString('default', { month: 'long' })} {parseInt(date.value.split('-')[2], 10)}, {parseInt(date.value.split('-')[0], 10)}</Accordion.Header>
@@ -74,9 +77,9 @@ export default function TripDetail() {
               </Accordion>
             </div>
 
-            <div>
+            <div style={{ width: '800px' }}>
               <div>
-                <Typography>Expenses</Typography>
+                <Typography variant="h5" style={{ marginBottom: '20px' }}>Expenses</Typography>
                 <Card>
                   { userTrip.expenses?.map((expense) => (
                     <div key={expense.id}>
@@ -85,13 +88,13 @@ export default function TripDetail() {
                     </div>
                   )) }
                 </Card>
-                <Typography>Subtotal: ${userTrip.expenseTotal}</Typography>
+                <Typography variant="h6" style={{ marginTop: '10px', textAlign: 'right' }}>Subtotal: ${userTrip.expenseTotal}</Typography>
               </div>
 
               <hr />
 
               <div>
-                <Typography>Transportation</Typography>
+                <Typography variant="h5" style={{ marginBottom: '20px' }}>Transportation</Typography>
                 <Card>
                   { userTrip.transportations?.map((transportation) => (
                     <div key={transportation.id}>
@@ -100,11 +103,11 @@ export default function TripDetail() {
                     </div>
                   )) }
                 </Card>
-                <Typography>Subtotal: ${userTrip.transportationTotal}</Typography>
+                <Typography variant="h6" style={{ marginTop: '10px', textAlign: 'right' }}>Subtotal: ${userTrip.transportationTotal}</Typography>
               </div>
 
               <hr />
-              <Typography>Trip Total: ${userTrip.total}</Typography>
+              <Typography variant="h6" style={{ color: 'red' }}>Trip Total: ${userTrip.total}</Typography>
             </div>
 
           </div>

@@ -18,13 +18,16 @@ export default function CompactLegCard({
   const endDay = parseInt(end.split('-')[2], 10);
 
   return (
-    <Card sx={{ height: 'auto', width: 200, margin: 1 }}>
+    <Card sx={{
+      height: 'auto', width: 'auto', margin: 1, padding: 2,
+    }}
+    >
       <CardHeader
         title={location}
       />
       <hr />
       <Box>
-        <Typography variant="h5">{startMonth} {startDay} - {endMonth} {endDay} ({duration} days)</Typography>
+        <Typography variant="h6">{startMonth} {startDay} - {endMonth} {endDay} ({duration} days)</Typography>
       </Box>
       <CardActions>
         <Button size="small" onClick={() => router.push(`/legs/${id}`)}>View Leg</Button>

@@ -161,6 +161,7 @@ function NavBar() {
           bottom: 0,
           left: 0,
           right: 0,
+          zIndex: 1,
         }}
         elevation={1}
       >
@@ -169,9 +170,7 @@ function NavBar() {
           style={{ background: 'lightgray', opacity: 0.6 }}
           sx={{ justifyContent: 'space-between' }}
         >
-          <a target="_blank" href="https://github.com/mmccullough1997" rel="noopener noreferrer" label="hi">
-            <BottomNavigationAction style={{ color: 'black' }} label="A MM Production" />
-          </a>
+          <BottomNavigationAction style={{ color: 'black' }} label="A MM Production" onClick={() => window.open('https://github.com/mmccullough1997')} />
           <BottomNavigationAction onClick={() => router.push('/aboutUs')} style={{ color: 'black' }} label="About us" />
         </BottomNavigation>
       </Paper>

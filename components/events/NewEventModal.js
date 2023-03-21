@@ -132,8 +132,9 @@ export default function NewEventModal({ user, tripId, tripLocation }) {
                     backspaceRemovesValue
                     isClearable
                     onChange={handleToSelect}
-                    value={{ label: formInput.autoToLocation, value: formInput.autoToLocation }}
+                    value={formInput.autoToLocation ? { label: formInput.autoToLocation, value: formInput.autoToLocation } : null}
                     loadOptions={handleAutocompleteToInput}
+                    placeholder="Location"
                   />
                 </FloatingLabel>
               </>
@@ -156,7 +157,7 @@ export default function NewEventModal({ user, tripId, tripLocation }) {
 
               <FloatingLabel controlId="floatingInput2" label="Description" className="mb-3">
                 <Form.Control
-                  type="text"
+                  as="textarea"
                   placeholder="Description: "
                   name="description"
                   value={formInput.description}

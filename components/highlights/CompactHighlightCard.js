@@ -33,13 +33,13 @@ export default function CompactHighlightCard({
             {content?.split('.').slice(0, 2).join('.')}
           </Typography>
         </Box>
-        <Typography onClick={() => router.push(`/highlights/${id}`)} color="text.secondary" component="p">
+        <Typography onClick={() => router.push(`/highlights/${id}`)} color="text.secondary" component="p" className="seeMoreButton">
           See more...
         </Typography>
       </Box>
       <CardMedia
         component="img"
-        sx={{ width: 500, height: 'auto' }}
+        sx={{ maxWidth: 405, height: 'auto', maxHeight: 250 }}
         image={thumbnail}
         alt={title}
       />
