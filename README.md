@@ -200,8 +200,6 @@ Features of this app:
 
 ## 
 
-[Video Walkthrough Link](https://drawsql.app/teams/mitch/diagrams/vacationista-mvp)
+[Video Walkthrough Link](https://www.loom.com/share/90938451aec046e29660424a220f3baf)
 
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mitchmccullough)
-
-
