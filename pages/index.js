@@ -4,9 +4,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-import Image from 'next/image';
 import CompactArticleCard from '../components/articles/CompactArticleCard';
-import newtriplogo from '../public/newtriplogo.png';
 import CompactHighlightCard from '../components/highlights/CompactHighlightCard';
 import { useAuth } from '../utils/context/authContext';
 import { getAllArticles } from '../utils/data/articleData';
@@ -62,12 +60,9 @@ function Home() {
           </>
         ) : (
           <>
-            <div>
+            <div className="homePageTripsHeader">
               <Typography variant="h4"> Upcoming Trips</Typography>
-              <div>
-                <Typography variant="p"> Plan a new trip</Typography>
-                <Image src={newtriplogo} />
-              </div>
+              <NewModal user={user} isTrip />
             </div>
             <Typography variant="h5"> No upcoming trips planned!</Typography>
           </>
